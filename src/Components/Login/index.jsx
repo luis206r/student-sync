@@ -1,10 +1,14 @@
 import React from "react";
 import { Input, Button, Typography } from "antd";
 import { CiMail, CiLock } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const { Link: AntdLink } = Typography;
 
 export const Login = () => {
+  const navigate = useNavigate();
+  const onClickLogin = (e) => {
+    navigate("/home");
+  };
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center bg-cach-l1 w-[350px] p-4 rounded-[15px]">
@@ -36,7 +40,7 @@ export const Login = () => {
             </p>
           </div>
           <div className="pt-6">
-            <Button type="primary" size={"large"}>
+            <Button type="primary" size={"large"} onClick={onClickLogin}>
               Iniciar Sesión
             </Button>
           </div>

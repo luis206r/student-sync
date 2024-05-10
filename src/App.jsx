@@ -1,11 +1,18 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { Login } from "./Components/Login";
 import { Register } from "./Components/Register";
 import { Home } from "./Components/Home";
 import { Layout } from "./Components/Layout";
+import { useEffect } from "react";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
+
+  useEffect(() => {
+    if (location == "/") navigate("/login");
+  }, []);
   return (
     <div className="w-full h-full">
       <Routes>
