@@ -23,7 +23,7 @@ export const Login = () => {
   const loginRequest = async (email, password) => {
     try {
       const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/login",
+        "http://localhost:8000/api/users/login",
         {
           email: email,
           password: password,

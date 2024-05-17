@@ -19,12 +19,9 @@ function App() {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        "https://student-sync-back.onrender.com/api/users/me",
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get("http://localhost:8000/api/users/me", {
+        withCredentials: true,
+      });
 
       if (res.status === 200) {
         //ejecutar seteo de redux en Layout

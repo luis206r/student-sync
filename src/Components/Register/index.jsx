@@ -20,7 +20,7 @@ export const Register = () => {
   const registerRequest = async (email, password, name, lastName) => {
     try {
       const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/register",
+        "http://localhost:8000/api/users/register",
         {
           name: name,
           lastname: lastName,
