@@ -21,9 +21,9 @@ export const Explore = () => {
   ];
 
   return (
-    <div className="w-full h-full pr-4 pl-4 pb-4 flex flex-row">
-      <div className="w-[20%] mr-2 bg-cach-l1 rounded-[15px]">
-        <div className="p-4">
+    <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
+      <div className="w-[20%] mr-2">
+        <div className="bg-cach-l1 rounded-[15px] p-2">
           <Menu
             style={{
               width: "100%",

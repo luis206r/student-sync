@@ -5,14 +5,20 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && postcss src/index.css -o public/build/index.css",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
     "antd": "^5.17.0",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.6.8",
+    "draft-convert": "^2.1.13",
+    "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "draftjs-to-html": "^0.9.1",
     "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",

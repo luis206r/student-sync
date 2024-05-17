@@ -41,7 +41,13 @@
   color: #888;
 } */
 
-#root {
+/* #root {
+  max-width: 1280px;
+  height: 100vh;
+} */
+
+.app {
+  width: 100%;
   max-width: 1280px;
   height: 100vh;
 }

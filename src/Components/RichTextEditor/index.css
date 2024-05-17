@@ -1,0 +1,111 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates. All rights reserved.
+ *
+ * This file provided by Facebook is for non-commercial testing and evaluation
+ * purposes only. Facebook reserves all rights not expressly granted.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+.RichEditor-root {
+  background: #fff;
+  border-radius: 12px;
+  /* border: 1px solid #ddd; */
+  /* font-family: "Georgia", serif; */
+  font-size: 14px;
+  padding: 15px;
+  color: black;
+}
+
+.RichEditor-editor {
+  /* border-top: 1px solid #ddd; */
+  cursor: text;
+  font-size: 16px;
+  margin-top: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.RichEditor-editor .public-DraftEditorPlaceholder-root,
+.RichEditor-editor .public-DraftEditor-content {
+  margin: 0 -15px -15px;
+  padding: 15px;
+}
+
+.RichEditor-editor .public-DraftEditor-content {
+  min-height: 100px;
+}
+
+.RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+  display: none;
+}
+
+.RichEditor-editor .RichEditor-blockquote {
+  border-left: 5px solid #eee;
+  color: #666;
+  font-family: "Hoefler Text", "Georgia", serif;
+  font-style: italic;
+  margin: 16px 0;
+  padding: 10px 20px;
+}
+
+.RichEditor-editor .public-DraftStyleDefault-pre {
+  background-color: rgba(0, 0, 0, 0.05);
+  font-family: "Inconsolata", "Menlo", "Consolas", monospace;
+  font-size: 16px;
+  padding: 20px;
+}
+
+.RichEditor-controls {
+  font-family: "Helvetica", sans-serif;
+  font-size: 14px;
+  padding: 8px;
+  user-select: none;
+}
+
+.RichEditor-styleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.RichEditor-activeButton {
+  color: #5890ff;
+}
+
+/* .DraftEditor-editorContainer .public-DraftEditor-content h1 {
+  font-size: 2em !important;
+  font-weight: bolder !important;
+}
+
+.DraftEditor-editorContainer .public-DraftEditor-content h2 {
+  font-weight: bolder !important;
+  font-size: 1.5em !important;
+}
+
+.DraftEditor-editorContainer .public-DraftEditor-content h3 {
+  font-weight: bolder !important;
+  font-size: 1.7em !important;
+}
+
+.DraftEditor-editorContainer .public-DraftEditor-content h4 {
+  font-size: 1em !important;
+  font-weight: bolder !important;
+}
+
+.DraftEditor-editorContainer .public-DraftEditor-content h5 {
+  font-size: 0.83em !important;
+  font-weight: bolder !important;
+}
+
+.DraftEditor-editorContainer .public-DraftEditor-content h6 {
+  font-size: 0.67em !important;
+  font-weight: bolder !important;
+} */

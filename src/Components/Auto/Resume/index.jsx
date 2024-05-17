@@ -4,7 +4,7 @@ import React from "react";
 
 export const Resume = () => {
   return (
-    <div className="w-full h-full">
+    <div className="w-full">
       <div className="p-4">
         <h1 className="w-full text-[20px]"> Bienvenido de vuelta, Luis 🙂</h1>
         <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
