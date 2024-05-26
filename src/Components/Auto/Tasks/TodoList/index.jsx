@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button, List } from "antd";
 import { TbPointFilled } from "react-icons/tb";
 import { MdDeleteOutline } from "react-icons/md";
@@ -6,37 +6,112 @@ import { IoMdCheckboxOutline } from "react-icons/io";
 import { IoMdAdd } from "react-icons/io";
 import { LuListPlus } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 const TodoList = () => {
+  const user = useSelector((state) => state.user);
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodos] = useState([]);
-  const [completedTodos, setCompletedTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState(null);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     if (inputValue.trim() === "") {
       return;
     }
-    setTodos([
-      ...todos,
-      { id: Date.now(), text: inputValue, isCompleted: false },
-    ]);
+    const result = await createStudentTask(inputValue, false);
+    console.log(result);
+    setTodos([...todos, result]);
     setInputValue("");
   };
 
-  const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const handleDeleteTodo = async (taskId) => {
+    const result = await deleteStudentTask(taskId);
+    console.log(result);
+    setTodos(todos.filter((todo) => todo.id !== taskId));
   };
 
-  const handleCompleteTodo = (id) => {
+  const handleCompleteTodo = async (taskId, content) => {
+    const result = await updateStudentTask(taskId, content, true);
+    console.log(result);
     const updatedTodos = todos.map((todo) =>
-      todo.id === id ? { ...todo, isCompleted: true } : todo
+      todo.id === taskId ? { ...todo, isCompleted: true } : todo
     );
     setTodos(updatedTodos);
   };
+
+  //=============back requests======================
+
+  const getStudentTasks = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/api/tasks/getTasks/${user.studentInfo.id}`,
+        { headers: { "Cache-Control": "no-cache" } },
+        { withCredentials: true }
+      );
+      if (res.status === 200) return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const createStudentTask = async (content, isCompleted) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8000/api/tasks/create/${user.studentInfo.id}`,
+        { content: content, isCompleted: isCompleted },
+        { withCredentials: true }
+      );
+      if (res.status === 201) return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const updateStudentTask = async (taskId, content, isCompleted) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:8000/api/tasks/updateTask/${taskId}`,
+        { content: content, isCompleted: isCompleted },
+        { withCredentials: true }
+      );
+      if (res.status === 200) return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const deleteStudentTask = async (taskId) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:8000/api/tasks/deleteTask/${taskId}`,
+        { withCredentials: true }
+      );
+      if (res.status === 200) return res.data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  //====================================================
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let result = await getStudentTasks();
+        setTodos(result);
+        console.log(result);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex flex-wrap pt-4 pb-4">
@@ -70,45 +145,50 @@ const TodoList = () => {
           </div>
 
           <div className="w-full p-6 pb-0 pt-2">
-            <List
-              className="p-0 m-0"
-              dataSource={todos.filter((todo) => !todo.isCompleted)}
-              renderItem={(todo) => (
-                <List.Item
-                  className="h-[65px] flex items-center"
-                  actions={[
-                    <Button
-                      onClick={() => handleCompleteTodo(todo.id)}
-                      type="link"
-                      size="small"
-                      shape="circle"
-                      className="flex justify-end items-center p-0 m-0"
-                    >
-                      <IoMdCheckboxOutline className="m-0 p-0 text-[20px]" />
-                    </Button>,
-                    <Button
-                      onClick={() => handleDeleteTodo(todo.id)}
-                      type="link"
-                      size="small"
-                      shape="circle"
-                      danger
-                      className="flex justify-end items-center"
-                    >
-                      <MdDeleteOutline className="m-0 p-0 text-[21px]" />
-                    </Button>,
-                  ]}
-                >
-                  <div className="flex">
-                    <div className="flex items-start h-full">
-                      <TbPointFilled className="p-0 mt-[6px] mr-2 m-0" />
+            {todos && (
+              <List
+                className="p-0 m-0"
+                dataSource={todos.filter((todo) => !todo.isCompleted)}
+                renderItem={(todo, i) => (
+                  <List.Item
+                    key={i}
+                    className="h-[65px] flex items-center"
+                    actions={[
+                      <Button
+                        onClick={() =>
+                          handleCompleteTodo(todo.id, todo.content)
+                        }
+                        type="link"
+                        size="small"
+                        shape="circle"
+                        className="flex justify-end items-center p-0 m-0"
+                      >
+                        <IoMdCheckboxOutline className="m-0 p-0 text-[20px]" />
+                      </Button>,
+                      <Button
+                        onClick={() => handleDeleteTodo(todo.id)}
+                        type="link"
+                        size="small"
+                        shape="circle"
+                        danger
+                        className="flex justify-end items-center"
+                      >
+                        <MdDeleteOutline className="m-0 p-0 text-[21px]" />
+                      </Button>,
+                    ]}
+                  >
+                    <div className="flex">
+                      <div className="flex items-start h-full">
+                        <TbPointFilled className="p-0 mt-[6px] mr-2 m-0" />
+                      </div>
+                      <div>
+                        <p className="text-[15px]">{todo.content}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-[15px]">{todo.text}</p>
-                    </div>
-                  </div>
-                </List.Item>
-              )}
-            />
+                  </List.Item>
+                )}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -121,35 +201,38 @@ const TodoList = () => {
             </div>
 
             <div className="w-full p-6 pb-0 pt-2">
-              <List
-                className="p-0 m-0"
-                dataSource={todos.filter((todo) => todo.isCompleted)}
-                renderItem={(todo) => (
-                  <List.Item
-                    actions={[
-                      <Button
-                        onClick={() => handleDeleteTodo(todo.id)}
-                        type="link"
-                        size="large"
-                        shape="circle"
-                        danger
-                        className="flex justify-end items-center"
-                      >
-                        <MdDeleteOutline className="m-0 p-0 text-[20px]" />
-                      </Button>,
-                    ]}
-                  >
-                    <div className="flex  h-full">
-                      <div className="flex items-start h-full">
-                        <FaCheck className="p-0 mt-[6px] mr-3 m-0" />
+              {todos && (
+                <List
+                  className="p-0 m-0"
+                  dataSource={todos.filter((todo) => todo.isCompleted)}
+                  renderItem={(todo, i) => (
+                    <List.Item
+                      key={i}
+                      actions={[
+                        <Button
+                          onClick={() => handleDeleteTodo(todo.id)}
+                          type="link"
+                          size="large"
+                          shape="circle"
+                          danger
+                          className="flex justify-end items-center"
+                        >
+                          <MdDeleteOutline className="m-0 p-0 text-[20px]" />
+                        </Button>,
+                      ]}
+                    >
+                      <div className="flex  h-full">
+                        <div className="flex items-start h-full">
+                          <FaCheck className="p-0 mt-[6px] mr-3 m-0" />
+                        </div>
+                        <div>
+                          <p className="text-[15px]">{todo.content}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-[15px]">{todo.text}</p>
-                      </div>
-                    </div>
-                  </List.Item>
-                )}
-              />
+                    </List.Item>
+                  )}
+                />
+              )}
             </div>
           </div>
         </div>

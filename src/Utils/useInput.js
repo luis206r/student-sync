@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-function useInput() {
-  const [value, setValue] = useState("");
+function useInput(initialValue) {
+  const [value, setValue] = useState(`${initialValue ? initialValue : ""}`);
   function onChange(event) {
     setValue(event.target.value);
   }

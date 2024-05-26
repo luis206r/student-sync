@@ -15,6 +15,7 @@ class RichTextEditor extends React.Component {
       this.props.onContentChange({
         contentAsDraft: editorState,
         contentAsText: editorState.getCurrentContent().getPlainText(),
+        currentContent: editorState.getCurrentContent(),
       });
     };
 
@@ -74,14 +75,16 @@ class RichTextEditor extends React.Component {
     return (
       <div className="RichEditor-root">
         <div className="bg-[#f3f3f3] rounded-[8px]">
-          <BlockStyleControls
-            editorState={editorState}
-            onToggle={this.toggleBlockType}
-          />
-          <InlineStyleControls
-            editorState={editorState}
-            onToggle={this.toggleInlineStyle}
-          />
+          <div className="flex flex-wrap">
+            <BlockStyleControls
+              editorState={editorState}
+              onToggle={this.toggleBlockType}
+            />
+            <InlineStyleControls
+              editorState={editorState}
+              onToggle={this.toggleInlineStyle}
+            />
+          </div>
         </div>
         <div className={className} onClick={this.focus}>
           <Editor
@@ -144,16 +147,16 @@ class StyleButton extends React.Component {
 }
 
 const BLOCK_TYPES = [
-  { label: "H1", style: "header-one" },
-  { label: "H2", style: "header-two" },
+  //{ label: "H1", style: "header-one" },
+  //{ label: "H2", style: "header-two" },
   { label: "H3", style: "header-three" },
   { label: "H4", style: "header-four" },
-  { label: "H5", style: "header-five" },
-  { label: "H6", style: "header-six" },
-  { label: "Blockquote", style: "blockquote" },
+  //{ label: "H5", style: "header-five" },
+  //{ label: "H6", style: "header-six" },
+  //{ label: "Blockquote", style: "blockquote" },
   { label: "UL", style: "unordered-list-item" },
   { label: "OL", style: "ordered-list-item" },
-  { label: "Code Block", style: "code-block" },
+  //{ label: "Code Block", style: "code-block" },
 ];
 
 const BlockStyleControls = (props) => {

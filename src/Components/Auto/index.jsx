@@ -13,8 +13,11 @@ import { TbClipboardText } from "react-icons/tb";
 import { FaTasks } from "react-icons/fa";
 import { CgTime } from "react-icons/cg";
 import { Events } from "./Events";
+import { HiOutlineMenu } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 export const Auto = () => {
+  const user = useSelector((state) => state.user);
   const [option, setOption] = useState("resume");
   const onClick = (e) => {
     setOption(e.key);
@@ -56,7 +59,7 @@ export const Auto = () => {
     <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
       <div className={`w-[${collapsed ? "70px" : "20%"}] mr-2`}>
         <div className="bg-cach-l1 rounded-[15px] p-2">
-          <div className="w-full justify-end flex p-0 pb-0 mb-0">
+          <div className="w-full justify-start flex  p-0 pb-0 mb-0">
             <Button
               className="pl-2 pr-2 pb-0 pt-0 ml-0 rounded-[10px]"
               type="text"
@@ -65,11 +68,7 @@ export const Auto = () => {
                 marginBottom: 0,
               }}
             >
-              {collapsed ? (
-                <GoChevronRight className="text-[20px]" />
-              ) : (
-                <GoChevronLeft className="text-[20px]" />
-              )}
+              <HiOutlineMenu className="text-[20px]" />
             </Button>
           </div>
           <Menu

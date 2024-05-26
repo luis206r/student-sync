@@ -14,9 +14,11 @@ import {
 import { RiQuestionFill } from "react-icons/ri";
 import { IoMdRefresh } from "react-icons/io";
 import { BsWindowSidebar } from "react-icons/bs";
+import { useSelector } from "react-redux";
 const { RangePicker } = DatePicker;
 
 export const Calendar = () => {
+  const user = useSelector((state) => state.user);
   const [event, setEvent] = useState({ title: "", place: "", daysToRep: "" });
   const [dayOptions, setDayOptions] = useState([
     {
@@ -212,26 +214,15 @@ export const Calendar = () => {
             placement="bottomRight"
             content={
               <div className="max-w-[300px]">
-                <p>1. En tu ordenador, abre Google Calendar.</p>
+                <p>- Es posible que sea necesario volver a inciar sesión.</p>
+                <p>- Puedes optar por hacer público tu calendario</p>
                 <p>
-                  2. Arriba a la derecha, haz clic en Configuración y luego
-                  Configuración.
-                </p>
-                <p>
-                  3. A la izquierda, en "Configuración de mis calendarios", haz
-                  clic en el nombre del calendario que quieras compartir.
-                </p>
-                <p>
-                  4. En "Permisos de acceso a los eventos", marca la casilla
-                  situada junto a "Compartir públicamente".
-                </p>
-                <p>5. Haz clic en Aceptar.</p>
-                <p>
-                  6. Dale Click al botón de actualizar en la parte izquierda.
+                  - Toma en cuenta que se cargan los eventos asociados a tu
+                  cuenta de UTEC
                 </p>
               </div>
             }
-            title="Haz público tu calendario"
+            title="Verifica lo siguiente: "
           >
             <div className="flex flex-row items-center">
               <RiQuestionFill className="text-[20px]" />
@@ -242,8 +233,10 @@ export const Calendar = () => {
         <div className="w-full p-4 bg-[#e3e9ff] rounded-[10px] ">
           <iframe
             ref={iframeRef}
-            src="https://calendar.google.com/calendar/embed?src=luis.robledo%40utec.edu.pe&ctz=America%2FLima&bgcolor=%23e3e9ff&mode=WEEK
-          "
+            src={`https://calendar.google.com/calendar/embed?src=${user.email.replace(
+              "@",
+              "%40"
+            )}&ctz=America%2FLima&bgcolor=%23e3e9ff&mode=WEEK`}
             style={{
               style: "border: 0",
               width: "100%",

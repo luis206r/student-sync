@@ -4,8 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineNotifications } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import axios from "axios";
+import { gapi } from "gapi-script";
+import { useSelector } from "react-redux";
 
 export const Navbar = () => {
+  const user = useSelector((state) => state.user);
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
   const [currentOption, setCurrentOption] = useState("");
@@ -34,25 +37,58 @@ export const Navbar = () => {
     }
   };
 
-  //================================================================
+  const handleLogout = () => {
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() => {
+      alert("Se ha cerrado sesión correctamente");
+      // Aquí puedes realizar acciones adicionales después de cerrar sesión
+    });
+    logoutRequest();
+  };
 
+  //================================================================
   const items = [
     {
       key: "1",
       label: "Configuración",
+      disabled: true,
     },
     {
       key: "2",
       label: "Ayuda",
+      disabled: true,
     },
     {
       key: "3",
-      label: "Cerrar Sesión",
+      label: "Cerrar sesión",
+      // <div>
+      //   <GoogleLogout
+      //     clientId="802739494860-g8b82fns678r3knlv5d7ed83thpji720.apps.googleusercontent.com"
+      //     buttonText={"Logout"}
+      //     onLogoutSuccess={() =>
+      //       console.log("Cesión cerrada satisfactoriamente")
+      //     }
+      //   />
+      // </div>
+
       onClick: () => {
-        return logoutRequest();
+        return handleLogout();
       },
     },
   ];
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId:
+          "802739494860-g8b82fns678r3knlv5d7ed83thpji720.apps.googleusercontent.com",
+        scope:
+          "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar.events",
+      });
+    }
+
+    gapi.load("client:auth2", start);
+  }, []);
 
   const items2 = [
     {
@@ -66,10 +102,12 @@ export const Navbar = () => {
     {
       key: "home/explore",
       label: <Link to={"/home/explore"}>Explora</Link>,
+      disabled: true,
     },
     {
       key: "home/health",
       label: <Link to={"/home/health"}>Salud</Link>,
+      disabled: true,
     },
   ];
 
@@ -84,8 +122,8 @@ export const Navbar = () => {
 
   const onClickOption = (e) => {
     //console.log(items2[parseInt(e.key) - 1].value);
-    const newOptionSelected = items2[parseInt(e.key) - 1].value;
-    changeValue(newOptionSelected);
+    //const newOptionSelected = items2[parseInt(e.key) - 1].value;
+    //changeValue(newOptionSelected);
     setCurrentOption(e.key);
   };
   return (
@@ -129,8 +167,14 @@ export const Navbar = () => {
                 }}
                 placement="bottom"
               >
-                <div className="flex justify-center items-center bg-[#ac9bff] rounded-[50%] w-[35px] h-[35px] text-[white]">
+                {/* <div className="flex justify-center items-center bg-[#ac9bff] rounded-[50%] w-[35px] h-[35px] text-[white]">
                   L
+                </div> */}
+                <div>
+                  <img
+                    src={`${user.profileImageUrl}`}
+                    className="w-[35px] rounded-[20px]"
+                  />
                 </div>
               </Dropdown>
             </div>

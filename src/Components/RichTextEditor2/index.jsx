@@ -1,5 +1,5 @@
 import React from "react";
-import { Editor, EditorState } from "draft-js";
+import { Editor, EditorState, ContentState, convertFromRaw } from "draft-js";
 import "./index.css";
 
 class RichTextEditor2 extends React.Component {
@@ -7,10 +7,13 @@ class RichTextEditor2 extends React.Component {
     super(props);
     const { editorState } = props;
 
+    // Convertir el contenido del reporte de string JSON a un objeto ContentState
+    const contentState = editorState
+      ? convertFromRaw(JSON.parse(editorState))
+      : ContentState.createFromText(""); // Manejar el caso en que el editorState sea null
+
     this.state = {
-      editorState: EditorState.createWithContent(
-        editorState.getCurrentContent()
-      ),
+      editorState: EditorState.createWithContent(contentState),
     };
 
     this.focus = () => this.refs.editor.focus();
@@ -19,15 +22,15 @@ class RichTextEditor2 extends React.Component {
   render() {
     const { editorState } = this.state;
 
-    // If the user changes block type before entering any text, we can
-    // either style the placeholder or hide it. Let's just hide it now.
+    // Si el usuario cambia el tipo de bloque antes de ingresar texto, podemos
+    // ya sea aplicar estilo al marcador de posición o ocultarlo. Vamos a ocultarlo ahora.
     let className = "RichEditor-editor";
-    var contentState = editorState.getCurrentContent();
-    if (!contentState.hasText()) {
-      if (contentState.getBlockMap().first().getType() !== "unstyled") {
-        className += " RichEditor-hidePlaceholder";
-      }
-    }
+    //var contentState = editorState;
+    // if (!contentState.hasText()) {
+    //   if (contentState.getBlockMap().first().getType() !== "unstyled") {
+    //     className += " RichEditor-hidePlaceholder";
+    //   }
+    // }
 
     return (
       <div className="RichEditor-root2">
