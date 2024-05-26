@@ -22,9 +22,12 @@ function App() {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/users/me", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://student-collab.vercel.app/api/users/me",
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.status === 200) {
         console.log("me: ", res.data);

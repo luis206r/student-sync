@@ -49,7 +49,7 @@ const TodoList = () => {
   const getStudentTasks = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/api/tasks/getTasks/${user.studentInfo.id}`,
+        `https://student-collab.vercel.app/api/tasks/getTasks/${user.studentInfo.id}`,
         { headers: { "Cache-Control": "no-cache" } },
         { withCredentials: true }
       );
@@ -62,7 +62,7 @@ const TodoList = () => {
   const createStudentTask = async (content, isCompleted) => {
     try {
       const res = await axios.post(
-        `http://localhost:8000/api/tasks/create/${user.studentInfo.id}`,
+        `https://student-collab.vercel.app/api/tasks/create/${user.studentInfo.id}`,
         { content: content, isCompleted: isCompleted },
         { withCredentials: true }
       );
@@ -75,7 +75,7 @@ const TodoList = () => {
   const updateStudentTask = async (taskId, content, isCompleted) => {
     try {
       const res = await axios.put(
-        `http://localhost:8000/api/tasks/updateTask/${taskId}`,
+        `https://student-collab.vercel.app/api/tasks/updateTask/${taskId}`,
         { content: content, isCompleted: isCompleted },
         { withCredentials: true }
       );
@@ -88,7 +88,7 @@ const TodoList = () => {
   const deleteStudentTask = async (taskId) => {
     try {
       const res = await axios.delete(
-        `http://localhost:8000/api/tasks/deleteTask/${taskId}`,
+        `https://student-collab.vercel.app/api/tasks/deleteTask/${taskId}`,
         { withCredentials: true }
       );
       if (res.status === 200) return res.data;

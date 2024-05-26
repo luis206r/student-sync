@@ -17,7 +17,7 @@ export const Navbar = () => {
   const logoutRequest = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/users/logout",
+        "https://student-collab.vercel.app/api/users/logout",
         {},
         {
           withCredentials: true,

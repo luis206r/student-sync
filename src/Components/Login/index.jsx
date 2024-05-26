@@ -36,9 +36,12 @@ export const Login = () => {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/users/me", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "https://student-collab.vercel.app/api/users/me",
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.status === 200) {
         console.log("me: ", res.data);
@@ -60,7 +63,7 @@ export const Login = () => {
   const googleLoginRequest = async (email, name, lastname, profileImageUrl) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/users/googleLogin",
+        "https://student-collab.vercel.app/api/users/googleLogin",
         {
           email: email,
           profileImageUrl: profileImageUrl,
@@ -139,7 +142,7 @@ export const Login = () => {
   const loginRequest = async (email, password) => {
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/users/login",
+        "https://student-collab.vercel.app/api/users/login",
         {
           email: email,
           password: password,

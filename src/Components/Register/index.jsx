@@ -25,27 +25,6 @@ export const Register = () => {
     { value: "other", label: "Otro" },
   ];
 
-  /*
-  - Ingenería Civil. Diseno y construcc
-medioarnbienle.
-• Ingenerfa Electrårvca. Manejo y desar
-• Ingenerfa Industnal. Diseno. oplirrliz
-- Inqerlieria Artlåierual. ESIudio de los p
-ingenjeria viable: que irnpulsen la co
-- Ingermeria de lu Ervergiu_ Creacjön de
-- Irygerveria tvlecaLrår1ica_ Integra de for
-sobre Sisternas usadOS en la industria y
-- ia Quirrvca. DiserhO y elaboraci
-- Irvaerliæria Vecérlica_ DiSf2hO. desarroll
-rnås altas tecnologias_
-- 3i01ruerveria. Aplicaciån de IOS princ
-biOIogia corno base CienIlTica_
-- Ardrrlirmstraclört v Negocjas C)igta'es,
-emprendirnienlo.
-- Ciertcva de Ia Cornvutacvön. Creacjön
-- Caervaa de Dalcs, Anålisis de grand
-inforrnaciån generada por una empr
-  */
   const inputRef = useRef(null);
   const inputRef2 = useRef(null);
   const [additionalMajor, setAdditionalMajor] = useState();
@@ -170,7 +149,7 @@ inforrnaciån generada por una empr
     };
     try {
       const res = await axios.post(
-        "http://localhost:8000/api/users/googleRegister",
+        "https://student-collab.vercel.app/api/users/googleRegister",
         {
           ...props,
         },
