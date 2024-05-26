@@ -37,7 +37,7 @@ export const Login = () => {
   const meRequest = async () => {
     try {
       const res = await axios.get(
-        "https://student-collab.vercel.app/api/users/me",
+        "https://student-sync-back.onrender.com/api/users/me",
         {
           withCredentials: true,
         }
@@ -63,7 +63,7 @@ export const Login = () => {
   const googleLoginRequest = async (email, name, lastname, profileImageUrl) => {
     try {
       const res = await axios.post(
-        "https://student-collab.vercel.app/api/users/googleLogin",
+        "https://student-sync-back.onrender.com/api/users/googleLogin",
         {
           email: email,
           profileImageUrl: profileImageUrl,
@@ -142,7 +142,7 @@ export const Login = () => {
   const loginRequest = async (email, password) => {
     try {
       const res = await axios.post(
-        "https://student-collab.vercel.app/api/users/login",
+        "https://student-sync-back.onrender.com/api/users/login",
         {
           email: email,
           password: password,

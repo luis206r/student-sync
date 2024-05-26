@@ -61,7 +61,7 @@ export const Reports = () => {
   const getReports = async () => {
     try {
       const res = await axios.get(
-        `https://student-collab.vercel.app/api/reports/getReports/${user.studentInfo.id}`,
+        `https://student-sync-back.onrender.com/api/reports/getReports/${user.studentInfo.id}`,
         {},
         {
           withCredentials: true,
@@ -78,7 +78,7 @@ export const Reports = () => {
   const sendReportToBack = async (score, content) => {
     try {
       const res = await axios.post(
-        `https://student-collab.vercel.app/api/reports/create/${user.studentInfo.id}`,
+        `https://student-sync-back.onrender.com/api/reports/create/${user.studentInfo.id}`,
         {
           score,
           content,
@@ -98,7 +98,7 @@ export const Reports = () => {
   const deleteReportBack = async (reportId) => {
     try {
       const res = await axios.delete(
-        `https://student-collab.vercel.app/api/reports/deleteReport/${reportId}`,
+        `https://student-sync-back.onrender.com/api/reports/deleteReport/${reportId}`,
 
         {
           withCredentials: true,

@@ -149,7 +149,7 @@ export const Register = () => {
     };
     try {
       const res = await axios.post(
-        "https://student-collab.vercel.app/api/users/googleRegister",
+        "https://student-sync-back.onrender.com/api/users/googleRegister",
         {
           ...props,
         },

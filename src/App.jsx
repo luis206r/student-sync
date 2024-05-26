@@ -23,7 +23,7 @@ function App() {
   const meRequest = async () => {
     try {
       const res = await axios.get(
-        "https://student-collab.vercel.app/api/users/me",
+        "https://student-sync-back.onrender.com/api/users/me",
         {
           withCredentials: true,
         }

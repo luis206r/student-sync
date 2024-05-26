@@ -35,7 +35,7 @@ export const People = () => {
   const getAllUsers = async () => {
     try {
       const res = await axios.get(
-        "https://student-collab.vercel.app/api/users/getAllUsers",
+        "https://student-sync-back.onrender.com/api/users/getAllUsers",
 
         { withCredentials: true }
       );
