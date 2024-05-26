@@ -1,5 +1,5 @@
 import React from "react";
 
 export const Groups = () => {
-  return <div>Groups</div>;
+  return <div>Próximamente</div>;
 };

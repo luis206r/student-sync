@@ -6,8 +6,11 @@ import { Layout } from "./Components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navbar } from "./Components/Navbar";
+import { useDispatch } from "react-redux";
+import { setUser } from "./state/user";
 
 function App() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [userHasLogged, setUserHasLogged] = useState(false);
@@ -19,14 +22,13 @@ function App() {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        "https://student-sync-back.onrender.com/api/users/me",
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get("http://localhost:8000/api/users/me", {
+        withCredentials: true,
+      });
 
       if (res.status === 200) {
+        console.log("me: ", res.data);
+        dispatch(setUser({ ...res.data }));
         //ejecutar seteo de redux en Layout
         setUserHasLogged(true);
         setLoading(false);

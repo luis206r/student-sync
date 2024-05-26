@@ -1,14 +1,21 @@
 import { Col, Flex, Progress, Row, Statistic } from "antd";
 import { AiOutlineLike } from "react-icons/ai";
 import React from "react";
+import { useSelector } from "react-redux";
 
 export const Resume = () => {
+  const user = useSelector((state) => state.user);
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div className="p-4">
-        <h1 className="w-full text-[20px]"> Bienvenido de vuelta, Luis 🙂</h1>
+        <h1 className="w-full   ">
+          {" "}
+          {`Bienvenido de vuelta, ${user.name} 🙂`}
+        </h1>
         <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
-          <h1 className="text-[15px]">Tus Estadísticas</h1>
+          <h1 className="text-[15px]">
+            Tus Estadísticas (Esta sección aún está en desarrollo)
+          </h1>
 
           <div className="p-4">
             <Flex gap="small" vertical>

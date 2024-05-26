@@ -33,7 +33,9 @@ export const Health = () => {
           />
         </div>
       </div>
-      <div className="w-[80%] ml-2 bg-cach-l1 p-4 rounded-[15px]">Resumen</div>
+      <div className="w-[80%] ml-2 bg-cach-l1 p-4 rounded-[15px]">
+        Próximamente
+      </div>
     </div>
   );
 };
