@@ -25,12 +25,12 @@ export const Login = () => {
   const email = useInput();
   const password = useInput();
 
-  const onClickLogin = (e) => {
-    e.preventDefault();
-    if (validarEmail(email.value) && password.value !== "") {
-      loginRequest(email.value, password.value);
-    }
-  };
+  // const onClickLogin = (e) => {
+  //   e.preventDefault();
+  //   if (validarEmail(email.value) && password.value !== "") {
+  //     loginRequest(email.value, password.value);
+  //   }
+  // };
   const [openModal, setOpenModal] = useState(false);
 
   //==========================back request===========================
@@ -119,11 +119,11 @@ export const Login = () => {
     }
   };
 
-  const onKeyDownPasswordInput = (e) => {
-    if (e.key === "Enter" || e.keyCode === 13) {
-      onClickLogin(e);
-    }
-  };
+  // const onKeyDownPasswordInput = (e) => {
+  //   if (e.key === "Enter" || e.keyCode === 13) {
+  //     onClickLogin(e);
+  //   }
+  // };
 
   useEffect(() => {
     function start() {
@@ -139,32 +139,32 @@ export const Login = () => {
   }, []);
 
   //==========================back request===========================
-  const loginRequest = async (email, password) => {
-    try {
-      const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+  // const loginRequest = async (email, password) => {
+  //   try {
+  //     const res = await axios.post(
+  //       "https://student-sync-back.onrender.com/api/users/login",
+  //       {
+  //         email: email,
+  //         password: password,
+  //       },
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
 
-      if (res.status === 200) {
-        //ejecutar seteo de redux en Layout
-        alert("usuario logeado correctamente");
-        navigate("/home");
-      } else {
-        console.error("Error en la solicitud:", res.data);
-        alert("Algo salió mal...");
-      }
-    } catch (error) {
-      console.error("Error al realizar la solicitud:", error);
-      alert("Solicitud fallida...");
-    }
-  };
+  //     if (res.status === 200) {
+  //       //ejecutar seteo de redux en Layout
+  //       alert("usuario logeado correctamente");
+  //       navigate("/home");
+  //     } else {
+  //       console.error("Error en la solicitud:", res.data);
+  //       alert("Algo salió mal...");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error al realizar la solicitud:", error);
+  //     alert("Solicitud fallida...");
+  //   }
+  // };
 
   //================================================================
 
