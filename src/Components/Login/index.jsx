@@ -72,8 +72,8 @@ export const Login = () => {
           withCredentials: true,
         }
       );
-      if (res.data.isRegistered) {
-        meRequest();
+      if (res.status === 200) {
+        await meRequest();
       }
     } catch (err) {
       if (!err.response.data.isRegistered)
