@@ -60,7 +60,14 @@ export const Profile = ({ info, showFunc }) => {
         </Button>
       </div>
       <div className="w-full p-4 flex flex-col items-center">
-        <img src={info.profileImageUrl} className="w-[200px] rounded-[50%]" />
+        <img
+          src={`${
+            info.profileImageUrl
+              ? info.profileImageUrl
+              : "https://scontent.flim15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p40x40&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEaC0lWRAUIzeXlfSDAqSxAso2H55p0AlGyjYfnmnQCUXFf9Q4l4lg3ieDmjToKcFTFosBoY-JVystctb75ngB9&_nc_ohc=2WKUFuMRZfAQ7kNvgGnTMfr&_nc_ht=scontent.flim15-1.fna&oh=00_AYA1pq37Yn3lCR196sqI68E1Fg7MQ4YyCr13WAy5vWdrPA&oe=667DB5B8"
+          }`}
+          className="w-[200px] rounded-[50%]"
+        />
         <div className="p-4">
           <div className="flex items-center justify-center">
             <h2 className="pb-0 mb-0">{info.name}</h2> &nbsp; &nbsp;

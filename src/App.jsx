@@ -9,6 +9,9 @@ import { Navbar } from "./Components/Navbar";
 import { useDispatch } from "react-redux";
 import { setUser } from "./state/user";
 
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,12 +25,9 @@ function App() {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        "https://student-sync-back.onrender.com/api/users/me",
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${backUrl}/api/users/me`, {
+        withCredentials: true,
+      });
 
       if (res.status === 200) {
         console.log("me: ", res.data);

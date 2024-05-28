@@ -9,13 +9,16 @@ import validarEmail from "../../Utils/validateEmail";
 const { Link: AntdLink } = Typography;
 let it = 0;
 
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
 export const Register = () => {
   const { state } = useLocation();
-  const name = useInput(state.name);
-  const lastName = useInput(state.lastname);
-  const email = useInput(state.email);
-  //const password = useInput();
-  //const repeatedPassword = useInput();
+  const name = state ? useInput(state.name) : useInput("");
+  const lastName = state ? useInput(state.lastname) : useInput("");
+  const email = state ? useInput(state.email) : useInput("");
+  const password = useInput();
+  const repeatedPassword = useInput();
   const navigate = useNavigate();
 
   const userTypeOptions = [
@@ -95,34 +98,44 @@ export const Register = () => {
   };
 
   //==========================back request===========================
-  // const registerRequest = async (email, password, name, lastName) => {
-  //   try {
-  //     const res = await axios.post(
-  //       "http://localhost:8000/api/users/register",
-  //       {
-  //         name: name,
-  //         lastname: lastName,
-  //         email: email,
-  //         password: password,
-  //       },
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
+  const registerRequest = async (
+    email,
+    password,
+    name,
+    lastName,
+    role,
+    major
+  ) => {
+    let props = {
+      name: name,
+      lastname: lastName,
+      email: email,
+      isAdmin: email === "luis.robledo@utec.edu.pe" ? true : false,
+      role: role,
+      courses: role === "teacher" ? course.join(", ") : "",
+      area: role === "other" ? area.value : "",
+      major: major.join(", "),
+      spec: role === "psycho" ? spec.value : "",
+      password: password,
+    };
+    try {
+      const res = await axios.post(`${backUrl}/api/users/register`, props, {
+        withCredentials: true,
+      });
 
-  //     if (res.status === 201) {
-  //       //ejecutar seteo de redux en Layout
-  //       alert("usuario registrado exitosamente");
-  //       navigate("/login");
-  //     } else {
-  //       console.error("Error en la solicitud:", res.data);
-  //       alert("Algo salió mal...");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error al realizar la solicitud:", error);
-  //     alert("Solicitud fallida...");
-  //   }
-  // };
+      if (res.status === 201) {
+        //ejecutar seteo de redux en Layout
+        alert("usuario registrado exitosamente");
+        navigate("/login");
+      } else {
+        console.error("Error en la solicitud:", res.data);
+        alert("Algo salió mal...");
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+      alert("Solicitud fallida...");
+    }
+  };
 
   //================================================================
 
@@ -133,7 +146,8 @@ export const Register = () => {
     lastName,
     profileImageUrl,
     role,
-    major
+    major,
+    password
   ) => {
     let props = {
       name: name,
@@ -146,10 +160,11 @@ export const Register = () => {
       area: role === "other" ? area.value : "",
       major: major.join(", "),
       spec: role === "psycho" ? spec.value : "",
+      password: password,
     };
     try {
       const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/googleRegister",
+        `${backUrl}/api/users/googleRegister`,
         {
           ...props,
         },
@@ -176,29 +191,50 @@ export const Register = () => {
 
   const onClickRegister = (e) => {
     //e.preventDefault();
-    if (
+
+    if (password.value !== repeatedPassword.value) {
+      alert("verifica las contraseñas");
+      return;
+    } else if (
       name.value != "" &&
       lastName.value != "" &&
       userType != "" &&
-      major.length != 0
+      major.length != 0 &&
+      password.value != "" &&
+      repeatedPassword.value != ""
     ) {
       if (
         (userType == "teacher" && course.length != 0) ||
         (userType == "psycho" && spec.value != "") ||
         (userType == "other" && area.value != "") ||
         userType == "student"
-      )
-        //registerRequest(email.value, password.value, name.value, lastName.value);
-        registerGoogleRequest(
-          state.email,
-          name.value,
-          lastName.value,
-          state.profileImageUrl,
-          userType,
-          major
-        );
+      ) {
+        if (!state)
+          registerRequest(
+            email.value,
+            password.value,
+            name.value,
+            lastName.value,
+            userType,
+            major
+          );
+        else
+          registerGoogleRequest(
+            state.email,
+            name.value,
+            lastName.value,
+            state.profileImageUrl,
+            userType,
+            major,
+            password.value
+          );
+      } else {
+        alert("Completa todo los campos");
+        return;
+      }
     } else {
-      alert("verifica los datos ingresados");
+      alert("Completa todo los campos");
+      return;
     }
   };
 
@@ -346,7 +382,7 @@ export const Register = () => {
             {...lastName}
           />
           <Input
-            disabled
+            disabled={state ? true : false}
             size="large"
             placeholder="Email"
             type="email"
@@ -354,7 +390,7 @@ export const Register = () => {
             style={{ marginTop: "6px", marginBottom: "6px" }}
             {...email}
           />
-          {/* <Input
+          <Input
             size="large"
             placeholder="Contraseña"
             type="password"
@@ -369,7 +405,7 @@ export const Register = () => {
             prefix={<CiLock />}
             style={{ marginTop: "6px" }}
             {...repeatedPassword}
-          /> */}
+          />
 
           <div className="pt-6">
             <Button type="primary" size={"large"} onClick={onClickRegister}>
