@@ -214,6 +214,18 @@ export const Calendar = () => {
             placement="bottomRight"
             content={
               <div className="max-w-[300px]">
+                <p>
+                  <b>*Usuarios recien registrados:*</b>
+                </p>
+                <p>
+                  En caso recién te hayas registrado, estaremos habilitando tu
+                  inicio de sesión con google en los próximos días. Una vez
+                  habilitado, podrás acceder con tu cuenta de google y
+                  solicitaremos permisos para acceder a tu calendario e
+                  información de usuario. Recuerda que este proyecto aún está en
+                  desarrollo.
+                </p>
+                <hr className="mt-2 mb-2" />
                 <p>- Es posible que sea necesario volver a inciar sesión.</p>
                 <p>- Puedes optar por hacer público tu calendario</p>
                 <p>
@@ -222,7 +234,6 @@ export const Calendar = () => {
                 </p>
               </div>
             }
-            title="Verifica lo siguiente: "
           >
             <div className="flex flex-row items-center">
               <RiQuestionFill className="text-[20px]" />

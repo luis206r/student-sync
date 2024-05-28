@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Typography, Modal } from "antd";
+import { Button, Typography, Modal, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 const { Link: AntdLink } = Typography;
@@ -10,6 +10,11 @@ import { FaGoogle } from "react-icons/fa";
 import "./index.css";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../state/user";
+import { FaGalacticSenate } from "react-icons/fa6";
+import { CiLock, CiMail } from "react-icons/ci";
+
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
 
 function validarCorreoUtec(correo, dominio) {
   // Escapamos el punto para que se tome literalmente en la expresión regular
@@ -24,6 +29,9 @@ export const Login = () => {
   const navigate = useNavigate();
   const email = useInput();
   const password = useInput();
+  const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const [showMailInput, setShowMailInput] = useState(true);
+  const [enableMailInput, setEnableMailInput] = useState(true);
 
   // const onClickLogin = (e) => {
   //   e.preventDefault();
@@ -32,16 +40,18 @@ export const Login = () => {
   //   }
   // };
   const [openModal, setOpenModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const openModalWithMessage = (message) => {
+    setModalMessage(message);
+    setOpenModal(true);
+  };
 
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        "https://student-sync-back.onrender.com/api/users/me",
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.get(`${backUrl}/api/users/me`, {
+        withCredentials: true,
+      });
 
       if (res.status === 200) {
         console.log("me: ", res.data);
@@ -63,7 +73,7 @@ export const Login = () => {
   const googleLoginRequest = async (email, name, lastname, profileImageUrl) => {
     try {
       const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/googleLogin",
+        `${backUrl}/api/users/googleLogin`,
         {
           email: email,
           profileImageUrl: profileImageUrl,
@@ -108,22 +118,28 @@ export const Login = () => {
   //   }
   // };
 
-  const onClickAccess = (email, name, lastname, profileImageUrl) => {
+  const onClickAccess = async (email, name, lastname, profileImageUrl) => {
     const isUtecAccount = validarCorreoUtec(email, "utec.edu.pe");
     if (isUtecAccount) {
       console.log("correo valido");
 
-      googleLoginRequest(email, name, lastname, profileImageUrl);
+      await googleLoginRequest(email, name, lastname, profileImageUrl);
     } else {
-      setOpenModal(true);
+      openModalWithMessage("Debes acceder con un correo UTEC");
     }
   };
 
-  // const onKeyDownPasswordInput = (e) => {
-  //   if (e.key === "Enter" || e.keyCode === 13) {
-  //     onClickLogin(e);
-  //   }
-  // };
+  const onKeyDownPasswordInput = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      onClickLogin(e);
+    }
+  };
+
+  const onKeyDownMailInput = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      findEmail();
+    }
+  };
 
   useEffect(() => {
     function start() {
@@ -139,44 +155,93 @@ export const Login = () => {
   }, []);
 
   //==========================back request===========================
-  // const loginRequest = async (email, password) => {
-  //   try {
-  //     const res = await axios.post(
-  //       "https://student-sync-back.onrender.com/api/users/login",
-  //       {
-  //         email: email,
-  //         password: password,
-  //       },
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
+  const loginRequest = async (email, password) => {
+    try {
+      const res = await axios.post(
+        `${backUrl}/api/users/login`,
+        {
+          email: email,
+          password: password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
-  //     if (res.status === 200) {
-  //       //ejecutar seteo de redux en Layout
-  //       alert("usuario logeado correctamente");
-  //       navigate("/home");
-  //     } else {
-  //       console.error("Error en la solicitud:", res.data);
-  //       alert("Algo salió mal...");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error al realizar la solicitud:", error);
-  //     alert("Solicitud fallida...");
-  //   }
-  // };
+      if (res.status === 200) {
+        //ejecutar seteo de redux en Layout
+        alert("usuario logeado correctamente");
+        navigate("/home");
+      } else {
+        console.error("Error en la solicitud:", res.data);
+        alert("Algo salió mal...");
+      }
+    } catch (error) {
+      console.error("Error al realizar la solicitud:", error);
+      alert("Solicitud fallida...");
+    }
+  };
+
+  const findEmail = async () => {
+    try {
+      setEnableMailInput(false);
+      const isUtecAccount = validarCorreoUtec(email.value, "utec.edu.pe");
+      if (!isUtecAccount) {
+        openModalWithMessage("Debes acceder con un correo UTEC");
+        setEnableMailInput(true);
+        return;
+      } else {
+        const res = await axios.post(
+          `${backUrl}/api/users/findEmail`,
+          {
+            email: email.value,
+          },
+          { withCredentials: true }
+        );
+        if (res.status === 200) {
+          if (res.data.user.hasGoogleAcces) {
+            handleLoginGoogle();
+          } else {
+            setShowMailInput(false);
+            setShowPasswordInput(true);
+          }
+        }
+      }
+    } catch (err) {
+      if (err.response.status === 404) {
+        if (email.value === "luis.robledo@utec.edu.pe") {
+          handleLoginGoogle();
+        } else {
+          openModalWithMessage("Aún no estás regitrado");
+          setEnableMailInput(true);
+        }
+        return;
+      } else console.error("Error al realizar la solicitud");
+    }
+  };
 
   //================================================================
 
-  const handleLogin = () => {
+  const handleLoginGoogle = () => {
     const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signIn({ prompt: "select_account" }).then((user) => {
-      const profile = user.getBasicProfile();
+    auth2
+      .signIn({ prompt: "select_account" })
+      .then((user) => {
+        const profile = user.getBasicProfile();
 
-      // Aquí puedes realizar acciones adicionales después de iniciar sesión, como enviar datos de usuario al servidor
-      console.log("Inicio de sesión exitoso:", user);
-      onClickAccess(profile.cu, profile.rV, profile.uT, profile.hK);
-    });
+        // Aquí puedes realizar acciones adicionales después de iniciar sesión, como enviar datos de usuario al servidor
+        console.log("Inicio de sesión exitoso:", user);
+        if (profile.cu != email.value) {
+          alert("los correos no coinciden");
+          setEnableMailInput(true);
+          return;
+        }
+        onClickAccess(profile.cu, profile.rV, profile.uT, profile.hK);
+      })
+      .catch((error) => {
+        setEnableMailInput(true);
+        console.error(error);
+      });
   };
 
   return (
@@ -184,7 +249,7 @@ export const Login = () => {
       <div className="flex flex-col items-center justify-center bg-cach-l1 w-[350px] p-4 rounded-[15px]">
         <div className="p-4 pb-0 text-textcol-1 text-[36px]">
           <Modal
-            title="Debes acceder con una cuenta UTEC"
+            title={modalMessage}
             centered
             open={openModal}
             okText={"Ok"}
@@ -198,30 +263,6 @@ export const Login = () => {
           ></Modal>
         </div>
         <div className="flex flex-col items-center justify-center w-[300px]">
-          {/* <Input
-            size="large"
-            placeholder="email"
-            type="email"
-            prefix={<CiMail />}
-            style={{ marginBottom: "6px" }}
-            {...email}
-          />
-          <Input
-            size="large"
-            placeholder="contraseña"
-            type="password"
-            prefix={<CiLock />}
-            style={{ marginTop: "6px" }}
-            {...password}
-            onKeyDown={onKeyDownPasswordInput}
-          /> */}
-          {/* <div className="p-4">
-            <p>
-              <Link to="/recoverPassword">
-                <AntdLink>¿Olvidaste tu contraseña?</AntdLink>
-              </Link>
-            </p>
-          </div> */}
           <div className="pb-4">
             <img
               src="/logo3.png"
@@ -233,8 +274,75 @@ export const Login = () => {
               </p>
             </div>
           </div>
-          <div className="pt-6 pb-6">
-            <Button
+
+          <div className="pt-6 pb-4 w-full">
+            {showMailInput && (
+              <div>
+                <Input
+                  onKeyDown={onKeyDownMailInput}
+                  disabled={!enableMailInput}
+                  size="large"
+                  placeholder="correo Utec"
+                  type="email"
+                  prefix={<CiMail className="mr-2" />}
+                  style={{ marginBottom: "6px" }}
+                  {...email}
+                />
+                <div className="flex items-center justify-center pt-4">
+                  <Button type="primary" size="large" onClick={findEmail}>
+                    Continuar
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {showPasswordInput && (
+              <div>
+                <Input
+                  onLoad={true}
+                  size="large"
+                  placeholder="contraseña"
+                  type="password"
+                  prefix={<CiLock />}
+                  {...password}
+                  onKeyDown={onKeyDownPasswordInput}
+                />
+
+                <div className="flex flex-row pt-4 items-center justify-center">
+                  <Button
+                    className="mr-2 w-[50%]"
+                    size="large"
+                    onClick={(e) => {
+                      setEnableMailInput(true);
+                      setShowMailInput(true);
+                      setShowPasswordInput(false);
+                    }}
+                  >
+                    Volver
+                  </Button>
+                  <Button
+                    className="ml-2 w-[50%]"
+                    type="primary"
+                    size="large"
+                    onClick={(e) => {
+                      loginRequest(email.value, password.value);
+                    }}
+                  >
+                    Iniciar sesión
+                  </Button>
+                </div>
+              </div>
+            )}
+            {/* <div className="p-4">
+            <p>
+              <Link to="/recoverPassword">
+                <AntdLink>¿Olvidaste tu contraseña?</AntdLink>
+              </Link>
+            </p>
+          </div> */}
+
+            {/* ==========================google========================== */}
+            {/* <Button
               type="primary"
               size={"large"}
               onClick={handleLogin}
@@ -242,7 +350,7 @@ export const Login = () => {
               className="flex items-center "
             >
               Iniciar Sesión
-            </Button>
+            </Button> */}
             {/* <div className="m-4 p-4">
                <GoogleLogin
                 clientId="802739494860-g8b82fns678r3knlv5d7ed83thpji720.apps.googleusercontent.com"
@@ -255,13 +363,13 @@ export const Login = () => {
               /> 
             </div> */}
           </div>
-          {/* <div className="p-4">
+          <div className="p-4">
             <p>
               <Link to="/register">
                 <AntdLink>Regístrate</AntdLink>
               </Link>
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

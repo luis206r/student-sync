@@ -41,7 +41,14 @@ export const Card = ({ fname, sname, major, profileImageUrl, onClick }) => {
       onClick={onClick}
     >
       <div className="h-[70%] ">
-        <img src={profileImageUrl} className="w-[100px] rounded-[50%]" />
+        <img
+          src={`${
+            profileImageUrl
+              ? profileImageUrl
+              : "https://scontent.flim15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p40x40&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEaC0lWRAUIzeXlfSDAqSxAso2H55p0AlGyjYfnmnQCUXFf9Q4l4lg3ieDmjToKcFTFosBoY-JVystctb75ngB9&_nc_ohc=2WKUFuMRZfAQ7kNvgGnTMfr&_nc_ht=scontent.flim15-1.fna&oh=00_AYA1pq37Yn3lCR196sqI68E1Fg7MQ4YyCr13WAy5vWdrPA&oe=667DB5B8"
+          }`}
+          className="w-[100px] rounded-[50%]"
+        />
       </div>
       <div className="flex items-center justify-center flex-col">
         <p className=" text-black">{cuttedFName}</p>

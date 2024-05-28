@@ -7,6 +7,9 @@ import axios from "axios";
 import { gapi } from "gapi-script";
 import { useSelector } from "react-redux";
 
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
 export const Navbar = () => {
   const user = useSelector((state) => state.user);
   const pathname = useLocation().pathname;
@@ -17,7 +20,7 @@ export const Navbar = () => {
   const logoutRequest = async () => {
     try {
       const res = await axios.post(
-        "https://student-sync-back.onrender.com/api/users/logout",
+        `${backUrl}/api/users/logout`,
         {},
         {
           withCredentials: true,
@@ -172,7 +175,11 @@ export const Navbar = () => {
                 </div> */}
                 <div>
                   <img
-                    src={`${user.profileImageUrl}`}
+                    src={`${
+                      user.profileImageUrl
+                        ? user.profileImageUrl
+                        : "https://scontent.flim15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p40x40&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEaC0lWRAUIzeXlfSDAqSxAso2H55p0AlGyjYfnmnQCUXFf9Q4l4lg3ieDmjToKcFTFosBoY-JVystctb75ngB9&_nc_ohc=2WKUFuMRZfAQ7kNvgGnTMfr&_nc_ht=scontent.flim15-1.fna&oh=00_AYA1pq37Yn3lCR196sqI68E1Fg7MQ4YyCr13WAy5vWdrPA&oe=667DB5B8"
+                    }`}
                     className="w-[35px] rounded-[20px]"
                   />
                 </div>
