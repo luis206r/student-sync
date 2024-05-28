@@ -9,6 +9,14 @@ import validarEmail from "../../Utils/validateEmail";
 const { Link: AntdLink } = Typography;
 let it = 0;
 
+function validarCorreoUtec(correo, dominio) {
+  // Escapamos el punto para que se tome literalmente en la expresión regular
+  const dominioRegex = new RegExp(`@${dominio.replace(".", "\\.")}$`, "i");
+
+  // Verificamos si el correo electrónico termina con el dominio especificado
+  return dominioRegex.test(correo);
+}
+
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
@@ -191,7 +199,11 @@ export const Register = () => {
 
   const onClickRegister = (e) => {
     //e.preventDefault();
-
+    const isUtecAccount = validarCorreoUtec(email.value, "utec.edu.pe");
+    if (!isUtecAccount) {
+      alert("Correo no válido");
+      return;
+    }
     if (password.value !== repeatedPassword.value) {
       alert("verifica las contraseñas");
       return;
