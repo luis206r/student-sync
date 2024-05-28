@@ -209,12 +209,8 @@ export const Login = () => {
       }
     } catch (err) {
       if (err.response.status === 404) {
-        if (email.value === "luis.robledo@utec.edu.pe") {
-          handleLoginGoogle();
-        } else {
-          openModalWithMessage("Aún no estás regitrado");
-          setEnableMailInput(true);
-        }
+        openModalWithMessage("Aún no estás regitrado");
+        setEnableMailInput(true);
         return;
       } else console.error("Error al realizar la solicitud");
     }
