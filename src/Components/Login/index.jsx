@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Typography, Modal, Input } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -25,6 +25,7 @@ function validarCorreoUtec(correo, dominio) {
 }
 
 export const Login = () => {
+  const pRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const email = useInput();
@@ -131,7 +132,7 @@ export const Login = () => {
 
   const onKeyDownPasswordInput = (e) => {
     if (e.key === "Enter" || e.keyCode === 13) {
-      onClickLogin(e);
+      loginRequest(email.value, password.value);
     }
   };
 
@@ -169,9 +170,9 @@ export const Login = () => {
       );
 
       if (res.status === 200) {
-        //ejecutar seteo de redux en Layout
+        await meRequest();
+
         alert("usuario logeado correctamente");
-        navigate("/home");
       } else {
         console.error("Error en la solicitud:", res.data);
         alert("Algo salió mal...");
@@ -209,12 +210,8 @@ export const Login = () => {
       }
     } catch (err) {
       if (err.response.status === 404) {
-        if (email.value === "luis.robledo@utec.edu.pe") {
-          handleLoginGoogle();
-        } else {
-          openModalWithMessage("Aún no estás regitrado");
-          setEnableMailInput(true);
-        }
+        openModalWithMessage("Aún no estás regitrado");
+        setEnableMailInput(true);
         return;
       } else console.error("Error al realizar la solicitud");
     }
@@ -243,6 +240,12 @@ export const Login = () => {
         console.error(error);
       });
   };
+
+  useEffect(() => {
+    if (showPasswordInput && pRef.current) {
+      pRef.current.focus();
+    }
+  }, [showPasswordInput]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center ">
@@ -299,6 +302,7 @@ export const Login = () => {
             {showPasswordInput && (
               <div>
                 <Input
+                  ref={pRef}
                   onLoad={true}
                   size="large"
                   placeholder="contraseña"
