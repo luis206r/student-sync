@@ -32,9 +32,17 @@ function App() {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(`${backUrl}/api/users/me`, {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${backUrl}/api/users/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.status === 200) {
         setLoading(false);
