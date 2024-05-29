@@ -8,7 +8,7 @@ export const Resume = () => {
   return (
     <div className="w-full ">
       <div className="p-4">
-        <h1 className="w-full   "> {`Bienvenido, ${user.name} 🙂`}</h1>
+        <h1 className="w-full   "> {`Bienvenid@, ${user.name} 🙂`}</h1>
         <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
           <h1 className="text-[15px]">
             Tus Estadísticas (Esta sección aún está en desarrollo)
