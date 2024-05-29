@@ -68,7 +68,7 @@ export const Profile = ({ info, showFunc }) => {
           }`}
           className="w-[200px] rounded-[50%]"
         />
-        <div className="p-4">
+        <div className="p-4 flex flex-col items-center justify-center">
           <div className="flex items-center justify-center">
             <h2 className="pb-0 mb-0">{info.name}</h2> &nbsp; &nbsp;
             <h2>{info.lastname}</h2>
