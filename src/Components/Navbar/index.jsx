@@ -5,12 +5,14 @@ import { MdOutlineNotifications } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import axios from "axios";
 import { gapi } from "gapi-script";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../state/user";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
 export const Navbar = () => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
@@ -28,6 +30,8 @@ export const Navbar = () => {
       );
 
       if (res.status === 200) {
+        dispatch(clearUser());
+        localStorage.removeItem("userToken");
         //limpiar estado de redux
         console.log("cesion cerrada exitosamente");
         navigate("/login");

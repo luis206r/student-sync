@@ -14,6 +14,7 @@ const initialState = {
   email: null,
   profileImageUrl: null,
   role: null,
+  roleInfo: null,
 }
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -33,6 +34,7 @@ const userReducer = createReducer(initialState, (builder) => {
         email: null,
         profileImageUrl: null,
         role: null,
+        roleInfo: null,
       };
     })
   // .addCase(setOnlyMail, (state, action) => {
