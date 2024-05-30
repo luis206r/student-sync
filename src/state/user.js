@@ -4,7 +4,10 @@ export const setUser = createAction("SET_USER");
 //export const setFavorites = createAction("SET_USER_FAVS"); //es otro pedido axios
 //export const addToFavs = createAction("ADD_TO_FAVORITES");
 //export const removeFromFavs = createAction("REMOVE_FROM_FAVORITES");
-export const clearUser = createAction("CLEAR_USER")
+export const clearUser = createAction("CLEAR_USER");
+export const updateFollowers = createAction("UPDATE_FOLLOWERS");
+export const updateFollows = createAction("UPDATE_FOLLOWS");
+
 //export const setOnlyMail = createAction("SET_ONLY_MAIL")
 
 const initialState = {
@@ -15,6 +18,8 @@ const initialState = {
   profileImageUrl: null,
   role: null,
   roleInfo: null,
+  followers: null,
+  follows: null
 }
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -35,8 +40,22 @@ const userReducer = createReducer(initialState, (builder) => {
         profileImageUrl: null,
         role: null,
         roleInfo: null,
+        followers: null,
+        follows: null
       };
     })
+    .addCase(updateFollowers, (state, action) => {
+      return {
+        ...state,
+        followers: action.payload
+      }
+    })
+    .addCase(updateFollows, (state, action) => {
+      return {
+        ...state,
+        follows: action.payload
+      }
+    });
   // .addCase(setOnlyMail, (state, action) => {
   //   return {
   //     ...state,

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Button, Menu, Dropdown } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MdOutlineNotifications } from "react-icons/md";
+import { MdOutlineExplore, MdOutlineNotifications } from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import axios from "axios";
 import { gapi } from "gapi-script";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../state/user";
+import { FaAddressBook } from "react-icons/fa";
+import { FaBookOpenReader } from "react-icons/fa6";
+import { RiMentalHealthFill } from "react-icons/ri";
+import { IoPeopleSharp } from "react-icons/io5";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -101,20 +105,26 @@ export const Navbar = () => {
     {
       key: "home/auto",
       label: <Link to={"auto"}>Autogestión</Link>,
+      icon: <FaBookOpenReader />,
     },
     {
       key: "home/red",
       label: <Link to={"/home/red"}>Red</Link>,
+      icon: <IoPeopleSharp />,
     },
     {
       key: "home/explore",
       label: <Link to={"/home/explore"}>Explora</Link>,
       disabled: true,
+      selectable: false,
+      icon: <MdOutlineExplore />,
     },
     {
       key: "home/health",
       label: <Link to={"/home/health"}>Salud</Link>,
       disabled: true,
+      selectable: false,
+      icon: <RiMentalHealthFill />,
     },
   ];
 
@@ -137,13 +147,15 @@ export const Navbar = () => {
     <div className="w-full p-4 h-[110px]">
       <div className="p-4 bg-cach-l1 rounded-[15px]">
         <div className="w-full flex flex-row">
-          <div className="w-[15%] text-[24px] flex items-center pl-2">
-            Student<b className="text-[#1677ff]">Collab</b>
+          <div className="md:w-[15%] text-[24px] flex items-center pl-2 ">
+            <div className="hidden md:flex">
+              Student<b className="text-[#1677ff]">Collab</b>
+            </div>
           </div>
-          <div className="w-[70%]">
+          <div className="md:w-[70%] w-full">
             <div className="w-full ">
               <Menu
-                className="w-full justify-center text-[18px] bg-[transparent]"
+                className="justify-start w-full md:justify-center text-[18px] bg-[transparent] "
                 style={{
                   borderBottom: "none",
                 }}
@@ -154,40 +166,45 @@ export const Navbar = () => {
               />
             </div>
           </div>
-          <div className="w-[15%]">
+          <div className="max-w-[15%]">
             <div className="flex w-full h-full justify-end items-center pr-4">
-              <Button
-                type="link"
-                size="large"
-                icon={<BiMessageDetail className="text-[22px]" />}
-              />
-              <Button
-                type="link"
-                size="large"
-                icon={<MdOutlineNotifications className="text-[25px]" />}
-              />
+              <div className="flex flex-row ">
+                {" "}
+                <Button
+                  type="link"
+                  size="large"
+                  icon={<BiMessageDetail className="text-[22px]" />}
+                />
+                <Button
+                  type="link"
+                  size="large"
+                  icon={<MdOutlineNotifications className="text-[25px]" />}
+                />
+              </div>
               &nbsp; &nbsp;
-              <Dropdown
-                menu={{
-                  items,
-                  selectable: false,
-                }}
-                placement="bottom"
-              >
-                {/* <div className="flex justify-center items-center bg-[#ac9bff] rounded-[50%] w-[35px] h-[35px] text-[white]">
+              <div className="min-w-[35px]">
+                <Dropdown
+                  menu={{
+                    items,
+                    selectable: false,
+                  }}
+                  placement="bottom"
+                  trigger={["click"]}
+                >
+                  {/* <div className="flex justify-center items-center bg-[#ac9bff] rounded-[50%] w-[35px] h-[35px] text-[white]">
                   L
                 </div> */}
-                <div>
+
                   <img
                     src={`${
                       user.profileImageUrl
                         ? user.profileImageUrl
-                        : "https://scontent.flim15-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?stp=cp0_dst-png_p40x40&_nc_cat=1&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEaC0lWRAUIzeXlfSDAqSxAso2H55p0AlGyjYfnmnQCUXFf9Q4l4lg3ieDmjToKcFTFosBoY-JVystctb75ngB9&_nc_ohc=2WKUFuMRZfAQ7kNvgGnTMfr&_nc_ht=scontent.flim15-1.fna&oh=00_AYA1pq37Yn3lCR196sqI68E1Fg7MQ4YyCr13WAy5vWdrPA&oe=667DB5B8"
+                        : "/profileImage.png"
                     }`}
-                    className="w-[35px] rounded-[20px]"
+                    className="md:w-[35px] rounded-[20px]"
                   />
-                </div>
-              </Dropdown>
+                </Dropdown>
+              </div>
             </div>
           </div>
         </div>

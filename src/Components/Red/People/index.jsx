@@ -7,6 +7,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile";
 
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
 export const People = () => {
   //importanteeeeeeeeeeeeeeeeeeeeeeeee
   // const divRef = useRef(null);
@@ -35,7 +38,7 @@ export const People = () => {
   const getAllUsers = async () => {
     try {
       const res = await axios.get(
-        "https://student-sync-back.onrender.com/api/users/getAllUsers",
+        `${backUrl}/api/users/getAllUsers`,
 
         { withCredentials: true }
       );

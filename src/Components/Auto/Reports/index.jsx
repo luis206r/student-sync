@@ -258,7 +258,7 @@ export const Reports = () => {
                   className="flex
             justify-center items-center mt-8 mb-8"
                 >
-                  <p>Todavía no tienes reportes</p>
+                  <p className="text-textcol-1">Todavía no tienes reportes</p>
                 </div>
               </div>
             </div>
