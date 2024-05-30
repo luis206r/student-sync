@@ -108,7 +108,7 @@ export const Red = () => {
                   : fullname;
               return (
                 <div
-                  className=" flex flex-row items-center pt-4 pb-4 "
+                  className=" flex flex-row items-center pt-4"
                   key={contact.id}
                 >
                   <img
@@ -117,7 +117,7 @@ export const Red = () => {
                         ? contact.profileImageUrl
                         : "/profileImage.png"
                     }
-                    className="w-[30px] h-[30px] rounded-[50%]"
+                    className="w-[30px] h-[30px] rounded-[50%] shadow-md"
                   />
                   &nbsp;&nbsp;
                   <p>{fullname}</p>
