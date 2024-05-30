@@ -281,10 +281,34 @@ export const Login = () => {
               src="/logo3.png"
               style={{ width: "200px", borderRadius: "15px" }}
             />
-            <div className="flex items-center justify-center">
+            <div className="flex flex-row items-center justify-center">
               <p className="text-textcol-1">
                 <b>BETA</b>
               </p>
+              <Popover
+                className="text-textcol-1"
+                placement="bottom"
+                content={
+                  <div className="max-w-[300px]">
+                    <p>
+                      <b>*Nuestra aplicación aún esta en desarrollo*</b>
+                    </p>
+                    <p>
+                      Por el momento solo contamos con vista de escritorio, más
+                      adelante estaremos adaptando un diseño responsive para que
+                      puedas usar la aplicación desde tu celular 🙂. Aún así ya
+                      puedes ir registrándote. Una vez te hayas registrado,
+                      habilitaremos tu inicio de sesión con Google en los
+                      próximos días.
+                    </p>
+                    <p>En caso de experimentar demoras, recarga la página.</p>
+                  </div>
+                }
+              >
+                <div className="flex flex-row items-center">
+                  <RiQuestionFill className="text-[20px]" />
+                </div>
+              </Popover>
             </div>
           </div>
 
