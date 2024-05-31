@@ -7,7 +7,7 @@ export const Resume = () => {
   const user = useSelector((state) => state.user);
   return (
     <div className="w-full ">
-      <div className="p-4">
+      <div className="md:p-4">
         <h1 className="w-full   "> {`Bienvenid@, ${user.name} 🙂`}</h1>
         <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
           <h1 className="text-[15px]">

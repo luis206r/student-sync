@@ -194,8 +194,8 @@ export const Navbar = ({ mobile }) => {
     setCurrentOption(e.key);
   };
   return (
-    <div className="w-full pt-0 h-[94px] pl-4 pr-4">
-      <div className="p-4 bg-cach-l1 rounded-[15px]  w-full rounded-t-[0px] shadow-lg">
+    <div className="w-full pt-0 h-[94px] md:pl-4 md:pr-4">
+      <div className="md:p-4 p-2 bg-cach-l1 md:rounded-[15px]  w-full rounded-t-[0px] shadow-lg">
         <div className="w-full flex flex-row justify-between">
           <div className="md:w-[15%] text-[24px] flex items-center pl-2 ">
             <div className="hidden md:flex">

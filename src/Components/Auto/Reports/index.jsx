@@ -214,7 +214,7 @@ export const Reports = () => {
     );
   else
     return (
-      <div className="w-full h-full p-4 text-[black]">
+      <div className="w-full h-full md:p-4 text-[black]">
         <div className="w-full">
           <div className="flex flex-row justify-between">
             <h2>Mis reportes</h2>
@@ -246,7 +246,7 @@ export const Reports = () => {
             >
               <div className="flex flex-row items-center text-textcol-1">
                 <RiQuestionFill className="text-[20px]" />
-                <p className="">¿Qué es un reporte?</p>
+                <p className="hidden md:flex">¿Qué es un reporte?</p>
               </div>
             </Popover>
           </div>

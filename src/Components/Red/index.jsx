@@ -62,7 +62,7 @@ export const Red = () => {
   };
 
   return (
-    <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
+    <div className="w-full md:pr-4 md:pl-4 md:pb-4 flex flex-row">
       {/* <div className={`w-[${collapsed ? "10%" : "20%"}] mr-2`}>
         <div className="bg-cach-l1 rounded-[15px] p-2">
           <div className="w-full justify-start flex  p-0 pb-0 mb-0">
@@ -93,8 +93,10 @@ export const Red = () => {
         </div>
       </div> */}
       <div className={` w-full flex md:flex-row flex-col-reverse`}>
-        <div className="w-full pr-2 md:pr-4">
-          <div className={` w-full ml-2 md:mr-2 bg-cach-l1 p-4 rounded-[15px]`}>
+        <div className="w-full md:pr-4 ">
+          <div
+            className={` w-full md:ml-2 md:mr-2 bg-cach-l1 p-4 md:rounded-[15px]`}
+          >
             <Routes>
               <Route path="/people" element={<People />} />
               <Route path="/feed" element={<Feed />} />
@@ -104,7 +106,7 @@ export const Red = () => {
           </div>
         </div>
         <div
-          className={`md:w-[280px] bg-cach-l1 p-4 ml-2 rounded-[15px] mb-4 md:mb-0  `}
+          className={`md:w-[280px] bg-cach-l1 p-4 md:ml-2 md:rounded-[15px]  mb-[2px] md:mb-0  `}
         >
           <h3 className="text-black"> Contactos</h3>
           <div className="flex md:flex-col flex-wrap">

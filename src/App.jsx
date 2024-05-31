@@ -112,40 +112,35 @@ function App() {
   } else
     return (
       <div className="app">
-        <div>
-          <Routes>
-            <Route
-              path="/home/*"
-              element={
-                <>
-                  <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex">
-                    <Navbar />
-                  </div>
-                  <div className="max-w-[1280px] w-full absolute z-20 md:hidden">
-                    <Navbar mobile={true} />
-                  </div>
-                  <div className="hidden md:absolute md:flex md:z-10">
-                    <LeftMenu
-                      setCollapsed={setCollapsed}
-                      collapsed={collapsed}
-                    />
-                  </div>
+        <Routes>
+          <Route
+            path="/home/*"
+            element={
+              <>
+                <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex">
+                  <Navbar />
+                </div>
+                <div className="max-w-[1280px] w-full absolute z-20 md:hidden">
+                  <Navbar mobile={true} />
+                </div>
+                <div className="hidden md:absolute md:flex md:z-10">
+                  <LeftMenu setCollapsed={setCollapsed} collapsed={collapsed} />
+                </div>
 
-                  <Layout collapsed={collapsed} />
-                </>
-              }
-            />
-            <Route path="/landing" element={<p>futuro landing page</p>} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/*" element={<>404 Not found</>} />
-          </Routes>
-          {/* {loading && (
+                <Layout collapsed={collapsed} />
+              </>
+            }
+          />
+          <Route path="/landing" element={<p>futuro landing page</p>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/*" element={<>404 Not found</>} />
+        </Routes>
+        {/* {loading && (
         <div className="w-full h-full flex justify-center items-center">
           <h1>Loading...</h1>
         </div>
       )} */}
-        </div>
       </div>
     );
 }

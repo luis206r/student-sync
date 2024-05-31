@@ -13,12 +13,10 @@ export const Tasks = () => {
     );
   else
     return (
-      <div className="w-full p-4 text-black">
+      <div className="w-full md:p-4 text-black">
         <h2>Mis Tareas</h2>
         <div className="w-full flex justify-center pt-6">
-          <div className="">
-            <TodoList />
-          </div>
+          <TodoList />
         </div>
 
         <div className="pb-4">

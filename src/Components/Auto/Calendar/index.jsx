@@ -188,7 +188,7 @@ export const Calendar = () => {
   const url = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Nuevo+Evento+Student+Collab+🙂&details=Recuerda+cambiar+el+título.+Ejemplo+Base+de+Datos+2+-+A904.+Tambien+recuerda+cambiar+el+color.+☝️&dates=20240611T120000/20240611T130000&ctz=America/Lima`;
 
   return (
-    <div className="w-full h-full p-4">
+    <div className="w-full h-full md:p-4">
       <div>
         <h2 className="text-black">Mi Calendario</h2>
       </div>
@@ -213,7 +213,7 @@ export const Calendar = () => {
           <Popover
             placement="bottomRight"
             content={
-              <div className="max-w-[300px]">
+              <div className="md:w-[300px] w-[250px]">
                 <p>
                   <b>*Usuarios recien registrados:*</b>
                 </p>
@@ -222,12 +222,11 @@ export const Calendar = () => {
                   inicio de sesión con google en los próximos días. Una vez
                   habilitado, podrás acceder con tu cuenta de google y
                   solicitaremos permisos para acceder a tu calendario e
-                  información de usuario. Recuerda que este proyecto aún está en
-                  desarrollo.
+                  información de usuario.
                 </p>
                 <hr className="mt-2 mb-2" />
                 <p>- Es posible que sea necesario volver a inciar sesión.</p>
-                <p>- Puedes optar por hacer público tu calendario</p>
+
                 <p>
                   - Toma en cuenta que se cargan los eventos asociados a tu
                   cuenta de UTEC
@@ -237,7 +236,7 @@ export const Calendar = () => {
           >
             <div className="flex flex-row items-center">
               <RiQuestionFill className="text-[20px]" />
-              <p className="">¿No puedes ver tus eventos?</p>
+              <p className="hidden md:flex">¿No puedes ver tus eventos?</p>
             </div>
           </Popover>
         </div>

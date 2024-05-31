@@ -57,8 +57,8 @@ export const Auto = () => {
   };
 
   return (
-    <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
-      <div className={`w-full ml-2 bg-cach-l1 p-4 rounded-[15px]`}>
+    <div className="w-full md:pr-4 md:pl-4 md:pb-4 flex flex-row">
+      <div className={`w-full md:ml-2 bg-cach-l1 p-4 md:rounded-[15px]`}>
         <Routes>
           <Route path="/resume" element={<Resume />} />
           <Route path="/calendar" element={<Calendar />} />
