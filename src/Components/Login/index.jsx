@@ -67,7 +67,7 @@ export const Login = () => {
         console.log("me: ", res.data);
         dispatch(setUser({ ...res.data }));
         //ejecutar seteo de redux en Layout
-        navigate("/home");
+        navigate("/home/auto/resume");
       } else {
         navigate("/login");
       }
