@@ -150,7 +150,7 @@ button:focus-visible {
   margin: 0 auto;
   display: flex;
   justify-content: center;
-  min-width: 320px;
+  /*min-width: 320px;*/
   min-height: 100vh;
   /* max-width: 1280px !important;*/
   overflow-y: scroll !important;
@@ -159,7 +159,6 @@ button:focus-visible {
 @media screen and (max-width: 768px) {
   #root {
     overflow-y: auto !important;
-    min-width: 50px;
   }
   #root::-webkit-scrollbar {
     width: 0 !important; /* Oculta la barra de desplazamiento en navegadores basados en WebKit como Chrome y Safari */
