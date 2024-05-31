@@ -52,18 +52,7 @@ export const Red = () => {
       {}
     );
 
-    let myContacts = Object.values(combinadoSinDuplicados);
-    myContacts = [
-      ...myContacts,
-      {
-        email: "pepe.grillo@utec.edu.pe",
-        id: 3,
-        lastname: "Grillo",
-        name: "Pepe",
-        profileImageUrl: null,
-        role: "student",
-      },
-    ];
+    const myContacts = Object.values(combinadoSinDuplicados);
     setContacts(myContacts);
   }, []);
 
@@ -118,7 +107,7 @@ export const Red = () => {
           className={`md:w-[280px] bg-cach-l1 p-4 ml-2 rounded-[15px] mb-4 md:mb-0  `}
         >
           <h3 className="text-black"> Contactos</h3>
-          <div className="flex md:flex-col flex-wrap-row">
+          <div className="flex md:flex-col flex-wrap">
             {contacts.map((contact) => {
               let fullname = contact.name + " " + contact.lastname;
               fullname =
