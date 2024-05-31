@@ -232,7 +232,7 @@ export const Navbar = ({ mobile }) => {
                 />
               </div>
               &nbsp; &nbsp;
-              <div className="w-[35px]">
+              <div className="min-w-[35px] w-[35px]">
                 <Dropdown
                   menu={{
                     items,
@@ -250,7 +250,7 @@ export const Navbar = ({ mobile }) => {
                         ? user.profileImageUrl
                         : "/profileImage.png"
                     }`}
-                    className="w-[35px] rounded-[20px] shadow-md"
+                    className="w-[35px] min-w-[35px] rounded-[20px] shadow-md"
                   />
                 </Dropdown>
               </div>
