@@ -149,10 +149,9 @@ button:focus-visible {
   /* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
   margin: 0 auto;
   display: flex;
-
   justify-content: center;
   min-width: 320px;
   min-height: 100vh;
-  width: 100%;
+  /* max-width: 1280px !important;*/
   overflow-y: scroll !important;
 }

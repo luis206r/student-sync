@@ -9,6 +9,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 import "./index.css";
 import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 
 // Combinar los dos arreglos sin duplicados basados en el ID
 
@@ -51,7 +52,18 @@ export const Red = () => {
       {}
     );
 
-    const myContacts = Object.values(combinadoSinDuplicados);
+    let myContacts = Object.values(combinadoSinDuplicados);
+    myContacts = [
+      ...myContacts,
+      {
+        email: "pepe.grillo@utec.edu.pe",
+        id: 3,
+        lastname: "Grillo",
+        name: "Pepe",
+        profileImageUrl: null,
+        role: "student",
+      },
+    ];
     setContacts(myContacts);
   }, []);
 
@@ -62,7 +74,7 @@ export const Red = () => {
 
   return (
     <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
-      <div className={`w-[${collapsed ? "10%" : "20%"}] mr-2`}>
+      {/* <div className={`w-[${collapsed ? "10%" : "20%"}] mr-2`}>
         <div className="bg-cach-l1 rounded-[15px] p-2">
           <div className="w-full justify-start flex  p-0 pb-0 mb-0">
             <Button
@@ -90,16 +102,23 @@ export const Red = () => {
             onClick={onClick}
           />
         </div>
-      </div>
-      <div className={` w-full flex flex-row`}>
-        <div className={` w-full ml-2 mr-2 bg-cach-l1 p-4 rounded-[15px]`}>
-          {option == "people" && <People />}
-          {option == "feed" && <Feed />}
-          {option == "groups" && <Groups />}
+      </div> */}
+      <div className={` w-full flex md:flex-row flex-col-reverse`}>
+        <div className="w-full pr-2 md:pr-4">
+          <div className={` w-full ml-2 md:mr-2 bg-cach-l1 p-4 rounded-[15px]`}>
+            <Routes>
+              <Route path="/people" element={<People />} />
+              <Route path="/feed" element={<Feed />} />
+              <Route path="/groups" element={<Groups />} />
+              <Route path="/*" element={<>404 Not found</>} />
+            </Routes>
+          </div>
         </div>
-        <div className={`w-[280px] bg-cach-l1 p-4 ml-2 rounded-[15px]`}>
+        <div
+          className={`md:w-[280px] bg-cach-l1 p-4 ml-2 rounded-[15px] mb-4 md:mb-0  `}
+        >
           <h3 className="text-black"> Contactos</h3>
-          <div>
+          <div className="flex md:flex-col flex-wrap-row">
             {contacts.map((contact) => {
               let fullname = contact.name + " " + contact.lastname;
               fullname =
@@ -108,7 +127,7 @@ export const Red = () => {
                   : fullname;
               return (
                 <div
-                  className=" flex flex-row items-center pt-4"
+                  className=" flex flex-row  items-center pt-4 pr-4 md:pr-[0px]"
                   key={contact.id}
                 >
                   <img

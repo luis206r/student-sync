@@ -15,6 +15,7 @@ import { CgTime } from "react-icons/cg";
 import { Events } from "./Events";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 
 export const Auto = () => {
   const user = useSelector((state) => state.user);
@@ -57,41 +58,15 @@ export const Auto = () => {
 
   return (
     <div className="w-full pr-4 pl-4 pb-4 flex flex-row">
-      <div className={`w-[${collapsed ? "70px" : "20%"}] mr-2`}>
-        <div className="bg-cach-l1 rounded-[15px] p-2">
-          <div className="w-full justify-start flex  p-0 pb-0 mb-0">
-            <Button
-              className="pl-2 pr-2 pb-0 pt-0 ml-0 rounded-[10px]"
-              type="text"
-              onClick={toggleCollapsed}
-              style={{
-                marginBottom: 0,
-              }}
-            >
-              <HiOutlineMenu className="text-[20px]" />
-            </Button>
-          </div>
-          <Menu
-            className=" bg-transparent "
-            style={{
-              borderRight: "none",
-              borderTop: "none",
-            }}
-            defaultSelectedKeys={["resume"]}
-            inlineCollapsed={collapsed}
-            //defaultOpenKeys={['sub1']}
-            mode="inline"
-            items={items}
-            onClick={onClick}
-          />
-        </div>
-      </div>
       <div className={`w-full ml-2 bg-cach-l1 p-4 rounded-[15px]`}>
-        {option == "resume" && <Resume />}
-        {option == "calendar" && <Calendar />}
-        {option == "reports" && <Reports />}
-        {option == "tasks" && <Tasks />}
-        {option == "events" && <Events />}
+        <Routes>
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/*" element={<>404 Not found</>} />
+        </Routes>
       </div>
     </div>
   );

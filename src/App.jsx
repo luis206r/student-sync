@@ -8,15 +8,19 @@ import axios from "axios";
 import { Navbar } from "./Components/Navbar";
 import { useDispatch } from "react-redux";
 import { setUser } from "./state/user";
+import { LeftMenu } from "./Components/LeftMenu";
+import { RiCollapseDiagonal2Fill } from "react-icons/ri";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
 function App() {
+  const pathname = useLocation().pathname;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [userHasLogged, setUserHasLogged] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   useEffect(() => {
     const fn = async () => {
@@ -50,7 +54,8 @@ function App() {
         dispatch(setUser({ ...res.data }));
         //ejecutar seteo de redux en Layout
         setUserHasLogged(true);
-        navigate("/home");
+        if (pathname === "/login" || pathname === "/")
+          navigate("/home/auto/resume");
       } else {
         setLoading(false);
         navigate("/login");
@@ -62,6 +67,11 @@ function App() {
       //alert("Solicitud fallida...");
     }
   };
+
+  useEffect(() => {
+    const v = localStorage.getItem("leftMenuCollapsed");
+    if (!v) localStorage.setItem("leftMenuCollapsed", "no");
+  });
 
   //================================================================
   if (loading) {
@@ -101,26 +111,41 @@ function App() {
     );
   } else
     return (
-      <div className={"app w-full relative"}>
-        <Routes>
-          <Route
-            path="/home/*"
-            element={
-              <>
-                <Navbar />
-                <Layout />
-              </>
-            }
-          />
-          <Route path="/landing" element={<p>futuro landing page</p>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-        {/* {loading && (
+      <div className="app">
+        <div>
+          <Routes>
+            <Route
+              path="/home/*"
+              element={
+                <>
+                  <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex">
+                    <Navbar />
+                  </div>
+                  <div className="max-w-[1280px] w-full absolute z-20 md:hidden">
+                    <Navbar mobile={true} />
+                  </div>
+                  <div className="hidden md:absolute md:flex md:z-10">
+                    <LeftMenu
+                      setCollapsed={setCollapsed}
+                      collapsed={collapsed}
+                    />
+                  </div>
+
+                  <Layout collapsed={collapsed} />
+                </>
+              }
+            />
+            <Route path="/landing" element={<p>futuro landing page</p>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/*" element={<>404 Not found</>} />
+          </Routes>
+          {/* {loading && (
         <div className="w-full h-full flex justify-center items-center">
           <h1>Loading...</h1>
         </div>
       )} */}
+        </div>
       </div>
     );
 }

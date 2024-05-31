@@ -7,15 +7,20 @@ import axios from "axios";
 import { gapi } from "gapi-script";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../state/user";
-import { FaAddressBook } from "react-icons/fa";
+import { FaAddressBook, FaTasks } from "react-icons/fa";
 import { FaBookOpenReader } from "react-icons/fa6";
 import { RiMentalHealthFill } from "react-icons/ri";
 import { IoPeopleSharp } from "react-icons/io5";
+import { PiCalendar, PiStudent } from "react-icons/pi";
+import { TbClipboardText } from "react-icons/tb";
+import { CgTime } from "react-icons/cg";
+import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
+import { LuAlignStartVertical } from "react-icons/lu";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
-export const Navbar = () => {
+export const Navbar = ({ mobile }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const pathname = useLocation().pathname;
@@ -104,24 +109,72 @@ export const Navbar = () => {
   const items2 = [
     {
       key: "home/auto",
-      label: <Link to={"auto"}>Autogestión</Link>,
+      label: <Link to={"auto/resume"}>Gestión</Link>,
       icon: <FaBookOpenReader />,
+      children: !mobile
+        ? null
+        : [
+            {
+              key: "/home/auto/resume",
+              label: <Link to={"auto/resume"}>Tu resumen</Link>,
+              icon: <PiStudent className="p-0 m-0" />,
+            },
+            {
+              key: "/home/auto/calendar",
+              label: <Link to={"auto/calendar"}>Calendario</Link>,
+              icon: <PiCalendar />,
+            },
+            {
+              key: "/home/auto/reports",
+              label: <Link to={"auto/reports"}>Reporte</Link>,
+              icon: <TbClipboardText />,
+            },
+            {
+              key: "/home/auto/tasks",
+              label: <Link to={"auto/tasks"}>Tareas</Link>,
+              icon: <FaTasks />,
+            },
+            {
+              key: "/home/auto/events",
+              label: <Link to={"auto/events"}>Eventos</Link>,
+              icon: <CgTime />,
+            },
+          ],
     },
     {
       key: "home/red",
-      label: <Link to={"/home/red"}>Red</Link>,
+      label: <Link to={"red/people"}>Red</Link>,
       icon: <IoPeopleSharp />,
+      children: !mobile
+        ? null
+        : [
+            {
+              key: "/home/red/people",
+              label: <Link to={"red/people"}>Personas</Link>,
+              icon: <BsPersonFill />,
+            },
+            {
+              key: "/home/red/feed",
+              label: <Link to={"red/feed"}>Feed</Link>,
+              icon: <LuAlignStartVertical />,
+            },
+            {
+              key: "/home/red/groups",
+              label: <Link to={"red/groups"}>Grupos</Link>,
+              icon: <BsFillPeopleFill />,
+            },
+          ],
     },
     {
       key: "home/explore",
-      label: <Link to={"/home/explore"}>Explora</Link>,
+      label: <Link to={"explore"}>Explora</Link>,
       disabled: true,
       selectable: false,
       icon: <MdOutlineExplore />,
     },
     {
       key: "home/health",
-      label: <Link to={"/home/health"}>Salud</Link>,
+      label: <Link to={"health"}>Salud</Link>,
       disabled: true,
       selectable: false,
       icon: <RiMentalHealthFill />,
@@ -129,12 +182,9 @@ export const Navbar = () => {
   ];
 
   useEffect(() => {
-    if (pathname === "/home") setCurrentOption("home/auto");
-    else {
-      const key = pathname.substring(1);
-      console.log(key);
-      setCurrentOption(key);
-    }
+    console.log(pathname);
+    if (pathname.includes("home/auto")) setCurrentOption("home/auto");
+    else if (pathname.includes("home/red")) setCurrentOption("home/red");
   }, [pathname]);
 
   const onClickOption = (e) => {
@@ -144,9 +194,9 @@ export const Navbar = () => {
     setCurrentOption(e.key);
   };
   return (
-    <div className="w-full p-4 h-[110px]">
-      <div className="p-4 bg-cach-l1 rounded-[15px]">
-        <div className="w-full flex flex-row">
+    <div className="w-full pt-0 h-[94px] pl-4 pr-4">
+      <div className="p-4 bg-cach-l1 rounded-[15px]  w-full rounded-t-[0px] shadow-lg">
+        <div className="w-full flex flex-row justify-between">
           <div className="md:w-[15%] text-[24px] flex items-center pl-2 ">
             <div className="hidden md:flex">
               Student<b className="text-[#1677ff]">Collab</b>
@@ -166,9 +216,9 @@ export const Navbar = () => {
               />
             </div>
           </div>
-          <div className="max-w-[15%]">
+          <div className="">
             <div className="flex w-full h-full justify-end items-center pr-4">
-              <div className="flex flex-row ">
+              <div className="hidden md:flex md:flex-row ">
                 {" "}
                 <Button
                   type="link"
@@ -182,7 +232,7 @@ export const Navbar = () => {
                 />
               </div>
               &nbsp; &nbsp;
-              <div className="min-w-[35px]">
+              <div className="w-[35px]">
                 <Dropdown
                   menu={{
                     items,
@@ -194,14 +244,13 @@ export const Navbar = () => {
                   {/* <div className="flex justify-center items-center bg-[#ac9bff] rounded-[50%] w-[35px] h-[35px] text-[white]">
                   L
                 </div> */}
-
                   <img
                     src={`${
                       user.profileImageUrl
                         ? user.profileImageUrl
                         : "/profileImage.png"
                     }`}
-                    className="md:w-[35px] rounded-[20px]"
+                    className="w-[35px] rounded-[20px] shadow-md"
                   />
                 </Dropdown>
               </div>
