@@ -202,7 +202,7 @@ export const Navbar = ({ mobile }) => {
               Student<b className="text-[#1677ff]">Collab</b>
             </div>
           </div>
-          <div className="md:w-[70%] w-full">
+          <div className="w-[70%]">
             <div className="w-full ">
               <Menu
                 className="justify-start w-full md:justify-center text-[18px] bg-[transparent] "
@@ -216,7 +216,7 @@ export const Navbar = ({ mobile }) => {
               />
             </div>
           </div>
-          <div className="">
+          <div className="w-[30%]">
             <div className="flex w-full h-full justify-end items-center pr-4">
               <div className="hidden md:flex md:flex-row ">
                 {" "}
