@@ -86,7 +86,7 @@ export const People = () => {
         <div className=" " /*style={{ maxHeight: customMaxH }}*/>
           <div className="w-full  p-2 md:p-4">
             <h1 className="text-[20px] pb-4">Estudiantes</h1>
-            <div className="flex flex-row flex-wrap">
+            <div className="flex justify-center flex-row flex-wrap">
               {students.map((student) => {
                 return (
                   <Card
@@ -104,7 +104,7 @@ export const People = () => {
 
           <div className="w-full  p-2 md:p-4">
             <h1 className="text-[20px] pb-4">Profesores</h1>
-            <div className="flex flex-row flex-wrap">
+            <div className="flex justify-center flex-row flex-wrap">
               {teachers.map((teacher) => {
                 return (
                   <Card
@@ -122,7 +122,7 @@ export const People = () => {
 
           <div className="w-full   p-2 md:p-4">
             <h1 className="text-[20px] pb-4">Psicólogos</h1>
-            <div className="flex flex-row flex-wrap">
+            <div className="flex justify-center flex-row flex-wrap">
               {psychos.map((psycho) => {
                 return (
                   <Card
@@ -140,7 +140,7 @@ export const People = () => {
 
           <div className="w-full   p-2 md:p-4">
             <h1 className="text-[20px] pb-4">Otros</h1>
-            <div className="flex flex-row flex-wrap ">
+            <div className="flex justify-center flex-row flex-wrap ">
               {others.map((other) => {
                 return (
                   <Card
