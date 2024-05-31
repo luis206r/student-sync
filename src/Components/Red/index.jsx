@@ -111,7 +111,7 @@ export const Red = () => {
           <h3 className="text-black"> Contactos</h3>
           <div className="flex md:flex-col flex-wrap">
             {contacts.map((contact) => {
-              let fullname = contact.name + " " + contact.lastname;
+              let fullname = contact.name + " " + contact.lastname[0] + ".";
               fullname =
                 fullname.length > 20
                   ? fullname.substring(0, 14) + "..."
