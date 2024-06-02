@@ -17,8 +17,8 @@ import { CgTime } from "react-icons/cg";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 
-//const backUrl = "http://localhost:8000";
-const backUrl = "https://student-sync-back.onrender.com";
+const backUrl = "http://localhost:8000";
+//const backUrl = "https://student-sync-back.onrender.com";
 
 export const Navbar = ({ mobile }) => {
   const dispatch = useDispatch();
@@ -109,8 +109,14 @@ export const Navbar = ({ mobile }) => {
   const items2 = [
     {
       key: "home/auto",
-      label: <Link to={"auto/resume"}>Gestión</Link>,
-      icon: <FaBookOpenReader />,
+      label: !mobile ? (
+        <Link to={"auto/resume"} className="flex ml-[15px]  mr-[15px]">
+          <FaBookOpenReader className="mt-[14px] mr-[10px]" />
+          Gestion
+        </Link>
+      ) : (
+        <FaBookOpenReader className="mt-[16px] ml-[15px] mr-[15px]" />
+      ),
       children: !mobile
         ? null
         : [
@@ -143,8 +149,15 @@ export const Navbar = ({ mobile }) => {
     },
     {
       key: "home/red",
-      label: <Link to={"red/people"}>Red</Link>,
-      icon: <IoPeopleSharp />,
+      label: !mobile ? (
+        <Link to={"red/people"} className="flex ml-[15px]  mr-[15px]">
+          <IoPeopleSharp className="mt-[14px] mr-[10px]" />
+          Red
+        </Link>
+      ) : (
+        <IoPeopleSharp className="mt-[16px] ml-[15px] mr-[15px]" />
+      ),
+
       children: !mobile
         ? null
         : [
@@ -167,17 +180,29 @@ export const Navbar = ({ mobile }) => {
     },
     {
       key: "home/explore",
-      label: <Link to={"explore"}>Explora</Link>,
+      label: !mobile ? (
+        <Link to={"explore"} className="flex ml-[15px]  mr-[15px]">
+          <MdOutlineExplore className="mt-[14px] mr-[10px]" />
+          Explora
+        </Link>
+      ) : (
+        <MdOutlineExplore className="mt-[16px] ml-[15px] mr-[15px]" />
+      ),
       disabled: true,
       selectable: false,
-      icon: <MdOutlineExplore />,
     },
     {
       key: "home/health",
-      label: <Link to={"health"}>Salud</Link>,
+      label: !mobile ? (
+        <Link to={"health"} className="flex ml-[15px]  mr-[15px]">
+          <RiMentalHealthFill className="mt-[14px] mr-[10px]" />
+          Salud
+        </Link>
+      ) : (
+        <RiMentalHealthFill className="mt-[16px] ml-[15px] mr-[15px]" />
+      ),
       disabled: true,
       selectable: false,
-      icon: <RiMentalHealthFill />,
     },
   ];
 
@@ -195,17 +220,17 @@ export const Navbar = ({ mobile }) => {
   };
   return (
     <div className="w-full pt-0 h-[94px] md:pl-4 md:pr-4">
-      <div className="md:p-4 p-2 bg-cach-l1 md:rounded-[15px]  w-full rounded-t-[0px] shadow-lg">
-        <div className="w-full flex flex-row justify-between">
-          <div className="md:w-[15%] text-[24px] flex items-center pl-2 ">
-            <div className="hidden md:flex">
+      <div className="pl-2 pr-2 bg-cach-l1 md:rounded-b-[15px] md:h-[62px] w-full h-[50px] shadow-lg">
+        <div className="w-full flex h-full flex-row justify-between">
+          <div className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  ">
+            <div className="hidden md:flex md:h-full md:items-center pl-2">
               Student<b className="text-[#1677ff]">Collab</b>
             </div>
           </div>
-          <div className="w-[70%]">
-            <div className="w-full ">
+          <div className="md:w-[70%] h-full w-full">
+            <div className="w-full h-full flex items-end ">
               <Menu
-                className="justify-start w-full md:justify-center text-[18px] bg-[transparent] "
+                className="justify-start w-full md:justify-center  text-[18px] bg-[transparent] md:h-[50px] h-full "
                 style={{
                   borderBottom: "none",
                 }}
@@ -216,7 +241,7 @@ export const Navbar = ({ mobile }) => {
               />
             </div>
           </div>
-          <div className="w-[30%]">
+          <div className="md:w-[30%] ">
             <div className="flex w-full h-full justify-end items-center pr-4">
               <div className="hidden md:flex md:flex-row ">
                 {" "}
@@ -232,7 +257,7 @@ export const Navbar = ({ mobile }) => {
                 />
               </div>
               &nbsp; &nbsp;
-              <div className="min-w-[35px] w-[35px]">
+              <div className="min-w-[30px] w-[30px]">
                 <Dropdown
                   menu={{
                     items,
@@ -250,7 +275,7 @@ export const Navbar = ({ mobile }) => {
                         ? user.profileImageUrl
                         : "/profileImage.png"
                     }`}
-                    className="w-[35px] min-w-[35px] rounded-[20px] shadow-md"
+                    className="w-[30px] min-w-[30px] rounded-[20px] shadow-md"
                   />
                 </Dropdown>
               </div>

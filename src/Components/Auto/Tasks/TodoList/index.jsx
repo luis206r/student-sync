@@ -114,7 +114,7 @@ const TodoList = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap  w-full  items-center justify-center pt-4 pb-4">
+    <div className="flex flex-wrap  w-full  justify-center pt-4 pb-4">
       <div className="bg-white shadow-md md:w-[400px] w-full mb-4 p-4 rounded-[12px] flex items-center  flex-col text-black">
         <div className="w-full flex items-center justify-center flex-col h-auto">
           <div className="p-4">

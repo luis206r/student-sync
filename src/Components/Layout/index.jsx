@@ -60,7 +60,7 @@ export const Layout = ({ collapsed }) => {
 
   return (
     <div className="w-full">
-      <div className="md:h-[94px] h-[64px] w-full"></div>
+      <div className="md:h-[78px] h-[50px] w-full"></div>
 
       {location && (
         <div
