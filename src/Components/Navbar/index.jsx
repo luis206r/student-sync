@@ -17,8 +17,8 @@ import { CgTime } from "react-icons/cg";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 
-const backUrl = "http://localhost:8000";
-//const backUrl = "https://student-sync-back.onrender.com";
+//const backUrl = "http://localhost:8000";
+const backUrl="https://student-sync-back.onrender.com";
 
 export const Navbar = ({ mobile }) => {
   const dispatch = useDispatch();
