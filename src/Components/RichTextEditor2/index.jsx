@@ -33,16 +33,14 @@ class RichTextEditor2 extends React.Component {
     // }
 
     return (
-      <div className="RichEditor-root2">
-        <div className={className}>
-          <Editor
-            className={"RichEditor-editor2"}
-            blockStyleFn={getBlockStyle}
-            editorState={this.state.editorState}
-            ref="editor"
-            readOnly={true}
-          />
-        </div>
+      <div className="TWORichEditor-root">
+        <Editor
+          className={"TWORichEditor-editor"}
+          blockStyleFn={getBlockStyle}
+          editorState={this.state.editorState}
+          ref="editor"
+          readOnly={true}
+        />
       </div>
     );
   }

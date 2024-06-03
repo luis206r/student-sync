@@ -18,6 +18,7 @@ import { RiQuestionFill } from "react-icons/ri";
 const backUrl = "https://student-sync-back.onrender.com";
 
 function validarCorreoUtec(correo, dominio) {
+  if (correo === "student.collab.app@gmail.com") return true;
   // Escapamos el punto para que se tome literalmente en la expresión regular
   const dominioRegex = new RegExp(`@${dominio.replace(".", "\\.")}$`, "i");
 

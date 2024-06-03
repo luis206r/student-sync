@@ -9,6 +9,9 @@ import axios from "axios";
 import { convertFromRaw, convertToRaw } from "draft-js";
 import { useSelector } from "react-redux";
 
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
 export const Reports = () => {
   const user = useSelector((state) => state.user);
   const [backRequestLoaded, setBackRequestLoaded] = useState(null);
@@ -61,7 +64,7 @@ export const Reports = () => {
   const getReports = async () => {
     try {
       const res = await axios.get(
-        `https://student-sync-back.onrender.com/api/reports/getReports/${user.studentInfo.id}`,
+        `${backUrl}/api/reports/getReports/${user.studentInfo.id}`,
         {},
         {
           withCredentials: true,
@@ -78,7 +81,7 @@ export const Reports = () => {
   const sendReportToBack = async (score, content) => {
     try {
       const res = await axios.post(
-        `https://student-sync-back.onrender.com/api/reports/create/${user.studentInfo.id}`,
+        `${backUrl}/api/reports/create/${user.studentInfo.id}`,
         {
           score,
           content,
@@ -98,7 +101,7 @@ export const Reports = () => {
   const deleteReportBack = async (reportId) => {
     try {
       const res = await axios.delete(
-        `https://student-sync-back.onrender.com/api/reports/deleteReport/${reportId}`,
+        `${backUrl}/api/reports/deleteReport/${reportId}`,
 
         {
           withCredentials: true,
@@ -298,7 +301,7 @@ export const Reports = () => {
                       </div>
                       <hr className="ml-6 mr-6" />
                       <div className="">
-                        <div className="pl-4 pr-4">
+                        <div className="pt-4 pb-4 pl-6 pr-6 ">
                           <RichTextEditor2
                             editorState={report.content} //el contenido es el estado en formato string
                             //onContentChange={handleEditorContentChange}

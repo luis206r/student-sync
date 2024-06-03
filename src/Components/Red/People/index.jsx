@@ -75,7 +75,7 @@ export const People = () => {
   else
     return (
       <div className="w-full" /*ref={divRef}*/>
-        <div className="md:p-4">
+        <div className="p-4">
           <Input
             size="large"
             placeholder="Buscar estudiantes, profesores, y más..."
@@ -84,7 +84,7 @@ export const People = () => {
         </div>
         {/* {customMaxH != "" && ( */}
         <div className=" " /*style={{ maxHeight: customMaxH }}*/>
-          <div className="w-full  p-2 md:p-4">
+          <div className="w-full  p-4 ">
             <h1 className="text-[20px] pb-4">Estudiantes</h1>
             <div className="flex justify-center flex-row flex-wrap">
               {students.map((student) => {
@@ -102,7 +102,7 @@ export const People = () => {
             </div>
           </div>
 
-          <div className="w-full  p-2 md:p-4">
+          <div className="w-full  p-4">
             <h1 className="text-[20px] pb-4">Profesores</h1>
             <div className="flex justify-center flex-row flex-wrap">
               {teachers.map((teacher) => {
@@ -120,7 +120,7 @@ export const People = () => {
             </div>
           </div>
 
-          <div className="w-full   p-2 md:p-4">
+          <div className="w-full  p-4">
             <h1 className="text-[20px] pb-4">Psicólogos</h1>
             <div className="flex justify-center flex-row flex-wrap">
               {psychos.map((psycho) => {
@@ -138,7 +138,7 @@ export const People = () => {
             </div>
           </div>
 
-          <div className="w-full   p-2 md:p-4">
+          <div className="w-full   p-4">
             <h1 className="text-[20px] pb-4">Otros</h1>
             <div className="flex justify-center flex-row flex-wrap ">
               {others.map((other) => {

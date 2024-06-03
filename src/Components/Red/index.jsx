@@ -9,11 +9,12 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 import "./index.css";
 import { useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 // Combinar los dos arreglos sin duplicados basados en el ID
 
 export const Red = () => {
+  const location = useLocation().pathname;
   const user = useSelector((state) => state.user);
   const [contacts, setContacts] = useState([]);
   const [option, setOption] = useState("people");
@@ -95,7 +96,7 @@ export const Red = () => {
       <div className={` w-full flex md:flex-row flex-col-reverse`}>
         <div className="w-full md:pr-4 ">
           <div
-            className={` w-full md:ml-2 md:mr-2 bg-cach-l1 p-4 md:rounded-[15px]`}
+            className={` w-full md:ml-2 md:mr-2 bg-cach-l1 md:p-4 md:rounded-[15px]`}
           >
             <Routes>
               <Route path="/people" element={<People />} />
@@ -111,7 +112,11 @@ export const Red = () => {
           <h3 className="text-black"> Contactos</h3>
           <div className="flex md:flex-col flex-wrap">
             {contacts.map((contact) => {
-              let fullname = contact.name + " " + contact.lastname[0] + ".";
+              let fullname =
+                contact.name.trim().split(" ")[0] +
+                " " +
+                contact.lastname[0] +
+                ".";
               fullname =
                 fullname.length > 20
                   ? fullname.substring(0, 14) + "..."
