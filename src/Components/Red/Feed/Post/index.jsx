@@ -369,7 +369,7 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
             </Button>
           </Popover>
         </div>
-        <div className="w-[33.3%] flex items-center justify-center w-full">
+        <div className="w-[33.3%] flex items-center justify-center">
           <Button
             disabled
             className="flex flex-row items-center"
@@ -379,7 +379,7 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
             Comentar
           </Button>
         </div>
-        <div className="w-[33.3%] flex items-center justify-center w-full">
+        <div className="w-[33.3%] flex items-center justify-center">
           <Button
             disabled
             className="flex flex-row items-center"
