@@ -18,7 +18,7 @@ import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 
 //const backUrl = "http://localhost:8000";
-const backUrl="https://student-sync-back.onrender.com";
+const backUrl = "https://student-sync-back.onrender.com";
 
 export const Navbar = ({ mobile }) => {
   const dispatch = useDispatch();
@@ -275,6 +275,7 @@ export const Navbar = ({ mobile }) => {
                         ? user.profileImageUrl
                         : "/profileImage.png"
                     }`}
+                    alt="Profile Image"
                     className="w-[30px] min-w-[30px] rounded-[20px] shadow-md"
                   />
                 </Dropdown>

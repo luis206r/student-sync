@@ -1,17 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RichTextEditor2 from "../../../RichTextEditor2";
 import { MdDeleteOutline } from "react-icons/md";
-import { Button } from "antd";
+import { Button, Popover } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { BiRepost, BiSolidCommentDetail, BiSolidLike } from "react-icons/bi";
+import { PiShareFatFill } from "react-icons/pi";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
-export const Post = ({ contentInfo, userInfo, delFunc }) => {
+function obtenerReaccionesMasFrecuentes(reacciones) {
+  // Objeto para almacenar la frecuencia de cada tipo de reacción
+  const frecuenciaReacciones = {};
+  // Calcular la frecuencia de cada tipo de reacción
+  reacciones.forEach((reaccion) => {
+    const tipo = reaccion.type;
+    frecuenciaReacciones[tipo] = (frecuenciaReacciones[tipo] || 0) + 1;
+  });
+  // Convertir el objeto de frecuencias a un array de pares [tipo, frecuencia]
+  const frecuenciaArray = Object.entries(frecuenciaReacciones);
+  // Ordenar el array de frecuencias en orden descendente por la frecuencia
+  frecuenciaArray.sort((a, b) => b[1] - a[1]);
+  // Obtener solo los tipos de reacción ordenados
+  const reaccionesOrdenadas = frecuenciaArray.map((pair) => pair[0]);
+  // Devolver el array de tipos de reacción ordenados
+  return reaccionesOrdenadas;
+}
+
+export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
+  const [selectedReaction, setSelectedReaction] = useState(null);
+  const user = useSelector((state) => state.user);
+  const [postReactions, setPostReactions] = useState(reactions);
+  const [mfr, setMfr] = useState(null);
   const [deletingPost, setDeletingPost] = useState(false);
   //==================back request==========================
-  const deletePostRequest = async (req, res) => {
+  const deletePostRequest = async () => {
     try {
       const res = await axios.delete(
         `${backUrl}/api/content/deletePost/${contentInfo.contentId}`,
@@ -25,7 +49,81 @@ export const Post = ({ contentInfo, userInfo, delFunc }) => {
       return false;
     }
   };
+
+  const addReaction = async (type) => {
+    try {
+      const res = await axios.post(
+        `${backUrl}/api/content/addReaction/${user.id}/${contentInfo.contentId}`,
+        { type: type },
+        { withCredentials: true }
+      );
+      if (res.status === 201 || res.status === 200) return res.data;
+    } catch (err) {
+      console.error(err);
+      alert("algo salio mal");
+    }
+  };
+
+  const removeReaction = async () => {
+    try {
+      const res = await axios.delete(
+        `${backUrl}/api/content/removeReaction/${user.id}/${contentInfo.contentId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.status === 200) return res.data;
+    } catch (err) {
+      console.error(err);
+      alert("algo salio mal");
+    }
+  };
   //============================================================
+
+  const handleSelectReaction = async (type) => {
+    try {
+      const result = await addReaction(type);
+      if (result) {
+        console.log("operacion realizada");
+        setSelectedReaction(type);
+
+        // Buscar si el usuario ya ha reaccionado anteriormente
+        const existingReactionIndex = postReactions.findIndex(
+          (reaction) => reaction.UserId === user.id
+        );
+
+        // Si el usuario ya ha reaccionado, actualiza el tipo de reacción
+        if (existingReactionIndex !== -1) {
+          setPostReactions((prevReactions) => {
+            const updatedReactions = [...prevReactions];
+            updatedReactions[existingReactionIndex].type = type;
+            return updatedReactions;
+          });
+        } else {
+          // Si el usuario no ha reaccionado anteriormente, agrega una nueva reacción
+          setPostReactions((prevReactions) => [
+            ...prevReactions,
+            { type: type, UserId: user.id },
+          ]);
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleUnselectReaction = async () => {
+    try {
+      const result = await removeReaction();
+      if (result) {
+        console.log("operacion realizada");
+        setSelectedReaction(null);
+        let pr = postReactions.filter((r) => r.UserId != user.id);
+        setPostReactions(pr);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleDeletePost = async () => {
     setDeletingPost(true);
@@ -41,10 +139,25 @@ export const Post = ({ contentInfo, userInfo, delFunc }) => {
     }
   };
 
-  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    const t = obtenerReaccionesMasFrecuentes(postReactions);
+    setMfr(t);
+  }, [postReactions]);
+
+  useEffect(() => {
+    const existingReactionIndex = reactions.findIndex(
+      (reaction) => reaction.UserId === user.id
+    );
+    if (existingReactionIndex !== -1) {
+      setSelectedReaction(() => {
+        return reactions[existingReactionIndex].type;
+      });
+    }
+  }, []);
+
   const createdAt = new Date(contentInfo.createdAt);
   return (
-    <div className="w-full p-4 bg-white md:mb-4 mb-[1px] md:rounded-[10px] shadow-lg md:border-[1px] relative">
+    <div className="w-full p-4 pb-1 bg-white md:mb-4 mb-[1px] md:rounded-[10px] shadow-lg md:border-[1px] relative">
       {deletingPost && (
         <div className="absolute  left-[0%] top-[0%]  rounded-[10px] z-10 w-full bg-[#f7f7f7] h-full flex flex-col items-center justify-center bg-opacity-80">
           <span>Eliminando Post...</span> &nbsp;{" "}
@@ -119,13 +232,164 @@ export const Post = ({ contentInfo, userInfo, delFunc }) => {
       </div>
 
       {contentInfo.driveId && (
-        <div className="md:p-2 flex justify-center w-full">
+        <div className="p-1 rounded-[8px] bg-[#e8e8e8] flex justify-center w-full">
           <img
             src={`https://drive.google.com/thumbnail?id=${contentInfo.driveId}&sz=w1000`}
             className="rounded-[6px] "
           />
         </div>
       )}
+      {postReactions.length > 0 && (
+        <div className="p-1 pl-0 flex flex-row w-full justify-between items-center">
+          <Button className="p-0" type="text">
+            <div className="flex flex-row items-center">
+              <div>
+                {mfr &&
+                  mfr.map((r, i) => {
+                    if (i < 3) {
+                      return r === "laugh"
+                        ? "😁"
+                        : r === "sad"
+                        ? "😞"
+                        : r === "love"
+                        ? "❤️"
+                        : r === "surprise"
+                        ? "😯"
+                        : r === "claps"
+                        ? "👏"
+                        : "👍";
+                    }
+                  })}
+              </div>{" "}
+              &nbsp;
+              <div>{postReactions.length}</div> &nbsp;
+            </div>
+          </Button>
+          {/* <span>3 comentarios</span> */}
+        </div>
+      )}
+      <hr />
+      <div className=" pt-1  flex items-center justify-between w-full">
+        <div className="w-[33.3%] flex items-center justify-center">
+          <Popover
+            placement="top"
+            content={
+              <div>
+                <Button
+                  size="large"
+                  icon={"👍"}
+                  type="text"
+                  className="m-0"
+                  onClick={(e) => handleSelectReaction("like")}
+                />{" "}
+                {/*like*/}
+                <Button
+                  size="large"
+                  icon={"😁"}
+                  type="text"
+                  onClick={(e) => handleSelectReaction("laugh")}
+                />{" "}
+                {/*laugh*/}
+                <Button
+                  size="large"
+                  icon={"👏"}
+                  type="text"
+                  onClick={(e) => handleSelectReaction("claps")}
+                />{" "}
+                {/*claps*/}
+                <Button
+                  size="large"
+                  icon={"❤️"}
+                  type="text"
+                  onClick={(e) => handleSelectReaction("love")}
+                />{" "}
+                {/*love*/}
+                <Button
+                  size="large"
+                  icon={"😯"}
+                  type="text"
+                  onClick={(e) => handleSelectReaction("surprise")}
+                />{" "}
+                {/*surprise*/}
+                <Button
+                  size="large"
+                  icon={"😞"}
+                  type="text"
+                  onClick={(e) => handleSelectReaction("sad")}
+                />{" "}
+                {/*sad*/}
+              </div>
+            }
+          >
+            <Button
+              className="flex flex-row items-center justify-center w-full"
+              type="text"
+              icon={
+                selectedReaction === "laugh" ? (
+                  "😁"
+                ) : selectedReaction === "sad" ? (
+                  "😞"
+                ) : selectedReaction === "claps" ? (
+                  "👏"
+                ) : selectedReaction === "love" ? (
+                  "❤️"
+                ) : selectedReaction === "surprise" ? (
+                  "😯"
+                ) : selectedReaction === "like" ? (
+                  <BiSolidLike className={`mt-[2px] text-[#1677ff]`} />
+                ) : (
+                  <BiSolidLike className={`mt-[2px]`} />
+                )
+              }
+              onClick={(e) => {
+                selectedReaction
+                  ? handleUnselectReaction()
+                  : handleSelectReaction("like");
+              }}
+            >
+              {!selectedReaction && <span className={``}>Me gusta</span>}
+              {selectedReaction === "like" && (
+                <span className={`text-[#1677ff]`}>Me gusta</span>
+              )}
+              {selectedReaction === "laugh" && (
+                <span className={`text-[#fdb846]`}>Me divierte</span>
+              )}
+              {selectedReaction === "sad" && (
+                <span className={`text-[#fdb846]`}>Me entristece</span>
+              )}
+              {selectedReaction === "love" && (
+                <span className={`text-[#c33937]`}>Me encanta</span>
+              )}
+              {selectedReaction === "claps" && (
+                <span className={`text-[#fdb846]`}>Felicitar</span>
+              )}
+              {selectedReaction === "surprise" && (
+                <span className={`text-[#fdb846]`}>Me asombra</span>
+              )}
+            </Button>
+          </Popover>
+        </div>
+        <div className="w-[33.3%] flex items-center justify-center w-full">
+          <Button
+            disabled
+            className="flex flex-row items-center"
+            type="text"
+            icon={<BiSolidCommentDetail className="mt-[2px]" />}
+          >
+            Comentar
+          </Button>
+        </div>
+        <div className="w-[33.3%] flex items-center justify-center w-full">
+          <Button
+            disabled
+            className="flex flex-row items-center"
+            type="text"
+            icon={<PiShareFatFill className="mt-[2px]" />}
+          >
+            Compartir
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };
