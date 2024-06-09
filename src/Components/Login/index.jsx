@@ -296,10 +296,7 @@ export const Login = () => {
                       <b>*Nuestra aplicación aún esta en desarrollo*</b>
                     </p>
                     <p>
-                      Por el momento solo contamos con vista de escritorio, más
-                      adelante estaremos adaptando un diseño responsive para que
-                      puedas usar la aplicación desde tu celular 🙂. Aún así ya
-                      puedes ir registrándote. Una vez te hayas registrado,
+                      Ya puedes ir registrándote. Una vez te hayas registrado,
                       habilitaremos tu inicio de sesión con Google en los
                       próximos días.
                     </p>
