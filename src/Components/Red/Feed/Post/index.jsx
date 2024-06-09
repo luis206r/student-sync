@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import RichTextEditor2 from "../../../RichTextEditor2";
 import { MdDeleteOutline } from "react-icons/md";
-import { Button, Popover } from "antd";
+import { Button, ConfigProvider, Input, Popover, Space } from "antd";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { BiRepost, BiSolidCommentDetail, BiSolidLike } from "react-icons/bi";
 import { PiShareFatFill } from "react-icons/pi";
+import TextArea from "antd/es/input/TextArea";
+import { IoSend } from "react-icons/io5";
+import useInput from "../../../../Utils/useInput";
+import { Comments } from "../Comments";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -28,12 +32,21 @@ function obtenerReaccionesMasFrecuentes(reacciones) {
   return reaccionesOrdenadas;
 }
 
-export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
+export const Post = ({
+  contentInfo,
+  userInfo,
+  delFunc,
+  reactions,
+  comments,
+}) => {
+  const commentText = useInput();
+  const [clickedComments, setClickedComments] = useState(false);
   const [selectedReaction, setSelectedReaction] = useState(null);
   const user = useSelector((state) => state.user);
   const [postReactions, setPostReactions] = useState(reactions);
   const [mfr, setMfr] = useState(null);
   const [deletingPost, setDeletingPost] = useState(false);
+
   //==================back request==========================
   const deletePostRequest = async () => {
     try {
@@ -77,6 +90,7 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
       alert("algo salio mal");
     }
   };
+
   //============================================================
 
   const handleSelectReaction = async (type) => {
@@ -239,7 +253,7 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
           />
         </div>
       )}
-      {postReactions.length > 0 && (
+      {postReactions && postReactions.length > 0 && (
         <div className="p-1 pl-0 flex flex-row w-full justify-between items-center">
           <Button className="p-0" type="text">
             <div className="flex flex-row items-center">
@@ -265,7 +279,7 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
               <div>{postReactions.length}</div> &nbsp;
             </div>
           </Button>
-          {/* <span>3 comentarios</span> */}
+          {comments.length > 0 && <span>{comments.length} comentario(s)</span>}
         </div>
       )}
       <hr />
@@ -371,10 +385,10 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
         </div>
         <div className="w-[33.3%] flex items-center justify-center">
           <Button
-            disabled
             className="flex flex-row items-center"
             type="text"
             icon={<BiSolidCommentDetail className="mt-[2px]" />}
+            onClick={(e) => setClickedComments(true)}
           >
             Comentar
           </Button>
@@ -390,6 +404,11 @@ export const Post = ({ contentInfo, userInfo, delFunc, reactions }) => {
           </Button>
         </div>
       </div>
+      {
+        clickedComments && (
+          <Comments commentsP={comments} contentId={contentInfo.contentId} />
+        ) /* */
+      }
     </div>
   );
 };

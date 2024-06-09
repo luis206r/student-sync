@@ -109,6 +109,8 @@ export const CreatePost = ({ cancelFunc, addFunc }) => {
     const data = {
       User: user,
       postInfo: result.post,
+      reactions: [],
+      comments: [],
     };
     addFunc(data);
     //setCreatingReport(false);

@@ -111,6 +111,7 @@ export const Feed = () => {
               userInfo={post.User}
               delFunc={execDeletePostFromArray}
               reactions={post.reactions}
+              comments={post.comments}
             />
           );
         })}
