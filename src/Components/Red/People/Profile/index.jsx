@@ -9,6 +9,7 @@ import { PiStudent } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFollowers, updateFollows } from "../../../../state/user";
 import { LiaEthereum } from "react-icons/lia";
+import ReactGa from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -64,6 +65,10 @@ export const Profile = ({ info, showFunc }) => {
       setFrom(createdAtDate);
     }
   }, []); // Se ejecuta solo una vez después de montar el componente
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
 
   //========================back requests============================
 

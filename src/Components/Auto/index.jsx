@@ -1,5 +1,5 @@
 import { Button, Menu } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { Resume } from "./Resume";
 import { Calendar } from "./Calendar";
@@ -16,8 +16,13 @@ import { Events } from "./Events";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
+import ReactGa from "react-ga";
 
 export const Auto = () => {
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
+
   const user = useSelector((state) => state.user);
   const [option, setOption] = useState("resume");
   const onClick = (e) => {

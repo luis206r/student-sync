@@ -6,7 +6,7 @@ import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile";
-
+import ReactGa from "react-ga";
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
@@ -33,6 +33,10 @@ export const People = () => {
   const [others, setOthers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
 
   //===================back request====================
   const getAllUsers = async () => {

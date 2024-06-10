@@ -4,6 +4,7 @@ import { Button } from "antd";
 import { IoMdAdd } from "react-icons/io";
 import { CreatePost } from "./CreatePost";
 import axios from "axios";
+import ReactGa from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -11,6 +12,10 @@ const backUrl = "https://student-sync-back.onrender.com";
 export const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [creatingPost, setCreatingPost] = useState(false);
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
 
   //==========back requests=====================
 

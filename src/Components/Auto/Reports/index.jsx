@@ -8,6 +8,7 @@ import getTime from "../../../Utils/getTime";
 import axios from "axios";
 import { convertFromRaw, convertToRaw } from "draft-js";
 import { useSelector } from "react-redux";
+import ReactGa from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -30,6 +31,10 @@ export const Reports = () => {
     if (!creatingReport) setReportWasSent(false);
     setCreatingReport(!creatingReport);
   };
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
 
   const handleEditorContentChange = ({
     contentAsDraft,

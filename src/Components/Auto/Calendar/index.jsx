@@ -16,6 +16,7 @@ import { IoMdRefresh } from "react-icons/io";
 import { BsWindowSidebar } from "react-icons/bs";
 import { useSelector } from "react-redux";
 const { RangePicker } = DatePicker;
+import ReactGa from "react-ga";
 
 export const Calendar = () => {
   const user = useSelector((state) => state.user);
@@ -186,6 +187,10 @@ export const Calendar = () => {
   // const url = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Nuevo+Evento+Student+Collab+🙂&details=Recuerda+cambiar+el+título+☝️&dates=${year}${month}${day}T${hora_inicio}0000/${year}${month}${day}T${hora_fin}0000&recur=RRULE:FREQ%3DWEEKLY;UNTIL%3D20210603&ctz=America/Lima`
 
   const url = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Nuevo+Evento+Student+Collab+🙂&details=Recuerda+cambiar+el+título.+Ejemplo+Base+de+Datos+2+-+A904.+Tambien+recuerda+cambiar+el+color.+☝️&dates=20240611T120000/20240611T130000&ctz=America/Lima`;
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+  }, []);
 
   return (
     <div className="w-full h-full md:p-4">
