@@ -3,12 +3,12 @@ import React, { useEffect } from "react";
 import imagen1 from "../../../assets/js.jpeg";
 import imagen2 from "../../../assets/si.png";
 import imagen3 from "../../../assets/foe.png";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 export const Events = () => {
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a Eventos",
       label: "Events",

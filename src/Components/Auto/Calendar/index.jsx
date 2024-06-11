@@ -16,7 +16,7 @@ import { IoMdRefresh } from "react-icons/io";
 import { BsWindowSidebar } from "react-icons/bs";
 import { useSelector } from "react-redux";
 const { RangePicker } = DatePicker;
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 export const Calendar = () => {
   const user = useSelector((state) => state.user);
@@ -173,7 +173,7 @@ export const Calendar = () => {
       }
       console.log(urlParams);
       window.open(urlParams, "_blank");
-      ReactGa.event({
+      ReactGA.event({
         category: "Click",
         action: "Creación de evento",
         label: "Calendar",
@@ -195,7 +195,7 @@ export const Calendar = () => {
 
   const testhndl = (key) => {
     if (key[0])
-      ReactGa.event({
+      ReactGA.event({
         category: "Click",
         action: "Visualización de guía de Calendario",
         label: "Calendar",
@@ -203,8 +203,8 @@ export const Calendar = () => {
   };
 
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a Calendario",
       label: "Calendar",

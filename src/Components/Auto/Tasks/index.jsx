@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import TodoList from "./TodoList";
 import { Collapse } from "antd";
 import { useSelector } from "react-redux";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 export const Tasks = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a Tareas",
       label: "Tasks",
@@ -18,7 +18,7 @@ export const Tasks = () => {
 
   const testhndl = (key) => {
     if (key[0])
-      ReactGa.event({
+      ReactGA.event({
         category: "Click",
         action: "Visualización de guía de Tareas",
         label: "Tasks",

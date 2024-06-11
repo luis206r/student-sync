@@ -10,7 +10,7 @@ import TextArea from "antd/es/input/TextArea";
 import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import { Comments } from "../Comments";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -101,7 +101,7 @@ export const Post = ({
         console.log("operacion realizada");
         setSelectedReaction(type);
 
-        ReactGa.event({
+        ReactGA.event({
           category: "Click",
           action: "Agregar Reacción",
           label: "Post",
@@ -397,7 +397,7 @@ export const Post = ({
             icon={<BiSolidCommentDetail className="mt-[2px]" />}
             onClick={(e) => {
               setClickedComments(true);
-              ReactGa.event({
+              ReactGA.event({
                 category: "Click",
                 action: "Ver comentarios",
                 label: "Post",

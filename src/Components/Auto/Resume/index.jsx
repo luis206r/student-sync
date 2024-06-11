@@ -2,11 +2,11 @@ import { Col, Flex, Progress, Row, Statistic } from "antd";
 import { AiOutlineLike } from "react-icons/ai";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 export const Resume = () => {
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
+    ReactGA.pageview(window.location.pathname);
   }, []);
 
   const user = useSelector((state) => state.user);

@@ -6,7 +6,7 @@ import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -25,7 +25,7 @@ export const People = () => {
   const handleCardClick = (student) => {
     setProfileInfo(student);
     setSelectedUser(true);
-    ReactGa.event({
+    ReactGA.event({
       category: "Click",
       action: "Acceso a perfil de usuario",
       label: "People",
@@ -41,8 +41,8 @@ export const People = () => {
   const [profileInfo, setProfileInfo] = useState({});
 
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a lista de usuarios",
       label: "People",

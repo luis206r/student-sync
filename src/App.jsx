@@ -10,10 +10,10 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./state/user";
 import { LeftMenu } from "./Components/LeftMenu";
 import { RiCollapseDiagonal2Fill } from "react-icons/ri";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 const TRACKING_ID = "G-56X83C2ZX7";
-ReactGa.initialize(TRACKING_ID);
+ReactGA.initialize(TRACKING_ID);
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

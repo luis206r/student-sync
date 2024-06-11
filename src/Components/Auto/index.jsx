@@ -16,11 +16,11 @@ import { Events } from "./Events";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 export const Auto = () => {
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
+    ReactGA.pageview(window.location.pathname);
   }, []);
 
   const user = useSelector((state) => state.user);

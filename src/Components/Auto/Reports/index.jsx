@@ -8,7 +8,7 @@ import getTime from "../../../Utils/getTime";
 import axios from "axios";
 import { convertFromRaw, convertToRaw } from "draft-js";
 import { useSelector } from "react-redux";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -33,8 +33,8 @@ export const Reports = () => {
   };
 
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a Reportes",
       label: "Reports",
@@ -129,7 +129,7 @@ export const Reports = () => {
 
   const testhndl = (key) => {
     if (key[0])
-      ReactGa.event({
+      ReactGA.event({
         category: "Click",
         action: "Visualización de guía de Reportes",
         label: "Reports",
@@ -145,7 +145,7 @@ export const Reports = () => {
     console.log(result);
     //console.log("contenido a enviar al back: ", contentString);
 
-    ReactGa.event({
+    ReactGA.event({
       category: "Click",
       action: "Creación de Reporte",
       label: "Reports",

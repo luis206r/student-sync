@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { convertToRaw } from "draft-js";
 import axios, { toFormData } from "axios";
 import { MdOutlineDelete } from "react-icons/md";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -108,7 +108,7 @@ export const CreatePost = ({ cancelFunc, addFunc }) => {
     });
     setSendingContent(false);
 
-    ReactGa.event({
+    ReactGA.event({
       category: "Click",
       action: "Crear Post",
       label: "Post",

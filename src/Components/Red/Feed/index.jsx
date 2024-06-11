@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { IoMdAdd } from "react-icons/io";
 import { CreatePost } from "./CreatePost";
 import axios from "axios";
-import ReactGa from "react-ga";
+import ReactGA from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -14,8 +14,8 @@ export const Feed = () => {
   const [creatingPost, setCreatingPost] = useState(false);
 
   useEffect(() => {
-    ReactGa.pageview(window.location.pathname);
-    ReactGa.event({
+    ReactGA.pageview(window.location.pathname);
+    ReactGA.event({
       category: "Navegación",
       action: "Acceso a posteos",
       label: "Feed",
