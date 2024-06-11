@@ -8,6 +8,7 @@ import { LuListPlus } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ReactGa from "react-ga";
 
 const TodoList = () => {
   const user = useSelector((state) => state.user);
@@ -27,6 +28,11 @@ const TodoList = () => {
     console.log(result);
     setTodos([...todos, result]);
     setInputValue("");
+    ReactGa.event({
+      category: "Click",
+      action: "Creación de tarea",
+      label: "Tasks",
+    });
   };
 
   const handleDeleteTodo = async (taskId) => {

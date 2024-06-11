@@ -15,6 +15,11 @@ export const Feed = () => {
 
   useEffect(() => {
     ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a posteos",
+      label: "Feed",
+    });
   }, []);
 
   //==========back requests=====================

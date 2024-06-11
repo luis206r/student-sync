@@ -173,6 +173,11 @@ export const Calendar = () => {
       }
       console.log(urlParams);
       window.open(urlParams, "_blank");
+      ReactGa.event({
+        category: "Click",
+        action: "Creación de evento",
+        label: "Calendar",
+      });
     }
   };
 
@@ -188,8 +193,22 @@ export const Calendar = () => {
 
   const url = `https://calendar.google.com/calendar/u/0/r/eventedit?text=Nuevo+Evento+Student+Collab+🙂&details=Recuerda+cambiar+el+título.+Ejemplo+Base+de+Datos+2+-+A904.+Tambien+recuerda+cambiar+el+color.+☝️&dates=20240611T120000/20240611T130000&ctz=America/Lima`;
 
+  const testhndl = (key) => {
+    if (key[0])
+      ReactGa.event({
+        category: "Click",
+        action: "Visualización de guía de Calendario",
+        label: "Calendar",
+      });
+  };
+
   useEffect(() => {
     ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a Calendario",
+      label: "Calendar",
+    });
   }, []);
 
   return (
@@ -266,6 +285,7 @@ export const Calendar = () => {
       <hr />
       <div className="pt-4">
         <Collapse
+          onChange={testhndl}
           size="large"
           items={[
             {

@@ -10,6 +10,7 @@ import TextArea from "antd/es/input/TextArea";
 import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import { Comments } from "../Comments";
+import ReactGa from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -99,6 +100,12 @@ export const Post = ({
       if (result) {
         console.log("operacion realizada");
         setSelectedReaction(type);
+
+        ReactGa.event({
+          category: "Click",
+          action: "Agregar Reacción",
+          label: "Post",
+        });
 
         // Buscar si el usuario ya ha reaccionado anteriormente
         const existingReactionIndex = postReactions.findIndex(
@@ -388,7 +395,14 @@ export const Post = ({
             className="flex flex-row items-center"
             type="text"
             icon={<BiSolidCommentDetail className="mt-[2px]" />}
-            onClick={(e) => setClickedComments(true)}
+            onClick={(e) => {
+              setClickedComments(true);
+              ReactGa.event({
+                category: "Click",
+                action: "Ver comentarios",
+                label: "Post",
+              });
+            }}
           >
             Comentar
           </Button>

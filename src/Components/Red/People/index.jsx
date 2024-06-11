@@ -7,6 +7,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile";
 import ReactGa from "react-ga";
+
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
@@ -24,6 +25,11 @@ export const People = () => {
   const handleCardClick = (student) => {
     setProfileInfo(student);
     setSelectedUser(true);
+    ReactGa.event({
+      category: "Click",
+      action: "Acceso a perfil de usuario",
+      label: "People",
+    });
   };
 
   const [users, setUsers] = useState([]);
@@ -36,6 +42,11 @@ export const People = () => {
 
   useEffect(() => {
     ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a lista de usuarios",
+      label: "People",
+    });
   }, []);
 
   //===================back request====================

@@ -8,6 +8,11 @@ import ReactGa from "react-ga";
 export const Events = () => {
   useEffect(() => {
     ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a Eventos",
+      label: "Events",
+    });
   }, []);
 
   return (

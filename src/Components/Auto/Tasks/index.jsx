@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import TodoList from "./TodoList";
 import { Collapse } from "antd";
 import { useSelector } from "react-redux";
+import ReactGa from "react-ga";
 
 export const Tasks = () => {
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a Tareas",
+      label: "Tasks",
+    });
+  }, []);
+
+  const testhndl = (key) => {
+    if (key[0])
+      ReactGa.event({
+        category: "Click",
+        action: "Visualización de guía de Tareas",
+        label: "Tasks",
+      });
+  };
+
   if (user.role !== "student")
     return (
       <div>
@@ -24,6 +44,7 @@ export const Tasks = () => {
         </div>
         <div className="">
           <Collapse
+            onChange={testhndl}
             size="large"
             items={[
               {

@@ -34,6 +34,11 @@ export const Reports = () => {
 
   useEffect(() => {
     ReactGa.pageview(window.location.pathname);
+    ReactGa.event({
+      category: "Navegación",
+      action: "Acceso a Reportes",
+      label: "Reports",
+    });
   }, []);
 
   const handleEditorContentChange = ({
@@ -122,6 +127,15 @@ export const Reports = () => {
 
   //===========================================
 
+  const testhndl = (key) => {
+    if (key[0])
+      ReactGa.event({
+        category: "Click",
+        action: "Visualización de guía de Reportes",
+        label: "Reports",
+      });
+  };
+
   const sendReport = async (e) => {
     //const reportNumber = reports.length + 1;
     const { time, date } = getTime();
@@ -130,6 +144,12 @@ export const Reports = () => {
     const result = await sendReportToBack(score, contentString);
     console.log(result);
     //console.log("contenido a enviar al back: ", contentString);
+
+    ReactGa.event({
+      category: "Click",
+      action: "Creación de Reporte",
+      label: "Reports",
+    });
 
     setReports(() => {
       const newReport = {
@@ -415,6 +435,7 @@ export const Reports = () => {
           </div>
           <div className="">
             <Collapse
+              onChange={testhndl}
               size="large"
               items={[
                 {

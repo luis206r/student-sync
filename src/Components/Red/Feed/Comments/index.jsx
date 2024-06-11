@@ -6,6 +6,7 @@ import { Button, ConfigProvider, Input } from "antd";
 import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import axios from "axios";
+import ReactGa from "react-ga";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -54,6 +55,13 @@ export const Comments = ({ commentsP, contentId }) => {
       setComments((prevcomments) => {
         return [result, ...prevcomments];
       });
+
+      ReactGa.event({
+        category: "Click",
+        action: "Agregar Comentario",
+        label: "Post",
+      });
+
       alert("se agregó el comentario");
       return;
     } catch (err) {
