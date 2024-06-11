@@ -7,7 +7,7 @@ import ReactGA from "react-ga4";
 
 export const Events = () => {
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/events", title: "eventos" });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a Eventos",

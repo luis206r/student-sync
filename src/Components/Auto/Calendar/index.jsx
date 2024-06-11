@@ -203,7 +203,11 @@ export const Calendar = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({
+      hitType: "pageview",
+      page: "/calendar",
+      title: "calendario",
+    });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a Calendario",

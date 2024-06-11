@@ -67,7 +67,7 @@ export const Profile = ({ info, showFunc }) => {
   }, []); // Se ejecuta solo una vez después de montar el componente
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/profile", title: "perfil" });
   }, []);
 
   //========================back requests============================

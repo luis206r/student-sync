@@ -6,7 +6,7 @@ import ReactGA from "react-ga4";
 
 export const Resume = () => {
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/resume", title: "resumen" });
   }, []);
 
   const user = useSelector((state) => state.user);

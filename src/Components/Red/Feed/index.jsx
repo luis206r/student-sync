@@ -14,7 +14,7 @@ export const Feed = () => {
   const [creatingPost, setCreatingPost] = useState(false);
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/feed", title: "feed" });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a posteos",

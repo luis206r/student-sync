@@ -8,7 +8,7 @@ export const Tasks = () => {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/tasks", title: "tareas" });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a Tareas",

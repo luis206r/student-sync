@@ -33,7 +33,7 @@ export const Reports = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/reports", title: "reportes" });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a Reportes",

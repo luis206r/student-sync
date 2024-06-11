@@ -41,7 +41,7 @@ export const People = () => {
   const [profileInfo, setProfileInfo] = useState({});
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname);
+    ReactGA.send({ hitType: "pageview", page: "/people", title: "personas" });
     ReactGA.event({
       category: "Navegación",
       action: "Acceso a lista de usuarios",
