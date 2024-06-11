@@ -6,7 +6,7 @@ import { Button, ConfigProvider, Input } from "antd";
 import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import axios from "axios";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

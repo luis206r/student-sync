@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import imagen1 from "../../../assets/js.jpeg";
 import imagen2 from "../../../assets/si.png";
 import imagen3 from "../../../assets/foe.png";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 export const Events = () => {
   useEffect(() => {

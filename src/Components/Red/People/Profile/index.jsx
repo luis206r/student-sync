@@ -9,7 +9,7 @@ import { PiStudent } from "react-icons/pi";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFollowers, updateFollows } from "../../../../state/user";
 import { LiaEthereum } from "react-icons/lia";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

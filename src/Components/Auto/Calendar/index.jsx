@@ -16,7 +16,7 @@ import { IoMdRefresh } from "react-icons/io";
 import { BsWindowSidebar } from "react-icons/bs";
 import { useSelector } from "react-redux";
 const { RangePicker } = DatePicker;
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 export const Calendar = () => {
   const user = useSelector((state) => state.user);

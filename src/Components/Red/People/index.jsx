@@ -6,7 +6,7 @@ import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { Profile } from "./Profile";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

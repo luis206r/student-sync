@@ -2,7 +2,7 @@ import { Col, Flex, Progress, Row, Statistic } from "antd";
 import { AiOutlineLike } from "react-icons/ai";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 export const Resume = () => {
   useEffect(() => {

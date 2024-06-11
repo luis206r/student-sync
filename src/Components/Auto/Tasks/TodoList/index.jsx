@@ -8,7 +8,7 @@ import { LuListPlus } from "react-icons/lu";
 import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 const TodoList = () => {
   const user = useSelector((state) => state.user);

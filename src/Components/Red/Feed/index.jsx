@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { IoMdAdd } from "react-icons/io";
 import { CreatePost } from "./CreatePost";
 import axios from "axios";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

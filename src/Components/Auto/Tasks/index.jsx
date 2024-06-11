@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import TodoList from "./TodoList";
 import { Collapse } from "antd";
 import { useSelector } from "react-redux";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 export const Tasks = () => {
   const user = useSelector((state) => state.user);

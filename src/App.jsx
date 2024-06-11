@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./state/user";
 import { LeftMenu } from "./Components/LeftMenu";
 import { RiCollapseDiagonal2Fill } from "react-icons/ri";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 const TRACKING_ID = "G-56X83C2ZX7";
 ReactGA.initialize(TRACKING_ID);

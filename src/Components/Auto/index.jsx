@@ -16,7 +16,7 @@ import { Events } from "./Events";
 import { HiOutlineMenu } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 export const Auto = () => {
   useEffect(() => {

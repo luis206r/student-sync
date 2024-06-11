@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { convertToRaw } from "draft-js";
 import axios, { toFormData } from "axios";
 import { MdOutlineDelete } from "react-icons/md";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";

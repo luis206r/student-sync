@@ -10,7 +10,7 @@ import TextArea from "antd/es/input/TextArea";
 import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import { Comments } from "../Comments";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
