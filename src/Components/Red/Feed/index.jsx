@@ -61,7 +61,7 @@ export const Feed = () => {
       try {
         let result = await getPosts();
         console.log("pots: ", result);
-        setPosts(result.reverse());
+        setPosts(result);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
