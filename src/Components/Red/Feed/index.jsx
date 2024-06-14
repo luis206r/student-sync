@@ -61,7 +61,8 @@ export const Feed = () => {
       try {
         let result = await getPosts();
         console.log("pots: ", result);
-        setPosts(result);
+        let rs = result.sort((a, b) => b.id - a.id);
+        setPosts(rs);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
