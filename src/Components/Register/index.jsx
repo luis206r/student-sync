@@ -43,14 +43,14 @@ export const Register = () => {
   const [additionalCourse, setAdditionalCourse] = useState();
   const [courses, setCourses] = useState([]);
   const [majorOptions, setMajorOptions] = useState([
-    { value: "civil", label: "Ingenería Civil" },
-    { value: "electronic", label: "Ingenería Electrónica" },
-    { value: "industrial", label: "Ingenería Industrial" },
-    { value: "enviromental", label: "Ingenería Ambiental" },
-    { value: "energy", label: "Ingenería de la Energía" },
-    { value: "mecatronic", label: "Ingenería Mecatrónica" },
-    { value: "chemical", label: "Ingenería Química" },
-    { value: "mecanic", label: "Ingenería Mecánica" },
+    { value: "civil", label: "Ingeniería Civil" },
+    { value: "electronic", label: "Ingeniería Electrónica" },
+    { value: "industrial", label: "Ingeniería Industrial" },
+    { value: "enviromental", label: "Ingeniería Ambiental" },
+    { value: "energy", label: "Ingeniería de la Energía" },
+    { value: "mecatronic", label: "Ingeniería Mecatrónica" },
+    { value: "chemical", label: "Ingeniería Química" },
+    { value: "mecanic", label: "Ingeniería Mecánica" },
     { value: "bio", label: "Bioingeniería" },
     { value: "administration", label: "Administración y Negocios Digitales" },
     { value: "cs", label: "Ciencia de la Computación" },

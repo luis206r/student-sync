@@ -1,0 +1,23 @@
+.scp::-webkit-scrollbar {
+  width: 7px !important;
+}
+
+.scp::-webkit-scrollbar > :hover {
+  width: 10px !important;
+}
+
+.scp::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+  border-radius: 8px !important;
+}
+
+.scp::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 8px !important;
+  width: 5px !important;
+}
+
+.scp::-webkit-scrollbar-thumb:hover {
+  background: #555 !important;
+  border-radius: 8px !important;
+}

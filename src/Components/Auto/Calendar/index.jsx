@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import calendar from "../../../assets/calendar.png";
 import {
   Button,
   Collapse,

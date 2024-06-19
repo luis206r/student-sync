@@ -6,17 +6,28 @@ import { Layout } from "./Components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navbar } from "./Components/Navbar";
-import { useDispatch } from "react-redux";
-import { setUser } from "./state/user";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, updateContactStatus } from "./state/user";
 import { LeftMenu } from "./Components/LeftMenu";
 import { RiCollapseDiagonal2Fill } from "react-icons/ri";
 import ReactGA from "react-ga4";
+import { RightMenu } from "./Components/RightMenu";
+import { io } from "socket.io-client";
+import { addChat, addMessage, setChats } from "./state/chats";
+import { Loader } from "./Commons/Loader";
+let userId;
+
+//====================================
+
+//const backUrl = "http://localhost:8000";
+const backUrl = "https://student-sync-back.onrender.com";
+
+//const socket = socket.io("http://localhost:8000");
 
 const TRACKING_ID = "G-56X83C2ZX7";
 ReactGA.initialize(TRACKING_ID);
 
-//const backUrl = "http://localhost:8000";
-const backUrl = "https://student-sync-back.onrender.com";
+const socket = io(backUrl);
 
 function App() {
   const pathname = useLocation().pathname;
@@ -25,6 +36,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userHasLogged, setUserHasLogged] = useState(false);
   const [collapsed, setCollapsed] = useState(true);
+  const [w, setW] = useState(0);
+
+  const updW = (nw) => {
+    setW(nw);
+  };
 
   useEffect(() => {
     const fn = async () => {
@@ -38,6 +54,21 @@ function App() {
   }, []);
 
   //==========================back request===========================
+  const chatsRequest = async (userId) => {
+    try {
+      const res = await axios.get(
+        `${backUrl}/api/messages/getAllChats/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        return res.data;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const meRequest = async () => {
     try {
       const res = await axios.get(
@@ -55,8 +86,15 @@ function App() {
       if (res.status === 200) {
         setLoading(false);
         console.log("me: ", res.data);
+        socket.emit("new-user-connected", res.data.id); //envio mi estado
+        userId = res.data.id;
+        //seteo estado redux user
         dispatch(setUser({ ...res.data }));
-        //ejecutar seteo de redux en Layout
+
+        //seteo estado redux chats
+        const chts = await chatsRequest(res.data.id);
+        dispatch(setChats(chts));
+
         setUserHasLogged(true);
         if (pathname === "/login" || pathname === "/")
           navigate("/home/auto/resume");
@@ -72,6 +110,45 @@ function App() {
     }
   };
 
+  //==============SOCKET HEAR===================
+
+  useEffect(() => {
+    socket.on("message", (data) => receiveMessage(data, userId));
+    socket.on("newChatMessage", (data) => receiveNewChatMessage(data, userId));
+    socket.on("get-connected-users", (data) =>
+      dispatch(updateContactStatus(data))
+    );
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  //=================socket methods===================
+
+  const receiveMessage = (data, userId) => {
+    console.log("recibiste un mensaje");
+    const rec = data.receiverId;
+
+    if (rec === userId) {
+      dispatch(addMessage({ chatId: data.chatId, message: data }));
+    }
+  };
+
+  const receiveNewChatMessage = (data, userId) => {
+    console.log("recibiste un mensaje");
+    const rec = data.message.receiverId;
+
+    if (rec === userId) {
+      dispatch(addChat(data.chat));
+      //dispatch(addMessage({ chatId: data.chat.id, message: data.message }))
+    }
+  };
+
+  //====================================
+
+  //=================================
+
   useEffect(() => {
     const v = localStorage.getItem("leftMenuCollapsed");
     if (!v) localStorage.setItem("leftMenuCollapsed", "no");
@@ -80,38 +157,12 @@ function App() {
   //================================================================
   if (loading) {
     return (
-      <div className={"app w-full relative"}>
-        <div className="flex w-full h-full items-center justify-center text-textcol-1">
-          <div className="flex justify-center items-center flex-col w-[700px] h-[300px] m-0 p-0">
-            <h3>Iniciando servidor...</h3>
-            &nbsp;&nbsp;
-            <p>
-              Nuestro proyecto aún está en desarrollo. Pueden haber demoras para
-              cargar el servidor
-            </p>
-            &nbsp;&nbsp;
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span class="sr-only">Loading...</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Loader
+        title={"Cargando servidor..."}
+        message={
+          "Este proyecto aún está en desarrollo. Pueden haber demoras para cargar el servidor"
+        }
+      />
     );
   } else
     return (
@@ -121,17 +172,17 @@ function App() {
             path="/home/*"
             element={
               <>
-                <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex">
+                <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex md:flex-col">
                   <Navbar />
                 </div>
                 <div className="max-w-[1280px] w-full absolute z-20 md:hidden">
                   <Navbar mobile={true} />
                 </div>
-                <div className="hidden md:absolute md:flex md:z-10">
+                <div className="hidden sm:hidden md:absolute md:flex md:z-10">
                   <LeftMenu setCollapsed={setCollapsed} collapsed={collapsed} />
                 </div>
 
-                <Layout collapsed={collapsed} />
+                <Layout collapsed={collapsed} wf={updW} />
               </>
             }
           />
@@ -150,3 +201,4 @@ function App() {
 }
 
 export default App;
+export { socket };

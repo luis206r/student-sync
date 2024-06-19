@@ -82,7 +82,7 @@ export const Comments = ({ commentsP, contentId }) => {
             src={`${
               user.profileImageUrl ? user.profileImageUrl : "/profileImage.png"
             }`}
-            className="w-[32px] h-[32px] rounded-[50%]"
+            className="w-[32px] h-[32px] rounded-[50%] mt-1"
           />
           <div className="w-full pl-2">
             <ConfigProvider
@@ -98,7 +98,7 @@ export const Comments = ({ commentsP, contentId }) => {
               }}
             >
               <TextArea
-                className="bg-[#f3f3f3] border-[#f3f3f3] text-textcol-1 p-[8px] rounded-[10px]"
+                className="bg-[#f3f3f3] border-[#f3f3f3] text-black p-[8px] rounded-[10px] text-[16px]"
                 placeholder="Agregar comentario"
                 autoSize
                 maxLength={300}
@@ -109,7 +109,7 @@ export const Comments = ({ commentsP, contentId }) => {
           </div>
 
           <Button
-            className="w-fit ml-2 flex items-center justify-center"
+            className="w-fit ml-2 flex items-center justify-center mt-1"
             type="primary"
             shape="circle"
             onClick={handleAddComment}

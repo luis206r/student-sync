@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
+import { MdChat } from "react-icons/md";
 
 export const LeftMenu = ({ setCollapsed, collapsed }) => {
   const pathname = useLocation().pathname;
@@ -66,6 +67,11 @@ export const LeftMenu = ({ setCollapsed, collapsed }) => {
       icon: <LuAlignStartVertical />,
     },
     {
+      key: "/home/red/chats",
+      label: <Link to={"red/chats"}>Chat</Link>,
+      icon: <MdChat />,
+    },
+    {
       key: "/home/red/groups",
       label: <Link to={"red/groups"}>Grupos</Link>,
       icon: <BsFillPeopleFill />,
@@ -77,7 +83,10 @@ export const LeftMenu = ({ setCollapsed, collapsed }) => {
   };
 
   useEffect(() => {
-    setPathnameS(pathname);
+    if (pathname.includes("/home/red/chats")) setPathnameS("/home/red/chats");
+    else if (pathname.includes("/home/red/profile"))
+      setPathnameS("/home/red/people");
+    else setPathnameS(pathname);
   }, [pathname]);
 
   return (

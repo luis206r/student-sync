@@ -10,14 +10,25 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateFollowers, updateFollows } from "../../../../state/user";
 import { LiaEthereum } from "react-icons/lia";
 import ReactGA from "react-ga4";
+import setPiQuality from "../../../../Utils/setPiQuality";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Result } from "postcss";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
-export const Profile = ({ info, showFunc }) => {
+export const Profile = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { info_ } = location.state || {};
   const handleBack = () => {
-    showFunc(false);
+    setLoading(true);
+    setInfo(null);
+    navigate(-1);
   };
+  const { pUserId } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [info, setInfo] = useState(null);
   const dispatch = useDispatch();
   const [major, setMajor] = useState("");
   const [from, setFrom] = useState("");
@@ -29,46 +40,89 @@ export const Profile = ({ info, showFunc }) => {
   const [imFollowing, setImFollowing] = useState(null);
 
   useEffect(() => {
-    let smajor = info[`${info.role}Info`].major;
-    smajor =
-      smajor === "cs"
-        ? "Computer Science"
-        : smajor === "civil"
-        ? "Ingenería Civil"
-        : smajor === "industrial"
-        ? "Ingenería Industrial"
-        : smajor === "enviromental"
-        ? "Ingenería Ambiental"
-        : smajor === "energy"
-        ? "Ingenería de la Energía"
-        : smajor === "mecatronic"
-        ? "Ingenería Mecatrónica"
-        : smajor === "chemical"
-        ? "Ingenería Química"
-        : smajor === "mecanic"
-        ? "Ingenería Mecánica"
-        : smajor === "bio"
-        ? "Bioingeniería"
-        : smajor === "administration"
-        ? "Administración y Negocios Digitales"
-        : smajor === "ds"
-        ? "Ciencia de Datos"
-        : smajor === "is"
-        ? "Sistemas de la Información"
-        : smajor;
-    setMajor(smajor);
+    const fetchData = async () => {
+      try {
+        const userInfo = await getUserInfo(pUserId);
+        setInfo(userInfo);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-    // Verificar si info.createdAt es una fecha válida
-    const createdAtDate = new Date(info.createdAt);
-    if (!isNaN(createdAtDate.getTime())) {
-      // Si es válida, establecer la fecha en el estado
+    if (!info_ && pUserId) {
+      console.log("holaaaaaaaaaa");
+      fetchData();
+      console.log(info);
+    } else {
+      setInfo(info_);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (info != null) setLoading(false);
+  }, [info]);
+
+  const getUserInfo = async (userId) => {
+    try {
+      const res = await axios.get(`${backUrl}/api/users/${userId}`, {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        return res.data;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (!loading) {
+      let smajor = info[`${info.role}Info`].major;
+      smajor =
+        smajor === "cs"
+          ? "Computer Science"
+          : smajor === "civil"
+          ? "Ingenería Civil"
+          : smajor === "industrial"
+          ? "Ingenería Industrial"
+          : smajor === "enviromental"
+          ? "Ingenería Ambiental"
+          : smajor === "energy"
+          ? "Ingenería de la Energía"
+          : smajor === "mecatronic"
+          ? "Ingenería Mecatrónica"
+          : smajor === "electronic"
+          ? "Ingenería Electrónica"
+          : smajor === "chemical"
+          ? "Ingenería Química"
+          : smajor === "mecanic"
+          ? "Ingenería Mecánica"
+          : smajor === "bio"
+          ? "Bioingeniería"
+          : smajor === "administration"
+          ? "Administración y Negocios Digitales"
+          : smajor === "ds"
+          ? "Ciencia de Datos"
+          : smajor === "is"
+          ? "Sistemas de la Información"
+          : smajor;
+      setMajor(smajor);
+
+      const createdAtDate = new Date(info.createdAt);
+
       setFrom(createdAtDate);
     }
-  }, []); // Se ejecuta solo una vez después de montar el componente
+  }, [loading]); // Se ejecuta solo una vez después de montar el componente
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/profile", title: "perfil" });
   }, []);
+
+  const goToProfile = (e) => {
+    setLoading(true);
+    setInfo(null);
+    navigate(`/home/red/profile/${e.key}`);
+  };
 
   //========================back requests============================
 
@@ -200,82 +254,90 @@ export const Profile = ({ info, showFunc }) => {
   //=====================================================================
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let result = await getFollowers();
-        setFollowersOBJ(result);
-        let items = result.map((follower_) => {
-          return {
-            key: follower_.id,
-            label: (
-              <div className="w-[200px] flex flex-row items-center">
-                <img
-                  src={
-                    follower_.profileImageUrl
-                      ? follower_.profileImageUrl
-                      : "/profileImage.png"
-                  }
-                  className="w-[30px] h-[30px] rounded-[50%]"
-                />
-                &nbsp;&nbsp;
-                <p>
-                  {follower_.name} {follower_.lastname}
-                </p>
-              </div>
-            ),
-          };
-        });
-        console.log("seguidores: ", items);
+    if (!loading) {
+      const fetchData = async () => {
+        try {
+          let result = await getFollowers();
+          setFollowersOBJ(result);
+          let items = result.map((follower_) => {
+            return {
+              key: follower_.id,
+              label: (
+                <div className="w-[200px] flex flex-row items-center">
+                  <img
+                    src={
+                      follower_.profileImageUrl
+                        ? follower_.profileImageUrl
+                        : "/profileImage.png"
+                    }
+                    className="w-[30px] h-[30px] rounded-[50%]"
+                  />
+                  &nbsp;&nbsp;
+                  <p>
+                    {follower_.name} {follower_.lastname}
+                  </p>
+                </div>
+              ),
+            };
+          });
+          console.log("seguidores: ", items);
 
-        setFollowers(items);
-      } catch (error) {
-        console.error("Error fetching followers data:", error);
-      }
-    };
-    const fetchData2 = async () => {
-      try {
-        let result = await getFollows();
-        setFollowsOBJ(result);
-        let items = result.map((followed_) => {
-          let fullname = followed_.name + " " + followed_.lastname;
-          fullname =
-            fullname.length > 20 ? fullname.substring(0, 17) + "..." : fullname;
-          return {
-            key: followed_.id,
-            label: (
-              <div className="w-[200px] flex flex-row items-center ">
-                <img
-                  src={
-                    followed_.profileImageUrl
-                      ? followed_.profileImageUrl
-                      : "/profileImage.png"
-                  }
-                  className="w-[30px] h-[30px] rounded-[50%]"
-                />
-                &nbsp;&nbsp;
-                <p>{fullname}</p>
-              </div>
-            ),
-          };
-        });
-        console.log("seguidos: ", items);
-        setFollows(items);
-      } catch (error) {
-        console.error("Error fetching follows data:", error);
-      }
-    };
+          setFollowers(items);
+        } catch (error) {
+          console.error("Error fetching followers data:", error);
+        }
+      };
+      const fetchData2 = async () => {
+        try {
+          let result = await getFollows();
+          setFollowsOBJ(result);
+          let items = result.map((followed_) => {
+            let fullname = followed_.name + " " + followed_.lastname;
+            fullname =
+              fullname.length > 20
+                ? fullname.substring(0, 17) + "..."
+                : fullname;
+            return {
+              key: followed_.id,
+              label: (
+                <div className="w-[200px] flex flex-row items-center ">
+                  <img
+                    src={
+                      followed_.profileImageUrl
+                        ? followed_.profileImageUrl
+                        : "/profileImage.png"
+                    }
+                    className="w-[30px] h-[30px] rounded-[50%]"
+                  />
+                  &nbsp;&nbsp;
+                  <p>{fullname}</p>
+                </div>
+              ),
+            };
+          });
+          console.log("seguidos: ", items);
+          setFollows(items);
+        } catch (error) {
+          console.error("Error fetching follows data:", error);
+        }
+      };
 
-    fetchData();
-    fetchData2();
-  }, []);
+      fetchData();
+      fetchData2();
+    }
+  }, [loading]);
 
   useEffect(() => {
-    const arr = user.follows.filter((follow) => follow.id === info.id);
-    setImFollowing(() => {
-      let value = arr.length === 1 ? true : false;
-      return value;
-    });
-  }, []);
+    if (!loading) {
+      const arr = user.follows.filter((follow) => follow.id === info.id);
+      setImFollowing(() => {
+        let value = arr.length === 1 ? true : false;
+        return value;
+      });
+    }
+  }, [loading]);
+
+  if (loading) return <div>loading...</div>;
 
   return (
     <div className="w-full">
@@ -293,7 +355,9 @@ export const Profile = ({ info, showFunc }) => {
         <div className="relative w-fit h-fit">
           <img
             src={`${
-              info.profileImageUrl ? info.profileImageUrl : "/profileImage.png"
+              info.profileImageUrl
+                ? setPiQuality(info.profileImageUrl, "1000")
+                : "/profileImage.png"
             }`}
             className="w-[200px] rounded-[50%] shadow-md"
           />
@@ -328,34 +392,28 @@ export const Profile = ({ info, showFunc }) => {
           )}
         </div>
         <div className="p-4 flex flex-col items-center justify-center">
-          <div className="flex items-center justify-center">
-            <h2 className="pb-0 mb-0 text-black">{info.name}</h2> &nbsp; &nbsp;
-            <h2 className="text-black">{info.lastname}</h2>
+          <div className="flex items-center justify-center flex-col">
+            <h2 className="pb-0 mb-0 text-black">{info.name}</h2>
+            <h2 className="text-black pt-0 mt-0">{info.lastname}</h2>
           </div>
 
           <div className="w-[225px] flex flex-row items-center justify-center pt-2">
             <Dropdown
-              arrow={{
-                pointAtCenter: true,
-              }}
-              menu={{ items: followers }}
+              menu={{ items: followers, onClick: goToProfile }}
               placement="bottom"
               trigger={["click"]}
             >
-              <Button type="text" className="text-[#1677ff]">
+              <Button type="link" className="text-[#1677ff]">
                 {followers.length} seguidores
               </Button>
             </Dropdown>
 
             <Dropdown
-              arrow={{
-                pointAtCenter: true,
-              }}
-              menu={{ items: follows }}
+              menu={{ items: follows, onClick: goToProfile }}
               placement="bottom"
               trigger={["click"]}
             >
-              <Button type="text" className="text-[#1677ff]">
+              <Button type="link" className="text-[#1677ff]">
                 {follows.length} seguidos
               </Button>
             </Dropdown>
@@ -374,7 +432,16 @@ export const Profile = ({ info, showFunc }) => {
               &nbsp;
               <p>{info.email}</p>
             </div>
-            <p>{from ? `Miembro desde ${from.toLocaleDateString()}` : "?"}</p>
+            <p>
+              {from
+                ? `Miembro desde ${from
+                    .toLocaleDateString()
+                    .slice(0, -5)
+                    .split("/")
+                    .reverse()
+                    .join("/")}`
+                : "?"}
+            </p>
           </div>
         </div>
       </div>

@@ -11,6 +11,15 @@ import { IoSend } from "react-icons/io5";
 import useInput from "../../../../Utils/useInput";
 import { Comments } from "../Comments";
 import ReactGA from "react-ga4";
+import { Link, useNavigate } from "react-router-dom";
+import { GoTools } from "react-icons/go";
+
+import like from "/icons/like.png";
+import love from "/icons/love.png";
+import surprise from "/icons/surprise.png";
+import sad from "/icons/sad.png";
+import claps from "/icons/claps.png";
+import laugh from "/icons/laugh.png";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -47,6 +56,7 @@ export const Post = ({
   const [postReactions, setPostReactions] = useState(reactions);
   const [mfr, setMfr] = useState(null);
   const [deletingPost, setDeletingPost] = useState(false);
+  const navigate = useNavigate();
 
   //==================back request==========================
   const deletePostRequest = async () => {
@@ -90,6 +100,10 @@ export const Post = ({
       console.error(err);
       alert("algo salio mal");
     }
+  };
+
+  const goToProfile = (e) => {
+    navigate(`/home/red/profile/${userInfo.id}`);
   };
 
   //============================================================
@@ -178,7 +192,7 @@ export const Post = ({
 
   const createdAt = new Date(contentInfo.createdAt);
   return (
-    <div className="w-full p-4 pb-1 bg-white md:mb-4 mb-[1px] md:rounded-[10px] shadow-lg md:border-[1px] relative">
+    <div className="w-full p-4 pb-1 bg-white md:mb-4 mb-[3px] md:rounded-[10px] shadow-lg md:border-[1px] relative">
       {deletingPost && (
         <div className="absolute  left-[0%] top-[0%]  rounded-[10px] z-10 w-full bg-[#f7f7f7] h-full flex flex-col items-center justify-center bg-opacity-80">
           <span>Eliminando Post...</span> &nbsp;{" "}
@@ -203,7 +217,7 @@ export const Post = ({
           </div>
         </div>
       )}
-      <div className="flex flex-row md:p-2 items-center w-full">
+      <div className="flex flex-row  items-center w-full">
         <img
           src={`${
             userInfo.profileImageUrl
@@ -211,14 +225,16 @@ export const Post = ({
               : "/profileImage.png"
           }`}
           className="w-[35px] h-[35px] rounded-[50%]"
+          onClick={goToProfile}
         />
+
         <div className="w-full">
           <h4 className="pl-2 text-black">
             {userInfo.name.trim().split(" ")[0]}{" "}
             {userInfo.lastname.trim().split(" ")[0]}
           </h4>
         </div>
-        <div className="flex justify-end w-full flex-wrap pr-2 items-center">
+        <div className="flex justify-end w-full flex-wrap pr-2 items-center text-[14px]">
           <p>
             {createdAt
               .toLocaleDateString()
@@ -234,51 +250,54 @@ export const Post = ({
               minute: "2-digit",
             })}
           </p>
-          &nbsp;·&nbsp;
           {user.id === userInfo.id && (
-            <Button
-              type="text"
-              shape="circle"
-              danger
-              className="flex items-center justify-center"
-              onClick={handleDeletePost}
-            >
-              <MdDeleteOutline className="text-[25px]" />
-            </Button>
+            <div className="w-fit h-fit p-0 flex items-center">
+              &nbsp;·
+              <Button
+                type="text"
+                shape="circle"
+                danger
+                className="flex items-center justify-center"
+                onClick={handleDeletePost}
+              >
+                <MdDeleteOutline className="text-[20px]" />
+              </Button>
+            </div>
           )}
         </div>
       </div>
       <div className="md:p-2 pt-2 pb-2">
         <RichTextEditor2 editorState={contentInfo.content} />
       </div>
-
       {contentInfo.driveId && (
-        <div className="p-1 rounded-[8px] bg-[#e8e8e8] flex justify-center w-full">
+        <div className=" rounded-[8px] bg-black flex justify-center w-full">
           <img
             src={`https://drive.google.com/thumbnail?id=${contentInfo.driveId}&sz=w1000`}
-            className="rounded-[6px] "
+            className=" "
           />
         </div>
       )}
-      {postReactions && postReactions.length > 0 && (
-        <div className="p-1 pl-0 flex flex-row w-full justify-between items-center">
+      <div className="p-1 pl-0 flex flex-row w-full justify-between items-center">
+        {postReactions && postReactions.length > 0 ? (
           <Button className="p-0" type="text">
             <div className="flex flex-row items-center">
-              <div>
+              <div className="flex flex-row">
                 {mfr &&
                   mfr.map((r, i) => {
                     if (i < 3) {
-                      return r === "laugh"
-                        ? "😁"
-                        : r === "sad"
-                        ? "😞"
-                        : r === "love"
-                        ? "❤️"
-                        : r === "surprise"
-                        ? "😯"
-                        : r === "claps"
-                        ? "👏"
-                        : "👍";
+                      return r === "laugh" ? (
+                        <img src={laugh} className="w-[20px]" />
+                      ) : r === "sad" ? (
+                        <img src={sad} className="w-[20px]" />
+                      ) : r === "love" ? (
+                        <img src={love} className="w-[20px]" />
+                      ) : r === "surprise" ? (
+                        <img src={surprise} className="w-[20px]" />
+                      ) : r === "claps" ? (
+                        <img src={claps} className="w-[20px]" />
+                      ) : (
+                        <img src={like} className="w-[20px]" />
+                      );
                     }
                   })}
               </div>{" "}
@@ -286,11 +305,16 @@ export const Post = ({
               <div>{postReactions.length}</div> &nbsp;
             </div>
           </Button>
-          {comments.length > 0 && <span>{comments.length} comentario(s)</span>}
-        </div>
-      )}
+        ) : (
+          <div></div>
+        )}
+        {comments.length > 0 && (
+          <span>{`${comments.length} comentario(s)`}</span>
+        )}
+      </div>
+
       <hr />
-      <div className=" pt-1  flex items-center justify-between w-full">
+      <div className=" pt-2 pb-2  flex items-center justify-evenly w-full">
         <div className="w-[33.3%] flex items-center justify-center">
           <Popover
             placement="top"
@@ -298,101 +322,118 @@ export const Post = ({
               <div>
                 <Button
                   size="large"
-                  icon={"👍"}
                   type="text"
-                  className="m-0"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("like")}
-                />{" "}
+                >
+                  <img src={like} className="w-[35px]" />
+                </Button>
                 {/*like*/}
                 <Button
                   size="large"
-                  icon={"😁"}
                   type="text"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("laugh")}
-                />{" "}
+                >
+                  <img src={laugh} className="w-[35px]" />
+                </Button>
                 {/*laugh*/}
                 <Button
                   size="large"
-                  icon={"👏"}
                   type="text"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("claps")}
-                />{" "}
+                >
+                  <img src={claps} className="w-[35px]" />
+                </Button>
                 {/*claps*/}
                 <Button
                   size="large"
-                  icon={"❤️"}
                   type="text"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("love")}
-                />{" "}
+                >
+                  <img src={love} className="w-[35px]" />
+                </Button>
                 {/*love*/}
                 <Button
                   size="large"
-                  icon={"😯"}
                   type="text"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("surprise")}
-                />{" "}
+                >
+                  <img src={surprise} className="w-[35px]" />
+                </Button>
                 {/*surprise*/}
                 <Button
                   size="large"
-                  icon={"😞"}
                   type="text"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
                   onClick={(e) => handleSelectReaction("sad")}
-                />{" "}
+                >
+                  <img src={sad} className="w-[35px]" />
+                </Button>
                 {/*sad*/}
               </div>
             }
           >
             <Button
-              className="flex flex-row items-center justify-center w-full"
+              className="flex flex-row items-center justify-center w-fit text-[16px] text-textcol-1"
               type="text"
-              icon={
-                selectedReaction === "laugh" ? (
-                  "😁"
-                ) : selectedReaction === "sad" ? (
-                  "😞"
-                ) : selectedReaction === "claps" ? (
-                  "👏"
-                ) : selectedReaction === "love" ? (
-                  "❤️"
-                ) : selectedReaction === "surprise" ? (
-                  "😯"
-                ) : selectedReaction === "like" ? (
-                  <BiSolidLike className={`mt-[2px] text-[#1677ff]`} />
-                ) : (
-                  <BiSolidLike className={`mt-[2px]`} />
-                )
-              }
               onClick={(e) => {
                 selectedReaction
                   ? handleUnselectReaction()
                   : handleSelectReaction("like");
               }}
             >
-              {!selectedReaction && <span className={``}>Me gusta</span>}
+              {!selectedReaction && (
+                <div className={` flex flex-row items-center `}>
+                  <BiSolidLike className=" w-[20px] h-[20px]" />
+                  &nbsp;Me gusta
+                </div>
+              )}
               {selectedReaction === "like" && (
-                <span className={`text-[#1677ff]`}>Me gusta</span>
+                <div className={`text-[#1677ff] flex flex-row items-center `}>
+                  <BiSolidLike className=" w-[20px] h-[20px]" />
+                  &nbsp;Me gusta
+                </div>
               )}
               {selectedReaction === "laugh" && (
-                <span className={`text-[#fdb846]`}>Me divierte</span>
+                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                  <img src={laugh} className="w-[25px] h-[25px]" /> &nbsp; Me
+                  divierte
+                </div>
               )}
               {selectedReaction === "sad" && (
-                <span className={`text-[#fdb846]`}>Me entristece</span>
+                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                  <img src={sad} className="w-[25px] h-[25px]" /> &nbsp; Me
+                  entristece
+                </div>
               )}
               {selectedReaction === "love" && (
-                <span className={`text-[#c33937]`}>Me encanta</span>
+                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                  <img src={sad} className="w-[25px] h-[25px]" /> &nbsp; Me
+                  encanta
+                </div>
               )}
               {selectedReaction === "claps" && (
-                <span className={`text-[#fdb846]`}>Felicitar</span>
+                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                  <img src={claps} className="w-[25px] h-[25px]" /> &nbsp;
+                  Felicitar
+                </div>
               )}
               {selectedReaction === "surprise" && (
-                <span className={`text-[#fdb846]`}>Me asombra</span>
+                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                  <img src={surprise} className="w-[25px] h-[25px]" /> &nbsp; Me
+                  asombra
+                </div>
               )}
             </Button>
           </Popover>
         </div>
         <div className="w-[33.3%] flex items-center justify-center">
           <Button
-            className="flex flex-row items-center"
+            className="flex flex-row items-center text-[16px] text-textcol-1"
             type="text"
             icon={<BiSolidCommentDetail className="mt-[2px]" />}
             onClick={(e) => {
@@ -407,16 +448,16 @@ export const Post = ({
             Comentar
           </Button>
         </div>
-        <div className="w-[33.3%] flex items-center justify-center">
+        {/* <div className="w-[33.3%] flex items-center justify-center">
           <Button
             disabled
-            className="flex flex-row items-center"
+            className="flex flex-row items-center text-[16px] text-textcol-1"
             type="text"
             icon={<PiShareFatFill className="mt-[2px]" />}
           >
             Compartir
           </Button>
-        </div>
+        </div> */}
       </div>
       {
         clickedComments && (

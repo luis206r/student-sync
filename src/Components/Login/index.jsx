@@ -13,6 +13,7 @@ import { setUser } from "../../state/user";
 import { FaGalacticSenate } from "react-icons/fa6";
 import { CiLock, CiMail } from "react-icons/ci";
 import { RiQuestionFill } from "react-icons/ri";
+import { setChats } from "../../state/chats";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -68,6 +69,10 @@ export const Login = () => {
         console.log("me: ", res.data);
         dispatch(setUser({ ...res.data }));
         //ejecutar seteo de redux en Layout
+
+        const chts = await chatsRequest(res.data.id);
+        dispatch(setChats(chts));
+
         navigate("/home/auto/resume");
       } else {
         navigate("/login");
@@ -76,6 +81,21 @@ export const Login = () => {
       navigate("/login");
       console.error("Error al realizar la solicitud:", error);
       //alert("Solicitud fallida...");
+    }
+  };
+
+  const chatsRequest = async (userId) => {
+    try {
+      const res = await axios.get(
+        `${backUrl}/api/messages/getAllChats/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      if (res.status === 200) {
+        return res.data;
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

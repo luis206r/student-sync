@@ -3,6 +3,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ReactGA from "react-ga4";
+import smile from "/icons/smile.svg";
 
 export const Resume = () => {
   useEffect(() => {
@@ -13,7 +14,12 @@ export const Resume = () => {
   return (
     <div className="w-full ">
       <div className="md:p-4">
-        <h1 className="w-full   "> {`Bienvenid@, ${user.name} 🙂`}</h1>
+        <div className="flex items-center flex-row w-fit ">
+          <h1 className="w-full">{`Bienvenid@, ${user.name}`}</h1>
+          &nbsp;
+          <img src={smile} className="m-0 w-[50px]" />
+        </div>
+
         <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
           <h1 className="text-[15px]">
             Tus Estadísticas (Esta sección aún está en desarrollo)

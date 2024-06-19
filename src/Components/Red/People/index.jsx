@@ -4,7 +4,7 @@ import "./index.css";
 import { Input } from "antd";
 import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Profile } from "./Profile";
 import ReactGA from "react-ga4";
 
@@ -12,6 +12,7 @@ import ReactGA from "react-ga4";
 const backUrl = "https://student-sync-back.onrender.com";
 
 export const People = () => {
+  const navigate = useNavigate();
   //importanteeeeeeeeeeeeeeeeeeeeeeeee
   // const divRef = useRef(null);
   // const [customMaxH, setCustomMaxH] = useState("");
@@ -23,8 +24,9 @@ export const People = () => {
   // }, []);
 
   const handleCardClick = (student) => {
-    setProfileInfo(student);
-    setSelectedUser(true);
+    const info_ = student;
+    navigate(`/home/red/profile/${student.id}`, { state: { info_ } });
+
     ReactGA.event({
       category: "Click",
       action: "Acceso a perfil de usuario",
@@ -37,8 +39,6 @@ export const People = () => {
   const [psychos, setPsychos] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [others, setOthers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(false);
-  const [profileInfo, setProfileInfo] = useState({});
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/people", title: "personas" });
@@ -81,97 +81,90 @@ export const People = () => {
     fetchData();
   }, []);
 
-  if (selectedUser)
-    return (
-      <div>
-        <Profile info={profileInfo} showFunc={setSelectedUser} />
+  return (
+    <div className="w-full" /*ref={divRef}*/>
+      <div className="p-4">
+        <Input
+          size="large"
+          placeholder="Buscar estudiantes, profesores, y más..."
+          prefix={<RiSearchLine />}
+        />
       </div>
-    );
-  else
-    return (
-      <div className="w-full" /*ref={divRef}*/>
-        <div className="p-4">
-          <Input
-            size="large"
-            placeholder="Buscar estudiantes, profesores, y más..."
-            prefix={<RiSearchLine />}
-          />
-        </div>
-        {/* {customMaxH != "" && ( */}
-        <div className=" " /*style={{ maxHeight: customMaxH }}*/>
-          <div className="w-full  p-4 ">
-            <h1 className="text-[20px] pb-4">Estudiantes ({students.length})</h1>
-            <div className="flex justify-center flex-row flex-wrap">
-              {students.map((student) => {
-                return (
-                  <Card
-                    key={student.id}
-                    fname={student.name}
-                    sname={student.lastname}
-                    major={student.studentInfo.major}
-                    profileImageUrl={student.profileImageUrl}
-                    onClick={() => handleCardClick(student)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="w-full  p-4">
-            <h1 className="text-[20px] pb-4">Profesores ({teachers.length})</h1>
-            <div className="flex justify-center flex-row flex-wrap">
-              {teachers.map((teacher) => {
-                return (
-                  <Card
-                    key={teacher.id}
-                    fname={teacher.name}
-                    sname={teacher.lastname}
-                    major={teacher.teacherInfo.major}
-                    profileImageUrl={teacher.profileImageUrl}
-                    onClick={() => handleCardClick(teacher)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="w-full  p-4">
-            <h1 className="text-[20px] pb-4">Psicólogos ({psychos.length})</h1>
-            <div className="flex justify-center flex-row flex-wrap">
-              {psychos.map((psycho) => {
-                return (
-                  <Card
-                    key={psycho.id}
-                    fname={psycho.name}
-                    sname={psycho.lastname}
-                    major={psycho.psychoInfo.major}
-                    profileImageUrl={psycho.profileImageUrl}
-                    onClick={() => handleCardClick(psycho)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="w-full   p-4">
-            <h1 className="text-[20px] pb-4">Otros ({others.length})</h1>
-            <div className="flex justify-center flex-row flex-wrap ">
-              {others.map((other) => {
-                return (
-                  <Card
-                    key={other.id}
-                    fname={other.name}
-                    sname={other.lastname}
-                    major={other.otherInfo.major}
-                    profileImageUrl={other.profileImageUrl}
-                    onClick={() => handleCardClick(other)}
-                  />
-                );
-              })}
-            </div>
+      {/* {customMaxH != "" && ( */}
+      <div className=" " /*style={{ maxHeight: customMaxH }}*/>
+        <div className="w-full  p-4 ">
+          <h1 className="text-[20px] pb-4">Estudiantes ({students.length})</h1>
+          <div className="flex justify-center flex-row flex-wrap">
+            {students.map((student) => {
+              return (
+                <Card
+                  key={student.id}
+                  fname={student.name}
+                  sname={student.lastname}
+                  major={student.studentInfo.major}
+                  profileImageUrl={student.profileImageUrl}
+                  onClick={() => handleCardClick(student)}
+                />
+              );
+            })}
           </div>
         </div>
-        {/* )} */}
+
+        <div className="w-full  p-4">
+          <h1 className="text-[20px] pb-4">Profesores ({teachers.length})</h1>
+          <div className="flex justify-center flex-row flex-wrap">
+            {teachers.map((teacher) => {
+              return (
+                <Card
+                  key={teacher.id}
+                  fname={teacher.name}
+                  sname={teacher.lastname}
+                  major={teacher.teacherInfo.major}
+                  profileImageUrl={teacher.profileImageUrl}
+                  onClick={() => handleCardClick(teacher)}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="w-full  p-4">
+          <h1 className="text-[20px] pb-4">Psicólogos ({psychos.length})</h1>
+          <div className="flex justify-center flex-row flex-wrap">
+            {psychos.map((psycho) => {
+              return (
+                <Card
+                  key={psycho.id}
+                  fname={psycho.name}
+                  sname={psycho.lastname}
+                  major={psycho.psychoInfo.major}
+                  profileImageUrl={psycho.profileImageUrl}
+                  onClick={() => handleCardClick(psycho)}
+                />
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="w-full   p-4">
+          <h1 className="text-[20px] pb-4">Otros ({others.length})</h1>
+          <div className="flex justify-center flex-row flex-wrap ">
+            {others.map((other) => {
+              return (
+                <Card
+                  key={other.id}
+                  fname={other.name}
+                  sname={other.lastname}
+                  major={other.otherInfo.major}
+                  profileImageUrl={other.profileImageUrl}
+                  onClick={() => handleCardClick(other)}
+                />
+              );
+            })}
+          </div>
+        </div>
       </div>
-    );
+      {/* )} */}
+    </div>
+  );
 };

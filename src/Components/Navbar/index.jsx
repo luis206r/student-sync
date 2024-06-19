@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Menu, Dropdown } from "antd";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MdOutlineExplore, MdOutlineNotifications } from "react-icons/md";
+import {
+  MdChat,
+  MdOutlineExplore,
+  MdOutlineNotifications,
+} from "react-icons/md";
 import { BiMessageDetail } from "react-icons/bi";
 import axios from "axios";
 import { gapi } from "gapi-script";
@@ -172,6 +176,11 @@ export const Navbar = ({ mobile }) => {
               icon: <LuAlignStartVertical />,
             },
             {
+              key: "/home/red/chats",
+              label: <Link to={"red/chats"}>Chat</Link>,
+              icon: <MdChat />,
+            },
+            {
               key: "/home/red/groups",
               label: <Link to={"red/groups"}>Grupos</Link>,
               icon: <BsFillPeopleFill />,
@@ -218,11 +227,60 @@ export const Navbar = ({ mobile }) => {
     //changeValue(newOptionSelected);
     setCurrentOption(e.key);
   };
+
+  //=========chats=======================================
+
+  const chatsPrev = useSelector((state) => state.chats);
+
+  let chatsToSelect = chatsPrev.map((chat) => {
+    let chatUser = chat.user1.id != user.id ? chat.user1 : chat.user2; //usuario del otro chat
+    let fullname =
+      chatUser.name.trim().split(" ")[0] + " " + chatUser.lastname[0] + ".";
+    //console.log("anotherUserId", chatUser);
+    if (chat.numberOfMessages > 0)
+      return {
+        key: chatUser.id.toString(),
+        label: (
+          <div className="flex flex-row h-full p-0 m-0 items-center w-[200px]">
+            <img
+              src={`${
+                chatUser.profileImageUrl
+                  ? chatUser.profileImageUrl
+                  : "/profileImage.png"
+              }`}
+              alt="Profile Image"
+              className="h-[35px] rounded-[35px] "
+            />
+
+            <div className="w-full h-[60px] flex flex-col pt-3 pb-3 pl-4">
+              <div className="h-[50%]  flex items-center text-[15px]">
+                <b>{fullname}</b>
+              </div>
+              <div className="h-[50%] flex items-center text-[15px] text-textcol-1">
+                {chat.messages[0].senderId === user.id && "You: "}
+                {chat.messages[0].content.substring(0, 30) + "..."}
+              </div>
+            </div>
+            {/* <div className="pl-2 h-full flex items-center">
+              <div className="bg-[#1daa61] rounded-[50%] w-[15px] h-[15px] flex items-center justify-center text-[10px] text-white">
+                1
+              </div>
+            </div> */}
+          </div>
+        ),
+        onClick: () => navigate(`/home/red/chats/${chatUser.id}`),
+      };
+  });
+
+  //========================================================
   return (
-    <div className="w-full pt-0 h-[94px] md:pl-4 md:pr-4">
+    <div className="w-full pt-0 md:h-[80px] md:pl-4 md:pr-4">
       <div className="pl-2 pr-2 bg-cach-l1 md:rounded-b-[15px] md:h-[62px] w-full h-[50px] shadow-lg">
         <div className="w-full flex h-full flex-row justify-between">
-          <div className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  ">
+          <div
+            className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  "
+            onClick={() => navigate("/home/auto/resume")}
+          >
             <div className="hidden md:flex md:h-full md:items-center pl-2">
               Student<b className="text-[#1677ff]">Collab</b>
             </div>
@@ -245,11 +303,19 @@ export const Navbar = ({ mobile }) => {
             <div className="flex w-full h-full justify-end items-center pr-4">
               <div className="hidden md:flex md:flex-row ">
                 {" "}
-                <Button
-                  type="link"
-                  size="large"
-                  icon={<BiMessageDetail className="text-[22px]" />}
-                />
+                <Dropdown
+                  menu={{
+                    items: chatsToSelect,
+                  }}
+                  placement="bottom"
+                  trigger={["click"]}
+                >
+                  <Button
+                    type="link"
+                    size="large"
+                    icon={<BiMessageDetail className="text-[22px]" />}
+                  />
+                </Dropdown>
                 <Button
                   type="link"
                   size="large"

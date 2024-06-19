@@ -72,42 +72,27 @@ export const Feed = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col md:p-4 ">
-      <div className=" flex md:pb-4 md:pt-0 md:pl-0 md:pr-0 p-4 w-full justify-between">
-        <h2 className="text-black">Feed</h2>
-        {!creatingPost && (
-          <div className="md:hidden flex w-full justify-end ">
-            <Button
-              size="large"
-              type="primary"
-              className=""
-              onClick={() => setCreatingPost(true)}
-            >
-              Crear post
-            </Button>
-            {/* <Button  type="primary">
+    <div className="w-full flex flex-col md:p-4 md:pt-0">
+      <div className="w-full max-w-[800px]  flex flex-col  justify-center md:p-6 pb-0 m-auto bg-cach-l1 md:rounded-[15px]">
+        <div className=" flex md:pb-4 md:pt-0 md:pl-0 md:pr-0 p-4 w-full justify-between">
+          <h2 className="text-black">Feed</h2>
+          {!creatingPost && (
+            <div className=" flex w-full justify-end ">
+              <Button
+                size="large"
+                type="primary"
+                className=""
+                onClick={() => setCreatingPost(true)}
+              >
+                Crear post
+              </Button>
+              {/* <Button  type="primary">
             Crear Evento
           </Button> */}
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+        </div>
 
-      <div className="w-full max-w-[750px]  flex flex-col  justify-center md:p-4 pb-0 m-auto">
-        {!creatingPost && (
-          <div className="hidden md:flex flex-row m-auto w-full  pl-4 md:pl-0 pb-4">
-            <Button
-              size="large"
-              type="primary"
-              className="mr-4"
-              onClick={() => setCreatingPost(true)}
-            >
-              Crear post
-            </Button>
-            {/* <Button  type="primary">
-            Crear Evento
-          </Button> */}
-          </div>
-        )}
         {creatingPost && (
           <CreatePost
             cancelFunc={() => setCreatingPost(false)}

@@ -1,4 +1,5 @@
 import React from "react";
+import setPiQuality from "../../../../Utils/setPiQuality";
 
 export const Card = ({ fname, sname, major, profileImageUrl, onClick }) => {
   const cuttedFName = fname.length > 20 ? fname.substr(0, 17) + "..." : fname;
@@ -20,6 +21,8 @@ export const Card = ({ fname, sname, major, profileImageUrl, onClick }) => {
       ? "Ingenería de la Energía"
       : smajor === "mecatronic"
       ? "Ingenería Mecatrónica"
+      : smajor === "electronic"
+      ? "Ingenería Electrónica"
       : smajor === "chemical"
       ? "Ingenería Química"
       : smajor === "mecanic"
@@ -42,7 +45,11 @@ export const Card = ({ fname, sname, major, profileImageUrl, onClick }) => {
     >
       <div className="h-[70%] ">
         <img
-          src={`${profileImageUrl ? profileImageUrl : "/profileImage.png"}`}
+          src={`${
+            profileImageUrl
+              ? setPiQuality(profileImageUrl, "300")
+              : "/profileImage.png"
+          }`}
           className="w-[100px] rounded-[50%]"
         />
       </div>

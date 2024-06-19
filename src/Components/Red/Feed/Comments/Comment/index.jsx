@@ -3,11 +3,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
 export const Comment = ({ commentP }) => {
+  const navigate = useNavigate();
   const [comment, setComment] = useState(commentP);
   const user = useSelector((state) => state.user);
 
@@ -23,6 +25,10 @@ export const Comment = ({ commentP }) => {
       console.error(err);
       alert("algo salio mal");
     }
+  };
+
+  const goToProfile = (e) => {
+    navigate(`/home/red/profile/${comment.commentOwner.id}`);
   };
 
   const handleRemoveComment = async () => {
@@ -45,7 +51,9 @@ export const Comment = ({ commentP }) => {
 
   return (
     <div
-      className={`w-full  ${comment && comment.level == 1 ? "mt-2 mb-2" : ""} `}
+      className={`w-full  ${
+        comment && comment.level == 1 ? "mt-2 mb-2" : ""
+      } text-black`}
     >
       {comment && (
         <div className="p-2 pt-0  flex flex-col">
@@ -57,6 +65,7 @@ export const Comment = ({ commentP }) => {
                   : "/profileImage.png"
               }`}
               className="w-[32px] h-[32px] rounded-[50%]"
+              onClick={goToProfile}
             />
             <div className="flex flex-col ml-2 bg-[#f3f3f3] p-2 pl-4 pr-4 rounded-[10px]">
               <div className="flex flex-row justify-between">
@@ -82,7 +91,9 @@ export const Comment = ({ commentP }) => {
                 {comment.content ? (
                   comment.content
                 ) : (
-                  <i>Este comentario fue eliminado.</i>
+                  <i className="text-textcol-1">
+                    Este comentario fue eliminado.
+                  </i>
                 )}
               </p>
             </div>
