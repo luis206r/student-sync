@@ -14,8 +14,18 @@ import { LuUser2 } from "react-icons/lu";
 import { Keyframes } from "@ant-design/cssinjs";
 import { uniqueList } from "../../../Utils/uniqueList";
 import "./index.css";
+import ReactGA from "react-ga4";
 
 export const Chats = () => {
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: "/chats", title: "chats" });
+    ReactGA.event({
+      category: "Navegación",
+      action: "Acceso a chats",
+      label: "Chats",
+    });
+  }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
   const { receiverId } = useParams();

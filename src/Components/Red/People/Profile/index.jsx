@@ -20,7 +20,7 @@ const backUrl = "https://student-sync-back.onrender.com";
 export const Profile = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { info_ } = location.state || {};
+  //const { info_ } = location.state || {};
   const handleBack = () => {
     setLoading(true);
     setInfo(null);
@@ -40,6 +40,7 @@ export const Profile = () => {
   const [imFollowing, setImFollowing] = useState(null);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const userInfo = await getUserInfo(pUserId);
@@ -49,14 +50,12 @@ export const Profile = () => {
       }
     };
 
-    if (!info_ && pUserId) {
+    if (pUserId) {
       console.log("holaaaaaaaaaa");
       fetchData();
       console.log(info);
-    } else {
-      setInfo(info_);
     }
-  }, [location]);
+  }, [pUserId]);
 
   useEffect(() => {
     if (info != null) setLoading(false);

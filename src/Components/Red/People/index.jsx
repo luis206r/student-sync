@@ -23,9 +23,9 @@ export const People = () => {
   //   setCustomMaxH(`${altura}px`);
   // }, []);
 
-  const handleCardClick = (student) => {
-    const info_ = student;
-    navigate(`/home/red/profile/${student.id}`, { state: { info_ } });
+  const handleCardClick = (userType) => {
+    // const info_ = student;
+    navigate(`/home/red/profile/${userType.id}`);
 
     ReactGA.event({
       category: "Click",
