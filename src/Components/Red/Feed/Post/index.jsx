@@ -412,7 +412,7 @@ export const Post = ({
               )}
               {selectedReaction === "love" && (
                 <div className={`text-[#fdb846] flex flex-row items-center`}>
-                  <img src={sad} className="w-[25px] h-[25px]" /> &nbsp; Me
+                  <img src={love} className="w-[25px] h-[25px]" /> &nbsp; Me
                   encanta
                 </div>
               )}

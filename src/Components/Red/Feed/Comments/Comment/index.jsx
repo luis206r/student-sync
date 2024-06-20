@@ -67,7 +67,7 @@ export const Comment = ({ commentP }) => {
               className="w-[32px] h-[32px] rounded-[50%]"
               onClick={goToProfile}
             />
-            <div className="flex flex-col ml-2 bg-[#f3f3f3] p-2 pl-4 pr-4 rounded-[10px]">
+            <div className="flex flex-col ml-2 bg-[#f3f3f3] p-2 pl-4 pr-4 rounded-[10px] rounded-tl-[0px]">
               <div className="flex flex-row justify-between">
                 <p className="pb-0 mb-0">
                   <b>{comment.commentOwner.name}</b>
