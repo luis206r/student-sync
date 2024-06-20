@@ -98,15 +98,15 @@ export const Chat = () => {
   }, [chats, receptorId]);
 
   useEffect(() => {
-    if (user && receptorId) {
-      let isO =
-        user.followers.some(
-          (follower) =>
-            follower.id === receptorId && follower.status === "online"
-        ) ||
-        user.follows.some(
-          (follow) => follow.id === receptorId && follow.status === "online"
-        );
+    if (user && user.followers && user.follows && receptorId) {
+      let isO = false;
+      let v1 = user.followers.some(
+        (follower) => follower.id === receptorId && follower.status === "online"
+      );
+      let v2 = user.follows.some(
+        (follow) => follow.id === receptorId && follow.status === "online"
+      );
+      isO = v1 || v2;
       setIsOnline(isO);
     }
   }, [user, receptorId]);
