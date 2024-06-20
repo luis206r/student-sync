@@ -76,20 +76,17 @@ const chatsReducer = createReducer(initialState, (builder) => {
     // })
     .addCase(addMessage, (state, action) => {
       const { chatId, message } = action.payload;
-      const chatIndex = state.findIndex((chat) => chat.id === chatId);
+      let chatToAdd = state.filter((chat) => chat.id === chatId)[0];
 
-      if (chatIndex !== -1) {
-        const updatedChat = {
-          ...state[chatIndex],
-          messages: [message, ...state[chatIndex].messages],
-          numberOfMessages: state[chatIndex].numberOfMessages + 1,
-        };
-
-        const newState = state.filter((_, index) => index !== chatIndex);
-        // Devuelve el estado actualizado con el chat movido al inicio
-        return [updatedChat, ...newState];
+      if (chatToAdd) {
+        let msgs = chatToAdd.messages;
+        let n = chatToAdd.numberOfMessages;
+        n++;
+        chatToAdd = { ...chatToAdd, messages: [message, ...msgs], numberOfMessages: n };
+        let cw = state.filter((chat) => chat.id != chatId);
+        cw = [chatToAdd, ...cw];
+        return cw;
       }
-
       return state;
     })
 });

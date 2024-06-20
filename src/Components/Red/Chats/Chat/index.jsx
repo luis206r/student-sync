@@ -63,6 +63,7 @@ export const Chat = () => {
       //===============for new chat====================
 
       if (!chatt) {
+        console.log("este es un nuevo chat");
         setIsNewChat(true);
         const createAndAddChat = async () => {
           try {
@@ -70,10 +71,7 @@ export const Chat = () => {
             dispatch(addChat(chat_)); // Dispatcha la acción para añadir el chat al estado
             setChat(chat_); // Actualiza el estado local con el chat creado
             const t = chat_.user1.id === user.id ? chat_.user2 : chat_.user1;
-            let isOnline =
-              user.followers.some((follower) => follower.id === t.id) ||
-              user.follows.some((follow) => follow.id === t.id);
-            if (isOnline) setIsOnline(true);
+
             setUserReceiverInfo(t); // Establece la información del receptor
           } catch (error) {
             console.error("Error al crear y añadir el chat:", error);
@@ -87,10 +85,7 @@ export const Chat = () => {
       //================================================
       else {
         let t = chatt.user1.id === user.id ? chatt.user2 : chatt.user1;
-        let isOnline =
-          user.followers.some((follower) => follower.id === t.id) ||
-          user.follows.some((follow) => follow.id === t.id);
-        if (isOnline) setIsOnline(true);
+
         setUserReceiverInfo(t);
         //const tempMessages = [...chat.messages];
         //setMessages(tempMessages);
