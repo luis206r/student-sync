@@ -45,13 +45,13 @@ export const Navbar = ({ mobile }) => {
       );
 
       if (res.status === 200) {
-        dispatch(clearUser());
-        dispatch(clearChats());
-        socket.emit("offline");
         localStorage.removeItem("userToken");
         //limpiar estado de redux
         console.log("cesion cerrada exitosamente");
         navigate("/login");
+        socket.emit("offline");
+        dispatch(clearUser());
+        dispatch(clearChats());
       } else {
         console.log("error al cerrar sesión");
       }

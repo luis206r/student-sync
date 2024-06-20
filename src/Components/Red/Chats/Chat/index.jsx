@@ -48,7 +48,7 @@ export const Chat = () => {
   }, [receiverId]);
 
   useEffect(() => {
-    if (chats && user && receptorId && user.id && receiverId) {
+    if (chats && user && receptorId) {
       //console.log("====>", chats);
       if (receptorId === user.id) {
         alert("El chat personal aún no esta disponible...");
