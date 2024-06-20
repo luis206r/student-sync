@@ -5,6 +5,7 @@ export const deleteMessage = createAction("DELETE_MESSAGE");
 export const addMessage = createAction("ADD_MESSAGE");
 export const addChat = createAction("ADD_CHAT");
 export const updateChat = createAction("UPDATE_CHAT");
+export const clearChats = createAction("CLEAR_CHATS");
 
 //export const setOnlyMail = createAction("SET_ONLY_MAIL")
 
@@ -15,6 +16,9 @@ const chatsReducer = createReducer(initialState, (builder) => {
     .addCase(setChats, (state, action) => action.payload)
 
     .addCase(deleteMessage, (state, action) => {
+      return [];
+    })
+    .addCase(clearChats, (state, action) => {
       return [];
     })
     // .addCase(addChat, (state, action) => {

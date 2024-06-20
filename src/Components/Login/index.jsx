@@ -14,6 +14,7 @@ import { FaGalacticSenate } from "react-icons/fa6";
 import { CiLock, CiMail } from "react-icons/ci";
 import { RiQuestionFill } from "react-icons/ri";
 import { setChats } from "../../state/chats";
+import { socket } from "../../App";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -66,14 +67,15 @@ export const Login = () => {
       );
 
       if (res.status === 200) {
+        socket.emit("new-user-connected", res.data.id);
         console.log("me: ", res.data);
         dispatch(setUser({ ...res.data }));
         //ejecutar seteo de redux en Layout
 
         const chts = await chatsRequest(res.data.id);
         dispatch(setChats(chts));
-
         navigate("/home/auto/resume");
+        window.location.reload();
       } else {
         navigate("/login");
       }

@@ -113,11 +113,15 @@ function App() {
   //==============SOCKET HEAR===================
 
   useEffect(() => {
-    socket.on("message", (data) => receiveMessage(data, userId));
-    socket.on("newChatMessage", (data) => receiveNewChatMessage(data, userId));
-    socket.on("get-connected-users", (data) =>
-      dispatch(updateContactStatus(data))
-    );
+    socket.on("message", (data) => {
+      if (!pathname.includes("login")) receiveMessage(data, userId);
+    });
+    socket.on("newChatMessage", (data) => {
+      if (!pathname.includes("login")) receiveNewChatMessage(data, userId);
+    });
+    socket.on("get-connected-users", (data) => {
+      if (!pathname.includes("login")) dispatch(updateContactStatus(data));
+    });
 
     return () => {
       socket.disconnect();

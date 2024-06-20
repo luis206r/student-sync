@@ -20,6 +20,8 @@ import { TbClipboardText } from "react-icons/tb";
 import { CgTime } from "react-icons/cg";
 import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
+import { clearChats } from "../../state/chats";
+import { socket } from "../../App";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -44,6 +46,8 @@ export const Navbar = ({ mobile }) => {
 
       if (res.status === 200) {
         dispatch(clearUser());
+        dispatch(clearChats());
+        socket.emit("offline");
         localStorage.removeItem("userToken");
         //limpiar estado de redux
         console.log("cesion cerrada exitosamente");
