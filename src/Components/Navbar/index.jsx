@@ -64,7 +64,7 @@ export const Navbar = ({ mobile }) => {
   const handleLogout = () => {
     const auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
-      alert("Se ha cerrado sesión correctamente");
+      //alert("Se ha cerrado sesión correctamente");
       // Aquí puedes realizar acciones adicionales después de cerrar sesión
     });
     logoutRequest();
