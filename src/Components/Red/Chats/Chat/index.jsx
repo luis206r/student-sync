@@ -12,6 +12,7 @@ import { BsCheck, BsCheckAll } from "react-icons/bs";
 import { TbClockHour3 } from "react-icons/tb";
 import Result from "postcss/lib/result";
 import { GoChevronLeft } from "react-icons/go";
+import { uniqueList } from "../../../../Utils/uniqueList";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
