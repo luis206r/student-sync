@@ -39,6 +39,7 @@ export const Chat = () => {
   const [isNewChat, setIsNewChat] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
+  const [contacts, setContacts] = useState(null);
 
   useEffect(() => {
     console.log("receiverId:", receiverId);
@@ -97,19 +98,26 @@ export const Chat = () => {
     }
   }, [chats, receptorId]);
 
+  // useEffect(() => {
+  //   if (user && user.followers && user.follows && receptorId) {
+  //     let isO = false;
+  //     let v1 = user.followers.some(
+  //       (follower) => follower.id === receptorId && follower.status === "online"
+  //     );
+  //     let v2 = user.follows.some(
+  //       (follow) => follow.id === receptorId && follow.status === "online"
+  //     );
+  //     isO = v1 || v2;
+  //     setIsOnline(isO);
+  //   }
+  // }, [user, receptorId]);
+
   useEffect(() => {
-    if (user && user.followers && user.follows && receptorId) {
-      let isO = false;
-      let v1 = user.followers.some(
-        (follower) => follower.id === receptorId && follower.status === "online"
-      );
-      let v2 = user.follows.some(
-        (follow) => follow.id === receptorId && follow.status === "online"
-      );
-      isO = v1 || v2;
-      setIsOnline(isO);
+    if (user && user.followers && user.follows) {
+      const contacts_ = uniqueList(user.followers, user.follows);
+      setContacts(contacts_);
     }
-  }, [user, receptorId]);
+  }, [user]);
 
   useEffect(() => {
     if (!loadingMoreMessages) {
@@ -295,7 +303,9 @@ export const Chat = () => {
                   navigate(`/home/red/profile/${userReceiverInfo.id}`)
                 }
               />
-              {isOnline && (
+              {contacts.some(
+                (u) => u.id === userReceiverInfo.id && u.status === "online"
+              ) && (
                 <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[28px] bottom-[4px]" />
               )}
             </div>
