@@ -48,7 +48,7 @@ export const Chats = () => {
   }, [location]);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.followers && user.follows) {
       let cl = uniqueList(user.followers, user.follows);
       cl = cl.map((contact) => {
         return {

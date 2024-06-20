@@ -75,7 +75,7 @@ export const Login = () => {
         const chts = await chatsRequest(res.data.id);
         dispatch(setChats(chts));
         navigate("/home/auto/resume");
-        window.location.reload();
+        //window.location.reload();
       } else {
         navigate("/login");
       }

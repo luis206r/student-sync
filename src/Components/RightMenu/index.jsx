@@ -18,8 +18,10 @@ export const RightMenu = () => {
   };
 
   useEffect(() => {
-    const contacts_ = uniqueList(user.followers, user.follows);
-    setContacts(contacts_);
+    if (user && user.followers && user.follows) {
+      const contacts_ = uniqueList(user.followers, user.follows);
+      setContacts(contacts_);
+    }
   }, [user]);
 
   return (
