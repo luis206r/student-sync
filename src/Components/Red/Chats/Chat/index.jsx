@@ -307,7 +307,7 @@ export const Chat = () => {
               {contacts.some(
                 (u) => u.id === userReceiverInfo.id && u.status === "online"
               ) && (
-                <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[28px] bottom-[4px]" />
+                <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[26px] bottom-[2px]" />
               )}
             </div>
             &nbsp;&nbsp;
