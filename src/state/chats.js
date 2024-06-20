@@ -85,9 +85,9 @@ const chatsReducer = createReducer(initialState, (builder) => {
           numberOfMessages: state[chatIndex].numberOfMessages + 1,
         };
 
-        // Eliminamos el chat del array original y lo insertamos al principio
-        const newState = [updatedChat, ...state.slice(0, chatIndex), ...state.slice(chatIndex + 1)];
-        return newState;
+        const newState = state.filter((_, index) => index !== chatIndex);
+        // Devuelve el estado actualizado con el chat movido al inicio
+        return [updatedChat, ...newState];
       }
 
       return state;
