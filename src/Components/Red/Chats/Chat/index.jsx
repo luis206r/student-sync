@@ -227,12 +227,13 @@ export const Chat = () => {
         alert("Mensaje invválido");
         return;
       }
-      let tempText = messageInput;
+      let tt = messageInput;
+      setTempText(messageInput);
 
       setMessageInput("");
       setSendingMessage(true);
 
-      const result = await createMessage(tempText);
+      const result = await createMessage(tt);
 
       dispatch(addMessage({ chatId: result.chatId, message: result }));
       if (isNewChat) {
