@@ -221,17 +221,18 @@ export const Chat = () => {
     }
   };
 
-  const handleClickSendMessage = async (text) => {
+  const handleClickSendMessage = async () => {
     try {
       if (messageInput.trim() === "") {
         alert("Mensaje invválido");
         return;
       }
+      let tempText = messageInput;
 
       setMessageInput("");
       setSendingMessage(true);
 
-      const result = await createMessage(text);
+      const result = await createMessage(tempText);
 
       dispatch(addMessage({ chatId: result.chatId, message: result }));
       if (isNewChat) {
