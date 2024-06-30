@@ -323,7 +323,7 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]  transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("like")}
                 >
                   <img src={like} className="w-[35px]" />
@@ -332,7 +332,7 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]  transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("laugh")}
                 >
                   <img src={laugh} className="w-[35px]" />
@@ -341,7 +341,7 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]  transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("claps")}
                 >
                   <img src={claps} className="w-[35px]" />
@@ -350,7 +350,7 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]  transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("love")}
                 >
                   <img src={love} className="w-[35px]" />
@@ -359,7 +359,7 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]  transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("surprise")}
                 >
                   <img src={surprise} className="w-[35px]" />
@@ -368,10 +368,10 @@ export const Post = ({
                 <Button
                   size="large"
                   type="text"
-                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px]"
+                  className="pb-0 pt-0 w-fit h-fit pr-0 pl-0 text-[25px] transition-transform duration-300 ease-in-out transform hover:scale-150"
                   onClick={(e) => handleSelectReaction("sad")}
                 >
-                  <img src={sad} className="w-[35px]" />
+                  <img src={sad} className="w-[35px] " />
                 </Button>
                 {/*sad*/}
               </div>
@@ -411,7 +411,7 @@ export const Post = ({
                 </div>
               )}
               {selectedReaction === "love" && (
-                <div className={`text-[#fdb846] flex flex-row items-center`}>
+                <div className={`text-[#fa2b44] flex flex-row items-center`}>
                   <img src={love} className="w-[25px] h-[25px]" /> &nbsp; Me
                   encanta
                 </div>

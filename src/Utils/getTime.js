@@ -1,7 +1,7 @@
 
-const getTime = () => {
+const getTime = (value) => {
   // Obtener la fecha actual
-  const currentDate = new Date();
+  const currentDate = value ? new Date(value) : new Date();
 
   // Obtener el día, mes y año
   const day = currentDate.getDate();

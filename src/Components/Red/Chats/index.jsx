@@ -61,7 +61,7 @@ export const Chats = () => {
                     ? contact.profileImageUrl
                     : "/profileImage.png"
                 }
-                className="w-[30px] h-[30px] rounded-[50%]"
+                className="w-[30px] h-[30px] rounded-[50%] shadow-md"
               />
               &nbsp;&nbsp;
               <p>{contact.name}</p>
@@ -104,7 +104,7 @@ export const Chats = () => {
                   className="h-[35px] rounded-[35px] "
                 />
                 {isOnline && (
-                  <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[26px] bottom-[13px]" />
+                  <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[26px] bottom-[13px] border-[1px] border-[#7e7a7a]" />
                 )}
 
                 <div className="w-full h-full flex flex-col pt-3 pb-3 pl-4">

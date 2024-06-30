@@ -13,14 +13,16 @@ import { TbClockHour3 } from "react-icons/tb";
 import Result from "postcss/lib/result";
 import { GoChevronLeft } from "react-icons/go";
 import { uniqueList } from "../../../../Utils/uniqueList";
+import getTime from "../../../../Utils/getTime";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
 export const Chat = () => {
+  const inptMsg = useRef(null);
   const scrollRef = useRef(null);
   const executeScroll = () =>
-    scrollRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollRef.current.scrollIntoView({ block: "start" });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,14 +43,19 @@ export const Chat = () => {
   const [showDrawer, setShowDrawer] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
   const [contacts, setContacts] = useState(null);
+  const [dates, setDates] = useState([]);
 
   useEffect(() => {
     console.log("receiverId:", receiverId);
-    if (receiverId) setReceptorId(parseInt(receiverId));
+    if (receiverId != null) {
+      const ii = parseInt(receiverId);
+      setReceptorId(ii);
+    }
   }, [receiverId]);
 
   useEffect(() => {
-    if (chats && user && receptorId && user.id) {
+    //cada vez que recibo un mensaje, socket actualiza el estado de redux. en esa transición pueden ocurren distintos cambios al estado de chats, por lo que puede no encontrar un chat especifo en algun momento, pero milisegundos despues lo encuetra, por lo que chatt puede ser undefined incialmente. Para preveer eso se crea el estado setIsNewChat que se actualiza con cada ejecucion de este useEffect, evitando el bug de borrar los mensajes anteriores al enviar un mensaje. 🧐
+    if (chats && user && receptorId != null && user.id) {
       //console.log("====>", chats);
       if (receptorId === user.id) {
         alert("El chat personal aún no esta disponible...");
@@ -56,14 +63,13 @@ export const Chat = () => {
       }
       let chatt = chats.filter(
         (chat_) =>
-          (chat_.user1.id === user.id && chat_.user2.id === receptorId) ||
-          (chat_.user1.id === receptorId && chat_.user2.id === user.id)
+          chat_.user1.id === receptorId || chat_.user2.id === receptorId
       )[0];
 
       //===============for new chat====================
 
       if (!chatt) {
-        console.log("este es un nuevo chat");
+        //console.log("este es un nuevo chat...");
         setIsNewChat(true);
         const createAndAddChat = async () => {
           try {
@@ -84,6 +90,8 @@ export const Chat = () => {
 
       //================================================
       else {
+        setIsNewChat(false); //importante!!!!!
+        //console.log("ahora este chat no es nuevo...");
         let t = chatt.user1.id === user.id ? chatt.user2 : chatt.user1;
 
         setUserReceiverInfo(t);
@@ -247,6 +255,7 @@ export const Chat = () => {
       // setMessages((prevMessages) => [result, ...prevMessages]);
 
       setSendingMessage(false);
+      inptMsg.current.focus();
     } catch (err) {
       setSendingMessage(false);
       console.error(err);
@@ -254,13 +263,19 @@ export const Chat = () => {
     }
   };
 
+  useEffect(() => {
+    if (!sendingMessage && inptMsg.current) {
+      inptMsg.current.focus();
+    }
+  }, [sendingMessage]);
+
   const handleEnter = (event) => {
     if (event.keyCode === 13 || event.keyCode === 3) {
       event.preventDefault();
       //event.target.value === "";
       let text = messageInput;
       setTempText(text);
-      handleClickSendMessage(text);
+      handleClickSendMessage();
     }
   };
 
@@ -269,8 +284,8 @@ export const Chat = () => {
   return (
     <div className="w-full h-full">
       <div className="bg-[#ffffff] md:rounded-[10px] h-full">
-        <div className=" p-1 md:p-2 pt-0 flex flex-col h-full pb-0 ">
-          <div className="md:h-[80px] h-[60px] w-full flex flex-row items-center md:p-2 p-1 ">
+        <div className=" p-1 md:p-2 pt-0 flex flex-col h-full pb-0 md:pb-0 ">
+          <div className="md:h-[80px] h-[60px] w-full flex flex-row items-center md:p-2 p-1 relative">
             <Button
               type="text"
               onClick={() => navigate("/home/red/chats")}
@@ -296,7 +311,7 @@ export const Chat = () => {
               <img
                 src={userReceiverInfo.profileImageUrl || "/profileImage.png"}
                 alt="Profile Image"
-                className="h-[35px] rounded-[35px]"
+                className="h-[35px] rounded-[35px] shadow-md"
                 onClick={() =>
                   navigate(`/home/red/profile/${userReceiverInfo.id}`)
                 }
@@ -304,7 +319,7 @@ export const Chat = () => {
               {contacts.some(
                 (u) => u.id === userReceiverInfo.id && u.status === "online"
               ) && (
-                <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[26px] bottom-[2px]" />
+                <div className="flex bg-[#52c41a] w-[12px] h-[12px] rounded-[50%] absolute left-[26px] bottom-[2px] border-[1px] border-[#7e7a7a]" />
               )}
             </div>
             &nbsp;&nbsp;
@@ -323,8 +338,8 @@ export const Chat = () => {
                 {loadingMoreMessages ? (
                   "Cargando..."
                 ) : (
-                  <Button className="w-fit" onClick={loadMsgs}>
-                    Cargar más
+                  <Button className="w-fit" onClick={loadMsgs} type="link">
+                    Cargar
                   </Button>
                 )}
               </div>
@@ -332,27 +347,51 @@ export const Chat = () => {
             <div className=" w-full flex flex-col p-2 pl-2 pr-2 justify-end text-black">
               {chat &&
                 chat.messages &&
-                [...chat.messages].reverse().map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`w-full flex ${
-                      msg.senderId === user.id ? "justify-end" : "justify-start"
-                    }`}
-                  >
-                    <div
-                      className={`${
-                        msg.senderId === user.id
-                          ? "bg-[#0f83fe] text-white rounded-br-[0px]"
-                          : "bg-[#f3f3f3] rounded-bl-[0px]"
-                      } p-3 mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative`}
-                    >
-                      {msg.content}
-                      {msg.senderId === user.id && (
-                        <div className="absolute bottom-[2px] right-[4px] text-[12px]">
-                          {/* <BsCheck /> */}
-                          <BsCheckAll />
+                [...chat.messages].reverse().map((msg, index, array) => (
+                  <div className="w-full" key={index}>
+                    {index == 0 && (
+                      <span className="w-full flex flex-row justify-center items-center text-textcol-1 text-[13px]">
+                        <div className="bg-[#f3f3f3] p-1 pl-2 pr-2 rounded-[15px]">
+                          {getTime(msg.createdAt).date}
                         </div>
+                      </span>
+                    )}
+                    {index > 0 &&
+                      getTime(msg.createdAt).date !=
+                        getTime(array[index - 1].createdAt).date && (
+                        <span className="w-full flex justify-center">
+                          {getTime(msg.createdAt).date}
+                        </span>
                       )}
+                    <div
+                      // key={index}
+                      className={`w-full flex ${
+                        msg.senderId === user.id
+                          ? "justify-end"
+                          : "justify-start"
+                      }`}
+                    >
+                      <div
+                        className={`${
+                          msg.senderId === user.id
+                            ? "bg-[#0f83fe] text-white rounded-br-[0px]"
+                            : "bg-[#f3f3f3] rounded-tl-[0px]"
+                        } p-2 pl-3 pr-3 mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative flex flex-row`}
+                      >
+                        <div className="pb-1">{msg.content}</div>
+                        <span
+                          className={`text-[10px] pl-2 ${
+                            msg.senderId === user.id
+                              ? "text-[#f1f1f1]"
+                              : "text-[#7e7e7e]"
+                          } flex items-end`}
+                        >
+                          {getTime(msg.createdAt).time}
+                          {msg.senderId === user.id && (
+                            <BsCheckAll className="text-[13px]" />
+                          )}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -388,15 +427,16 @@ export const Chat = () => {
               }}
             >
               <TextArea
-                className="bg-[#f3f3f3] border-[#f3f3f3] text-black p-[8px] rounded-[10px] text-[16px]"
+                className="bg-[#f3f3f3] border-[#f3f3f3] text-black p-[8px] rounded-[10px] text-[16px] max-h-[150px] overflow-auto resize-none"
                 placeholder="Escribe un mensaje"
                 autoSize
                 maxLength={300}
-                style={{ resize: "none", overflow: "auto", maxHeight: "150px" }}
+                //style={{ resize: "none", overflow: "auto", maxHeight: "150px" }}
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyDown={handleEnter}
                 disabled={sendingMessage}
+                ref={inptMsg}
               />
             </ConfigProvider>
             <Button

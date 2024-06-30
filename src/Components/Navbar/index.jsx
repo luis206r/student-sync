@@ -74,16 +74,22 @@ export const Navbar = ({ mobile }) => {
   const items = [
     {
       key: "1",
+      label: "Perfil",
+      onClick: () => navigate(`/home/red/profile/${user.id}`),
+    },
+
+    {
+      key: "2",
       label: "Configuración",
       disabled: true,
     },
     {
-      key: "2",
+      key: "3",
       label: "Ayuda",
       disabled: true,
     },
     {
-      key: "3",
+      key: "4",
       label: "Cerrar sesión",
       // <div>
       //   <GoogleLogout
@@ -118,7 +124,7 @@ export const Navbar = ({ mobile }) => {
     {
       key: "home/auto",
       label: !mobile ? (
-        <Link to={"auto/resume"} className="flex ml-[15px]  mr-[15px]">
+        <Link to={"auto/resume"} className="flex ">
           <FaBookOpenReader className="mt-[14px] mr-[10px]" />
           Gestion
         </Link>
@@ -158,7 +164,7 @@ export const Navbar = ({ mobile }) => {
     {
       key: "home/red",
       label: !mobile ? (
-        <Link to={"red/people"} className="flex ml-[15px]  mr-[15px]">
+        <Link to={"red/people"} className="flex ">
           <IoPeopleSharp className="mt-[14px] mr-[10px]" />
           Red
         </Link>
@@ -194,7 +200,7 @@ export const Navbar = ({ mobile }) => {
     {
       key: "home/explore",
       label: !mobile ? (
-        <Link to={"explore"} className="flex ml-[15px]  mr-[15px]">
+        <Link to={"explore"} className="flex">
           <MdOutlineExplore className="mt-[14px] mr-[10px]" />
           Explora
         </Link>
@@ -207,7 +213,7 @@ export const Navbar = ({ mobile }) => {
     {
       key: "home/health",
       label: !mobile ? (
-        <Link to={"health"} className="flex ml-[15px]  mr-[15px]">
+        <Link to={"health"} className="flex ">
           <RiMentalHealthFill className="mt-[14px] mr-[10px]" />
           Salud
         </Link>
@@ -282,7 +288,7 @@ export const Navbar = ({ mobile }) => {
       <div className="pl-2 pr-2 bg-cach-l1 md:rounded-b-[15px] md:h-[62px] w-full h-[50px] shadow-lg">
         <div className="w-full flex h-full flex-row justify-between">
           <div
-            className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  "
+            className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  hover:cursor-pointer"
             onClick={() => navigate("/home/auto/resume")}
           >
             <div className="hidden md:flex md:h-full md:items-center pl-2">

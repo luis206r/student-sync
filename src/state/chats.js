@@ -80,9 +80,10 @@ const chatsReducer = createReducer(initialState, (builder) => {
 
       if (chatToAdd) {
         let msgs = chatToAdd.messages;
+        msgs = [message, ...msgs];
         let n = chatToAdd.numberOfMessages;
         n++;
-        chatToAdd = { ...chatToAdd, messages: [message, ...msgs], numberOfMessages: n };
+        chatToAdd = { ...chatToAdd, messages: msgs, numberOfMessages: n };
         let cw = state.filter((chat) => chat.id != chatId);
         cw = [chatToAdd, ...cw];
         return cw;

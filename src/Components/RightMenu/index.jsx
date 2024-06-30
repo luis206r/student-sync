@@ -62,7 +62,7 @@ export const RightMenu = () => {
                         className="w-[25px] h-[25px] rounded-[50%] shadow-md"
                       />
                       {contact.status === "online" && (
-                        <div className="flex bg-[#52c41a] w-[8px] h-[8px] rounded-[50%] absolute left-[20px] bottom-[0px]" />
+                        <div className="flex bg-[#52c41a] w-[10px] h-[10px] rounded-[50%] absolute left-[18px] bottom-[0px] border-[1px] border-[#7e7a7a]" />
                       )}
                       &nbsp;&nbsp;
                       <p>{fullname}</p>
