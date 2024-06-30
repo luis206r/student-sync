@@ -1,4 +1,4 @@
-import { Button, ConfigProvider, Drawer, Input, message } from "antd";
+import { Button, ConfigProvider, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useRef, useState } from "react";
 import { IoSend } from "react-icons/io5";
@@ -10,7 +10,6 @@ import { addChat, addMessage, updateChat } from "../../../../state/chats";
 import "./index.css";
 import { BsCheck, BsCheckAll } from "react-icons/bs";
 import { TbClockHour3 } from "react-icons/tb";
-import Result from "postcss/lib/result";
 import { GoChevronLeft } from "react-icons/go";
 import { uniqueList } from "../../../../Utils/uniqueList";
 import getTime from "../../../../Utils/getTime";
@@ -29,21 +28,16 @@ export const Chat = () => {
   const user = useSelector((state) => state.user);
   const { receiverId } = useParams();
   const [receptorId, setReceptorId] = useState(null);
-  const [messages, setMessages] = useState(null);
   const [loading, setLoading] = useState(true);
   const [messageInput, setMessageInput] = useState("");
   const chats = useSelector((state) => state.chats);
   const [chat, setChat] = useState(null);
-  const [chatProps, setChatProps] = useState(null);
   const [userReceiverInfo, setUserReceiverInfo] = useState(null);
   const [sendingMessage, setSendingMessage] = useState(false);
   const [tempText, setTempText] = useState("");
   const [loadingMoreMessages, setLoadingMoreMessages] = useState(false);
   const [isNewChat, setIsNewChat] = useState(false);
-  const [showDrawer, setShowDrawer] = useState(false);
-  const [isOnline, setIsOnline] = useState(false);
   const [contacts, setContacts] = useState(null);
-  const [dates, setDates] = useState([]);
 
   useEffect(() => {
     console.log("receiverId:", receiverId);
@@ -93,28 +87,11 @@ export const Chat = () => {
         setIsNewChat(false); //importante!!!!!
         //console.log("ahora este chat no es nuevo...");
         let t = chatt.user1.id === user.id ? chatt.user2 : chatt.user1;
-
         setUserReceiverInfo(t);
-        //const tempMessages = [...chat.messages];
-        //setMessages(tempMessages);
         setChat(chatt);
       }
     }
   }, [chats, receptorId]);
-
-  // useEffect(() => {
-  //   if (user && user.followers && user.follows && receptorId) {
-  //     let isO = false;
-  //     let v1 = user.followers.some(
-  //       (follower) => follower.id === receptorId && follower.status === "online"
-  //     );
-  //     let v2 = user.follows.some(
-  //       (follow) => follow.id === receptorId && follow.status === "online"
-  //     );
-  //     isO = v1 || v2;
-  //     setIsOnline(isO);
-  //   }
-  // }, [user, receptorId]);
 
   useEffect(() => {
     if (user && user.followers && user.follows) {
@@ -236,11 +213,11 @@ export const Chat = () => {
         return;
       }
       let tt = messageInput;
-      setTempText(messageInput);
+      setTempText(tt);
 
       setMessageInput("");
       setSendingMessage(true);
-
+      // setTimeout(async () => {
       const result = await createMessage(tt);
 
       dispatch(addMessage({ chatId: result.chatId, message: result }));
@@ -256,6 +233,7 @@ export const Chat = () => {
 
       setSendingMessage(false);
       inptMsg.current.focus();
+      // }, "3000");
     } catch (err) {
       setSendingMessage(false);
       console.error(err);
@@ -284,7 +262,7 @@ export const Chat = () => {
   return (
     <div className="w-full h-full">
       <div className="bg-[#ffffff] md:rounded-[10px] h-full">
-        <div className=" p-1 md:p-2 pt-0 flex flex-col h-full pb-0 md:pb-0 ">
+        <div className=" p-1 md:p-2 pt-0 flex flex-col h-full pb-0 md:pb-0 md:pt-0">
           <div className="md:h-[80px] h-[60px] w-full flex flex-row items-center md:p-2 p-1 relative">
             <Button
               type="text"
@@ -294,19 +272,6 @@ export const Chat = () => {
             >
               <GoChevronLeft className="text-[20px]" />
             </Button>
-            {/*
-            <Drawer
-              title="Basic Drawer"
-              placement={"left"}
-              closable={true}
-              onClose={() => setShowDrawer(false)}
-              open={showDrawer}
-              key={"1d"}
-            >
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-              <p>Some contents...</p>
-            </Drawer> */}
             <div className="w-[35px] h-[35px] relative">
               <img
                 src={userReceiverInfo.profileImageUrl || "/profileImage.png"}
@@ -328,15 +293,11 @@ export const Chat = () => {
             </h4>
           </div>
           <hr />
-          <div
-            className="scp h-full w-full mb-1 mt-1 overflow-y-auto overflow-x-hidden"
-
-            //style={{ scrollbarWidth: "thin", overflowY: "auto" }}
-          >
+          <div className="scp h-full w-full mb-1 mt-1 overflow-y-auto overflow-x-hidden">
             {chat && chat.currentPage < chat.totalPages && (
               <div className="w-full flex justify-center">
                 {loadingMoreMessages ? (
-                  "Cargando..."
+                  <span className="text-[14px] pb-1 pt-1">Cargando...</span>
                 ) : (
                   <Button className="w-fit" onClick={loadMsgs} type="link">
                     Cargar
@@ -359,8 +320,10 @@ export const Chat = () => {
                     {index > 0 &&
                       getTime(msg.createdAt).date !=
                         getTime(array[index - 1].createdAt).date && (
-                        <span className="w-full flex justify-center">
-                          {getTime(msg.createdAt).date}
+                        <span className="w-full flex flex-row justify-center items-center text-textcol-1 text-[13px]">
+                          <div className="bg-[#f3f3f3] p-1 pl-2 pr-2 rounded-[15px]">
+                            {getTime(msg.createdAt).date}
+                          </div>
                         </span>
                       )}
                     <div
@@ -372,11 +335,11 @@ export const Chat = () => {
                       }`}
                     >
                       <div
-                        className={`${
+                        className={` p-2 ${
                           msg.senderId === user.id
-                            ? "bg-[#0f83fe] text-white rounded-br-[0px]"
-                            : "bg-[#f3f3f3] rounded-tl-[0px]"
-                        } p-2 pl-3 pr-3 mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative flex flex-row`}
+                            ? "bg-[#0f83fe] text-white rounded-br-[0px] pr-2 pl-3"
+                            : "bg-[#f3f3f3] rounded-tl-[0px] pl-3 pr-3"
+                        }  mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative flex flex-row`}
                       >
                         <div className="pb-1">{msg.content}</div>
                         <span
@@ -388,7 +351,7 @@ export const Chat = () => {
                         >
                           {getTime(msg.createdAt).time}
                           {msg.senderId === user.id && (
-                            <BsCheckAll className="text-[13px]" />
+                            <BsCheckAll className="text-[15px]" />
                           )}
                         </span>
                       </div>
@@ -396,17 +359,21 @@ export const Chat = () => {
                   </div>
                 ))}
               {sendingMessage && (
-                <div className={`w-full flex justify-end`}>
+                <div
+                  // key={index}
+                  className={`w-full flex justify-end`}
+                >
                   <div
                     className={`
-                          bg-[#0f83fe] text-white rounded-br-[0px]
-                       p-3 mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative`}
+                    bg-[#0f83fe] text-white rounded-br-[0px]
+                    p-2 pl-3 pr-2 mt-2 rounded-[20px]  w-fit pointer-events-none border-none shadow-md  max-w-[80%] break-words relative flex flex-row`}
                   >
-                    {tempText}
-
-                    <div className="absolute bottom-[2px] right-[4px] text-[12px]">
-                      <TbClockHour3 />
-                    </div>
+                    <div className="pb-1">{tempText}</div>
+                    <span
+                      className={`text-[10px] pl-2 text-[#f1f1f1] flex items-end`}
+                    >
+                      <TbClockHour3 className="text-[13px]" />
+                    </span>
                   </div>
                 </div>
               )}
@@ -431,7 +398,6 @@ export const Chat = () => {
                 placeholder="Escribe un mensaje"
                 autoSize
                 maxLength={300}
-                //style={{ resize: "none", overflow: "auto", maxHeight: "150px" }}
                 value={messageInput}
                 onChange={(e) => setMessageInput(e.target.value)}
                 onKeyDown={handleEnter}

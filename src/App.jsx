@@ -6,12 +6,10 @@ import { Layout } from "./Components/Layout";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navbar } from "./Components/Navbar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser, updateContactStatus } from "./state/user";
 import { LeftMenu } from "./Components/LeftMenu";
-import { RiCollapseDiagonal2Fill } from "react-icons/ri";
 import ReactGA from "react-ga4";
-import { RightMenu } from "./Components/RightMenu";
 import { io } from "socket.io-client";
 import { addChat, addMessage, setChats } from "./state/chats";
 import { Loader } from "./Commons/Loader";
@@ -21,8 +19,6 @@ let userId;
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
-
-//const socket = socket.io("http://localhost:8000");
 
 const TRACKING_ID = "G-56X83C2ZX7";
 ReactGA.initialize(TRACKING_ID);
