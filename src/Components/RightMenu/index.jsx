@@ -26,13 +26,13 @@ export const RightMenu = () => {
 
   return (
     <div
-      className={` pl-2 max-w-[210px] w-full top-[80px] pb-4 fixed bottom-[0px]`}
+      className={` pl-2 max-w-[210px] w-full top-[76px] pb-4 fixed bottom-[0px]`}
     >
       <div className="rounded-[15px] h-full">
-        <div className="w-full bg-cach-l1  shadow-lg pt-2 pl-4 pr-4 rounded-t-[15px]">
+        <div className="w-full bg-cach-l1  shadow-md pt-2 pl-4 pr-4 rounded-t-[15px]">
           <h3 className="text-black"> Contactos</h3>
         </div>
-        <div className=" scp w-full max-h-[91%] bg-cach-l1  overflow-auto p-2 shadow-lg rounded-b-[15px]">
+        <div className=" scp w-full max-h-[91%] bg-cach-l1  overflow-auto p-2 shadow-md rounded-b-[15px]">
           <div className="flex flex-col ">
             {contacts.map((contact) => {
               let fullname =

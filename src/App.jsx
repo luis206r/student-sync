@@ -4,7 +4,6 @@ import { Login } from "./Components/Login";
 import { Register } from "./Components/Register";
 import { Layout } from "./Components/Layout";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Navbar } from "./Components/Navbar";
 import { useDispatch } from "react-redux";
 import { setUser, updateContactStatus } from "./state/user";
@@ -13,17 +12,16 @@ import ReactGA from "react-ga4";
 import { io } from "socket.io-client";
 import { addChat, addMessage, setChats } from "./state/chats";
 import { Loader } from "./Commons/Loader";
+import { chatsService } from "./services/messages";
+import { meService } from "./services/users";
 let userId;
 
 //====================================
 
-//const backUrl = "http://localhost:8000";
-const backUrl = "https://student-sync-back.onrender.com";
-
 const TRACKING_ID = "G-56X83C2ZX7";
 ReactGA.initialize(TRACKING_ID);
 
-const socket = io(backUrl);
+const socket = io(import.meta.env.VITE_API_URL);
 
 function App() {
   const pathname = useLocation().pathname;
@@ -50,34 +48,11 @@ function App() {
   }, []);
 
   //==========================back request===========================
-  const chatsRequest = async (userId) => {
-    try {
-      const res = await axios.get(
-        `${backUrl}/api/messages/getAllChats/${userId}`,
-        {},
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        return res.data;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const chatsRequest = chatsService;
 
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        `${backUrl}/api/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await meService();
 
       if (res.status === 200) {
         setLoading(false);
@@ -172,11 +147,11 @@ function App() {
             path="/home/*"
             element={
               <>
-                <div className=" hidden md:max-w-[1280px] md:w-full md:absolute md:z-20 md:flex md:flex-col">
+                <div className=" hidden md:left-[0%] md:w-full fixed md:z-20 md:flex md:flex-col md:pr-[10px]">
                   <Navbar />
                 </div>
                 <div className="max-w-[1280px] w-full absolute z-20 md:hidden">
-                  <Navbar mobile={true} />
+                  <Navbar />
                 </div>
                 <div className="hidden sm:hidden md:absolute md:flex md:z-10">
                   <LeftMenu setCollapsed={setCollapsed} collapsed={collapsed} />

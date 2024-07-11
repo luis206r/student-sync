@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Typography, Modal, Input, Popover } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 const { Link: AntdLink } = Typography;
 import useInput from "../../Utils/useInput";
-import validarEmail from "../../Utils/validateEmail";
 import { gapi } from "gapi-script";
 import { FaGoogle } from "react-icons/fa";
 import "./index.css";
@@ -15,18 +13,14 @@ import { CiLock, CiMail } from "react-icons/ci";
 import { RiQuestionFill } from "react-icons/ri";
 import { setChats } from "../../state/chats";
 import { socket } from "../../App";
-
-//const backUrl = "http://localhost:8000";
-const backUrl = "https://student-sync-back.onrender.com";
-
-function validarCorreoUtec(correo, dominio) {
-  if (correo === "student.collab.app@gmail.com") return true;
-  // Escapamos el punto para que se tome literalmente en la expresión regular
-  const dominioRegex = new RegExp(`@${dominio.replace(".", "\\.")}$`, "i");
-
-  // Verificamos si el correo electrónico termina con el dominio especificado
-  return dominioRegex.test(correo);
-}
+import {
+  findEmailService,
+  googleLoginService,
+  loginService,
+  meService,
+} from "../../services/users";
+import { chatsService } from "../../services/messages";
+import validarCorreoUtec from "../../Utils/validateEmail";
 
 export const Login = () => {
   const pRef = useRef();
@@ -54,17 +48,7 @@ export const Login = () => {
   //==========================back request===========================
   const meRequest = async () => {
     try {
-      const res = await axios.get(
-        `${backUrl}/api/users/me`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-          },
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await meService();
 
       if (res.status === 200) {
         socket.emit("new-user-connected", res.data.id);
@@ -86,35 +70,13 @@ export const Login = () => {
     }
   };
 
-  const chatsRequest = async (userId) => {
-    try {
-      const res = await axios.get(
-        `${backUrl}/api/messages/getAllChats/${userId}`,
-        {},
-        { withCredentials: true }
-      );
-      if (res.status === 200) {
-        return res.data;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const chatsRequest = chatsService;
 
   //================================================================
 
   const googleLoginRequest = async (email, name, lastname, profileImageUrl) => {
     try {
-      const res = await axios.post(
-        `${backUrl}/api/users/googleLogin`,
-        {
-          email: email,
-          profileImageUrl: profileImageUrl,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await googleLoginService(email, profileImageUrl);
       if (res.status === 200) {
         localStorage.setItem("userToken", res.data.token);
         await meRequest();
@@ -191,16 +153,7 @@ export const Login = () => {
   //==========================back request===========================
   const loginRequest = async (email, password) => {
     try {
-      const res = await axios.post(
-        `${backUrl}/api/users/login`,
-        {
-          email: email,
-          password: password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await loginService(email, password);
 
       if (res.status === 200) {
         localStorage.setItem("userToken", res.data.token);
@@ -226,13 +179,7 @@ export const Login = () => {
         setEnableMailInput(true);
         return;
       } else {
-        const res = await axios.post(
-          `${backUrl}/api/users/findEmail`,
-          {
-            email: email.value,
-          },
-          { withCredentials: true }
-        );
+        const res = await findEmailService(email.value);
         if (res.status === 200) {
           if (res.data.user.hasGoogleAcces) {
             handleLoginGoogle();

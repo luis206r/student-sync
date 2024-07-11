@@ -1,7 +1,10 @@
-function validarEmail(email) {
-  // Expresión regular para validar el formato de un correo electrónico
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
+const validarCorreoUtec = (correo, dominio) => {
+  if (correo === "student.collab.app@gmail.com") return true;
+  // Escapamos el punto para que se tome literalmente en la expresión regular
+  const dominioRegex = new RegExp(`@${dominio.replace(".", "\\.")}$`, "i");
+
+  // Verificamos si el correo electrónico termina con el dominio especificado
+  return dominioRegex.test(correo);
 }
 
-export default validarEmail;
+export default validarCorreoUtec;

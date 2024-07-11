@@ -1,0 +1,31 @@
+.customTab {
+  display: flex;
+  justify-items: center;
+  padding: 10px;
+  align-items: center;
+  margin-left: 2px;
+  margin-right: 2px;
+  /* border-bottom-color: #0380f0;
+  border-bottom-width: 4px; */
+  color: #5a5a5a;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.customTab:hover {
+  /* background-color: #e8e8e8; */
+
+  color: #5099ff;
+  /*box-shadow: 0 0 20px 0px rgba(48, 135, 210, 0.776);*/
+  /* box-shadow: 0 4px 4px 0px rgba(48, 135, 210, 0.776); */
+}
+
+.customTab:active {
+  transform: scale(0.95);
+  color: #1677ff;
+  /* background-color: #e8e8e8; */
+}
+
+.custom-border {
+  /* border-bottom: 0.5px solid #efefef; Borde inferior de 1px de grosor y color #1677ff */
+  border-bottom: 0.5px solid rgba(144, 144, 144, 0.1);
+}

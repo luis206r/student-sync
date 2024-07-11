@@ -72,8 +72,8 @@ export const Feed = () => {
   }, []);
 
   return (
-    <div className="w-full flex flex-col md:p-4 md:pt-0">
-      <div className="w-full max-w-[800px]  flex flex-col  justify-center md:p-6 pb-0 m-auto bg-cach-l1 md:rounded-[15px]">
+    <div className="w-full flex flex-col md:p-4 md:pt-0 ">
+      <div className="w-full max-w-[800px]  flex flex-col  justify-center md:p-6 pb-0 m-auto bg-cach-l1 shadow-custom md:rounded-[15px]">
         <div className=" flex md:pb-4 md:pt-0 md:pl-0 md:pr-0 p-4 w-full justify-between">
           <h2 className="text-black">Feed</h2>
           {!creatingPost && (

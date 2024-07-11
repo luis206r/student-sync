@@ -33,7 +33,7 @@ export const Red = () => {
         <div className="w-full md:pr-2 h-full">
           <div
             className={` w-full md:ml-2 md:mr-2 ${
-              !inFeed ? "bg-cach-l1 md:pt-4" : "md:pt-0"
+              !inFeed ? "bg-cach-l1 md:pt-4 shadow-custom" : "md:pt-0"
             }  md:p-4 md:rounded-[15px] h-${ch} `}
           >
             <Routes>

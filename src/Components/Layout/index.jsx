@@ -18,7 +18,7 @@ export const Layout = ({ collapsed }) => {
       {location && (
         <div
           className={`${!collapsed ? "md:pl-[192px]" : "md:pl-[62px]"}
-           w-full h-full flex flex-col text-textcol-1 md:pt-[78px] pt-[50px]`}
+           w-full h-full flex flex-col text-textcol-1 md:pt-[78px] pt-[50px] `}
         >
           {/* <div className="w-full flex flex-row items-center justify-between p-4 pt-0 md:hidden ">
             <Button type="primary" shape="round" activ>

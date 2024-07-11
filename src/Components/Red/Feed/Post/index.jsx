@@ -192,7 +192,7 @@ export const Post = ({
 
   const createdAt = new Date(contentInfo.createdAt);
   return (
-    <div className="w-full p-4 pb-1 bg-white md:mb-4 mb-[3px] md:rounded-[10px] shadow-lg md:border-[1px] relative">
+    <div className="w-full p-4 pb-1 bg-white md:mb-4 mb-[3px] md:rounded-[10px] shadow-md md:border-[1px] relative">
       {deletingPost && (
         <div className="absolute  left-[0%] top-[0%]  rounded-[10px] z-10 w-full bg-[#f7f7f7] h-full flex flex-col items-center justify-center bg-opacity-80">
           <span>Eliminando Post...</span> &nbsp;{" "}

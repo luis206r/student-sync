@@ -20,7 +20,7 @@ export const Resume = () => {
           <img src={smile} className="m-0 w-[50px]" />
         </div>
 
-        <div className="p-4 bg-[#E8E8E8] rounded-[15px] mt-8">
+        <div className="p-4 bg-[#F3F3F3] rounded-[15px] mt-8">
           <h1 className="text-[15px]">
             Tus Estadísticas (Esta sección aún está en desarrollo)
           </h1>

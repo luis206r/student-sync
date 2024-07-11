@@ -1,25 +1,12 @@
 import React, { useRef, useState } from "react";
 import { Input, Button, Typography, Select } from "antd";
 import { CiUser, CiLock, CiMail } from "react-icons/ci";
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import useInput from "../../Utils/useInput";
-import axios from "axios";
-import validarEmail from "../../Utils/validateEmail";
+import { registerGoogleService, registerService } from "../../services/users";
+import validarCorreoUtec from "../../Utils/validateEmail";
 const { Link: AntdLink } = Typography;
 let it = 0;
-
-function validarCorreoUtec(correo, dominio) {
-  if (correo === "student.collab.app@gmail.com") return true;
-  // Escapamos el punto para que se tome literalmente en la expresión regular
-  const dominioRegex = new RegExp(`@${dominio.replace(".", "\\.")}$`, "i");
-
-  // Verificamos si el correo electrónico termina con el dominio especificado
-  return dominioRegex.test(correo);
-}
-
-//const backUrl = "http://localhost:8000";
-const backUrl = "https://student-sync-back.onrender.com";
 
 export const Register = () => {
   const { state } = useLocation();
@@ -128,9 +115,7 @@ export const Register = () => {
       password: password,
     };
     try {
-      const res = await axios.post(`${backUrl}/api/users/register`, props, {
-        withCredentials: true,
-      });
+      const res = await registerService(props);
 
       if (res.status === 201) {
         //ejecutar seteo de redux en Layout
@@ -172,15 +157,7 @@ export const Register = () => {
       password: password,
     };
     try {
-      const res = await axios.post(
-        `${backUrl}/api/users/googleRegister`,
-        {
-          ...props,
-        },
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await registerGoogleService(props);
 
       if (res.status === 201) {
         //ejecutar seteo de redux en Layout

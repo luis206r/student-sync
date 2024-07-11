@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Menu, Dropdown } from "antd";
+import { Button, Menu, Dropdown, Drawer } from "antd";
+import "./index.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   MdChat,
@@ -22,16 +23,33 @@ import { BsFillPeopleFill, BsPersonFill } from "react-icons/bs";
 import { LuAlignStartVertical } from "react-icons/lu";
 import { clearChats } from "../../state/chats";
 import { socket } from "../../App";
+import { HiOutlineMenu } from "react-icons/hi";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
 
-export const Navbar = ({ mobile }) => {
+export const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
   const [currentOption, setCurrentOption] = useState("");
+  const [showDrawer, setShowDrawer] = useState(false);
+
+  ///===new nav
+
+  const [option, setOption] = useState("");
+
+  useEffect(() => {
+    if (pathname) {
+      if (pathname.includes("/auto")) setOption("auto");
+      else if (pathname.includes("/red")) setOption("red");
+      else if (pathname.includes("/explore")) setOption("explore");
+      else if (pathname.includes("/health")) setOption("health");
+    }
+  }, [pathname]);
+
+  //=====
 
   //==========================back request===========================
   const logoutRequest = async () => {
@@ -123,119 +141,103 @@ export const Navbar = ({ mobile }) => {
   const items2 = [
     {
       key: "home/auto",
-      label: !mobile ? (
-        <Link to={"auto/resume"} className="flex ">
-          <FaBookOpenReader className="mt-[14px] mr-[10px]" />
-          Gestion
-        </Link>
-      ) : (
-        <FaBookOpenReader className="mt-[16px] ml-[15px] mr-[15px]" />
+      label: (
+        <div className="flex items-center">
+          <FaBookOpenReader className=" mr-[10px]" />
+          Gestión
+        </div>
       ),
-      children: !mobile
-        ? null
-        : [
-            {
-              key: "/home/auto/resume",
-              label: <Link to={"auto/resume"}>Tu resumen</Link>,
-              icon: <PiStudent className="p-0 m-0" />,
-            },
-            {
-              key: "/home/auto/calendar",
-              label: <Link to={"auto/calendar"}>Calendario</Link>,
-              icon: <PiCalendar />,
-            },
-            {
-              key: "/home/auto/reports",
-              label: <Link to={"auto/reports"}>Reporte</Link>,
-              icon: <TbClipboardText />,
-            },
-            {
-              key: "/home/auto/tasks",
-              label: <Link to={"auto/tasks"}>Tareas</Link>,
-              icon: <FaTasks />,
-            },
-            {
-              key: "/home/auto/events",
-              label: <Link to={"auto/events"}>Eventos</Link>,
-              icon: <CgTime />,
-            },
-          ],
+
+      children: [
+        {
+          key: "/home/auto/resume",
+          label: "Resumen",
+          icon: <PiStudent className="p-0 m-0" />,
+        },
+        {
+          key: "/home/auto/calendar",
+          label: "Calendario",
+          icon: <PiCalendar />,
+        },
+        {
+          key: "/home/auto/reports",
+          label: "Reportes",
+          icon: <TbClipboardText />,
+        },
+        {
+          key: "/home/auto/tasks",
+          label: "Tareas",
+          icon: <FaTasks />,
+        },
+        {
+          key: "/home/auto/events",
+          label: "Eventos",
+          icon: <CgTime />,
+        },
+      ],
     },
     {
       key: "home/red",
-      label: !mobile ? (
-        <Link to={"red/people"} className="flex ">
-          <IoPeopleSharp className="mt-[14px] mr-[10px]" />
+      label: (
+        <div className="flex items-center">
+          <IoPeopleSharp className=" mr-[10px]" />
           Red
-        </Link>
-      ) : (
-        <IoPeopleSharp className="mt-[16px] ml-[15px] mr-[15px]" />
+        </div>
       ),
 
-      children: !mobile
-        ? null
-        : [
-            {
-              key: "/home/red/people",
-              label: <Link to={"red/people"}>Personas</Link>,
-              icon: <BsPersonFill />,
-            },
-            {
-              key: "/home/red/feed",
-              label: <Link to={"red/feed"}>Feed</Link>,
-              icon: <LuAlignStartVertical />,
-            },
-            {
-              key: "/home/red/chats",
-              label: <Link to={"red/chats"}>Chat</Link>,
-              icon: <MdChat />,
-            },
-            {
-              key: "/home/red/groups",
-              label: <Link to={"red/groups"}>Grupos</Link>,
-              icon: <BsFillPeopleFill />,
-            },
-          ],
+      children: [
+        {
+          key: "/home/red/people",
+          label: "Personas",
+          icon: <BsPersonFill />,
+        },
+        {
+          key: "/home/red/feed",
+          label: "Feed",
+          icon: <LuAlignStartVertical />,
+        },
+        {
+          key: "/home/red/chats",
+          label: "Chats",
+          icon: <MdChat />,
+        },
+        {
+          key: "/home/red/groups",
+          label: "Grupos",
+          icon: <BsFillPeopleFill />,
+        },
+      ],
     },
     {
       key: "home/explore",
-      label: !mobile ? (
-        <Link to={"explore"} className="flex">
-          <MdOutlineExplore className="mt-[14px] mr-[10px]" />
+      label: (
+        <div className="flex items-center">
+          <MdOutlineExplore className=" mr-[10px]" />
           Explora
-        </Link>
-      ) : (
-        <MdOutlineExplore className="mt-[16px] ml-[15px] mr-[15px]" />
+        </div>
       ),
+
       disabled: true,
       selectable: false,
     },
     {
       key: "home/health",
-      label: !mobile ? (
-        <Link to={"health"} className="flex ">
-          <RiMentalHealthFill className="mt-[14px] mr-[10px]" />
+      label: (
+        <div className="flex items-center">
+          <RiMentalHealthFill className=" mr-[10px]" />
           Salud
-        </Link>
-      ) : (
-        <RiMentalHealthFill className="mt-[16px] ml-[15px] mr-[15px]" />
+        </div>
       ),
+
       disabled: true,
       selectable: false,
     },
   ];
 
-  useEffect(() => {
-    console.log(pathname);
-    if (pathname.includes("home/auto")) setCurrentOption("home/auto");
-    else if (pathname.includes("home/red")) setCurrentOption("home/red");
-  }, [pathname]);
-
   const onClickOption = (e) => {
-    //console.log(items2[parseInt(e.key) - 1].value);
-    //const newOptionSelected = items2[parseInt(e.key) - 1].value;
-    //changeValue(newOptionSelected);
     setCurrentOption(e.key);
+    navigate(e.key);
+    setShowDrawer(false);
   };
 
   //=========chats=======================================
@@ -284,34 +286,95 @@ export const Navbar = ({ mobile }) => {
 
   //========================================================
   return (
-    <div className="w-full pt-0 md:h-[80px] md:pl-4 md:pr-4">
-      <div className="pl-2 pr-2 bg-cach-l1 md:rounded-b-[15px] md:h-[62px] w-full h-[50px] shadow-lg">
+    <div className="w-full pt-0 md:h-[62px] md:pl-4 md:pr-4 flex justify-center bg-cach-l1 bg-opacity-50 backdrop-blur-lg  shadow-custom">
+      <div className="pl-2 pr-2 md:rounded-b-[15px] md:h-[62px] max-w-[1280px] w-full h-[50px] ">
         <div className="w-full flex h-full flex-row justify-between">
           <div
             className="hidden md:w-[30%] text-[24px] md:h-full md:flex  items-center  hover:cursor-pointer"
             onClick={() => navigate("/home/auto/resume")}
           >
-            <div className="hidden md:flex md:h-full md:items-center pl-2">
+            <div className="hidden md:flex md:h-full md:items-center pl-2 text-[30px] font-light">
               Student<b className="text-[#1677ff]">Collab</b>
             </div>
           </div>
-          <div className="md:w-[70%] h-full w-full">
-            <div className="w-full h-full flex items-end ">
-              <Menu
-                className="justify-start w-full md:justify-center  text-[18px] bg-[transparent] md:h-[50px] h-full "
-                style={{
-                  borderBottom: "none",
-                }}
-                selectedKeys={[currentOption]}
-                mode="horizontal"
-                items={items2}
-                onClick={onClickOption}
-              />
+          <div className="md:hidden flex items-center justify-center">
+            <Button
+              shape="circle"
+              type="text"
+              className="flex justify-center items-center"
+              onClick={() => setShowDrawer(true)}
+            >
+              <HiOutlineMenu className="text-[20px]" />
+            </Button>
+          </div>
+
+          <Drawer
+            title="Menu"
+            placement={"left"}
+            closable={true}
+            onClose={() => setShowDrawer(false)}
+            open={showDrawer}
+            key={"left"}
+          >
+            <Menu
+              className="justify-start w-full md:justify-center  text-[18px] bg-[transparent] md:h-[50px] h-full "
+              style={{
+                borderRight: "none",
+              }}
+              selectedKeys={[currentOption]}
+              mode="inline"
+              items={items2}
+              onClick={onClickOption}
+            />
+          </Drawer>
+
+          <div className="md:w-[70%] h-full w-full flex justify-center text-[20px]">
+            <div className="hidden md:flex  flex-row  jistify-center h-full ">
+              <button
+                className={`customTab  relative ${
+                  option === "auto" ? "text-[#1677ff] font-semibold" : ""
+                }`}
+              >
+                <Link to={"auto/resume"} className="flex items-center">
+                  <FaBookOpenReader className="mr-[10px]" />
+                  Gestión
+                </Link>
+              </button>
+              <button
+                className={`customTab h-full relative ${
+                  option === "red" ? "text-[#1677ff] font-semibold" : ""
+                }`}
+              >
+                <Link to={"red/people"} className="flex items-center">
+                  <IoPeopleSharp className=" mr-[10px]" />
+                  Red
+                </Link>
+              </button>
+              <button
+                className={`customTab h-full relative ${
+                  option === "explore" ? "text-[#1677ff] font-semibold" : ""
+                }`}
+              >
+                <Link to={"explore"} className="flex items-center">
+                  <MdOutlineExplore className=" mr-[10px]" />
+                  Explora
+                </Link>
+              </button>
+              <button
+                className={`customTab h-full relative ${
+                  option === "health" ? "text-[#1677ff] font-semibold" : ""
+                }`}
+              >
+                <Link to={"health"} className="flex items-center">
+                  <RiMentalHealthFill className=" mr-[10px]" />
+                  Salud
+                </Link>
+              </button>
             </div>
           </div>
           <div className="md:w-[30%] ">
-            <div className="flex w-full h-full justify-end items-center pr-4">
-              <div className="hidden md:flex md:flex-row ">
+            <div className="flex w-full h-full justify-end items-center pr-2">
+              <div className=" flex flex-row ">
                 {" "}
                 <Dropdown
                   menu={{

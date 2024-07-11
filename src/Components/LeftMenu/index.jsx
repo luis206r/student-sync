@@ -91,7 +91,7 @@ export const LeftMenu = ({ setCollapsed, collapsed }) => {
 
   return (
     <div className={`w-[${collapsed ? "70px" : "200px"}]  pl-4 pt-[78px]`}>
-      <div className="bg-cach-l1 rounded-[15px] p-2 shadow-lg">
+      <div className="bg-cach-l1 rounded-[15px] p-2 shadow-custom">
         <div className="w-full justify-start flex  p-0 pb-0 mb-0">
           <Button
             className="pl-2 pr-2 pb-0 pt-0 ml-0 rounded-[10px]"

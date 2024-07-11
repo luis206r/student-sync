@@ -33,7 +33,7 @@ export const Health = () => {
           />
         </div>
       </div> */}
-      <div className="w-[80%] ml-2 bg-cach-l1 p-4 rounded-[15px]">
+      <div className="w-[80%] ml-2 bg-cach-l1 p-4 rounded-[15px] shadow-custom">
         Próximamente
       </div>
     </div>

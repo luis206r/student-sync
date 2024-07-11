@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        "cach-l1": "#F3F3F3",
+        "cach-l1": "#F7F7F7",
         "cach-l2": "#cbb7f7",
         "cach-l3": "#7f6afc",
         "cach-l4": "#2b2c41",
