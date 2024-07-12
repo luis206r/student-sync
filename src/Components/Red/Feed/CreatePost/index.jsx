@@ -27,7 +27,14 @@ export const CreatePost = ({ cancelFunc, addFunc }) => {
   const handleSelectFile = async (event) => {
     if (event.target.files && event.target.files.length > 0) {
       const imagenSeleccionada = event.target.files[0];
-      const tiposDeImagenPermitidos = ["image/jpeg", "image/jpg", "image/png"];
+      const tiposDeImagenPermitidos = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        // "video/mp4",
+        // "video/webm",
+        // "video/quicktime",
+      ];
 
       if (!tiposDeImagenPermitidos.includes(imagenSeleccionada.type)) {
         alert("Formato no válido");

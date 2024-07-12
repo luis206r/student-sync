@@ -20,6 +20,7 @@ import surprise from "/icons/surprise.png";
 import sad from "/icons/sad.png";
 import claps from "/icons/claps.png";
 import laugh from "/icons/laugh.png";
+import DriveVideo from "./DriveVideo";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -275,6 +276,7 @@ export const Post = ({
             src={`https://drive.google.com/thumbnail?id=${contentInfo.driveId}&sz=w1000`}
             className=" "
           />
+          {/* <DriveVideo fileId={contentInfo.driveId} /> */}
         </div>
       )}
       <div className="p-1 pl-0 flex flex-row w-full justify-between items-center">

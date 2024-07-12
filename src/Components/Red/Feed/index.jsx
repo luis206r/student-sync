@@ -5,6 +5,9 @@ import { IoMdAdd } from "react-icons/io";
 import { CreatePost } from "./CreatePost";
 import axios from "axios";
 import ReactGA from "react-ga4";
+import { gapi } from "gapi-script";
+import { Loader } from "../../../Commons/Loader";
+import { InstagramEmbed } from "react-social-media-embed";
 
 //const backUrl = "http://localhost:8000";
 const backUrl = "https://student-sync-back.onrender.com";
@@ -12,6 +15,7 @@ const backUrl = "https://student-sync-back.onrender.com";
 export const Feed = () => {
   const [posts, setPosts] = useState([]);
   const [creatingPost, setCreatingPost] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     ReactGA.send({ hitType: "pageview", page: "/feed", title: "feed" });
@@ -21,6 +25,10 @@ export const Feed = () => {
       label: "Feed",
     });
   }, []);
+
+  //=============================================
+
+  //================================================
 
   //==========back requests=====================
 
@@ -63,6 +71,7 @@ export const Feed = () => {
         console.log("pots: ", result);
         let rs = result.sort((a, b) => b.id - a.id);
         setPosts(rs);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -70,48 +79,61 @@ export const Feed = () => {
 
     fetchData();
   }, []);
-
-  return (
-    <div className="w-full flex flex-col md:p-4 md:pt-0 ">
-      <div className="w-full max-w-[800px]  flex flex-col  justify-center md:p-6 pb-0 m-auto bg-cach-l1 shadow-custom md:rounded-[15px]">
-        <div className=" flex md:pb-4 md:pt-0 md:pl-0 md:pr-0 p-4 w-full justify-between">
-          <h2 className="text-black">Feed</h2>
-          {!creatingPost && (
-            <div className=" flex w-full justify-end ">
-              <Button
-                size="large"
-                type="primary"
-                className=""
-                onClick={() => setCreatingPost(true)}
-              >
-                Crear post
-              </Button>
-              {/* <Button  type="primary">
+  if (loading)
+    return (
+      <Loader title={"Cargando posts..."} message={"tomará unos segundos"} />
+    );
+  else
+    return (
+      <div className="w-full flex flex-col md:p-4 md:pt-0 ">
+        <div className="w-full max-w-[800px]  flex flex-col  justify-center md:p-6 pb-0 m-auto bg-cach-l1 shadow-custom md:rounded-[15px]">
+          <div className=" flex md:pb-4 md:pt-0 md:pl-0 md:pr-0 p-4 w-full justify-between">
+            <h2 className="text-black">Feed</h2>
+            {!creatingPost && (
+              <div className=" flex w-full justify-end ">
+                <Button
+                  size="large"
+                  type="primary"
+                  className=""
+                  onClick={() => setCreatingPost(true)}
+                >
+                  Crear post
+                </Button>
+                {/* <Button  type="primary">
             Crear Evento
           </Button> */}
-            </div>
-          )}
-        </div>
+              </div>
+            )}
+          </div>
 
-        {creatingPost && (
-          <CreatePost
-            cancelFunc={() => setCreatingPost(false)}
-            addFunc={execAddPostToArray}
-          />
-        )}
-        {posts.map((post) => {
-          return (
-            <Post
-              key={post.postInfo.id}
-              contentInfo={post.postInfo}
-              userInfo={post.User}
-              delFunc={execDeletePostFromArray}
-              reactions={post.reactions}
-              comments={post.comments}
+          {creatingPost && (
+            <CreatePost
+              cancelFunc={() => setCreatingPost(false)}
+              addFunc={execAddPostToArray}
             />
-          );
-        })}
+          )}
+          <div
+            style={{ display: "flex", justifyContent: "center" }}
+            className="rounded-[15px] mb-[15px]"
+          >
+            <InstagramEmbed
+              url="https://www.instagram.com/reel/C7pAkOvO9g-/"
+              className="w-full "
+            />
+          </div>
+          {posts.map((post) => {
+            return (
+              <Post
+                key={post.postInfo.id}
+                contentInfo={post.postInfo}
+                userInfo={post.User}
+                delFunc={execDeletePostFromArray}
+                reactions={post.reactions}
+                comments={post.comments}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
 };
